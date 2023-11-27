@@ -1,23 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Customize from "./components/Customize/Customize";
 
 function App() {
+  const [toVoice, setToVoice] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="w-full h-screen bg-body">
+      <button onClick={setToVoice}>To Voice</button>
+      <button onClick={() => setToVoice(false)}>To Text</button>
+      <Customize toVoice={toVoice} />
     </div>
   );
 }
