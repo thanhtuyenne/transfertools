@@ -8,7 +8,7 @@ function Dropdownlist({title, options}) {
             <p>{title}</p>
             <select onChange={e => setOption(e.target.value)} className="w-full h-9 border-gray-300 rounded-md">
                 {/* <option value="Select" /> */}
-                {options.map(o => (
+                {options.map((o) => (
                     <option value={option} className="text-black text-sm">{o}</option>
                 ))}
             </select>
