@@ -1,0 +1,22 @@
+.text-container {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 16px;
+    background-color: #CCCCCC;
+    width: 250px;
+    max-width: 500px;
+    padding: 20px 20px;
+}
+
+.text-input {
+    /* padding-left: 5px; */
+    padding: 10px 15px;
+    border-radius: 16px;
+    font-size: 20px;
+    min-width: 200px;
+    border: none;
+    outline: none;
+    cursor: text;
+    
+}

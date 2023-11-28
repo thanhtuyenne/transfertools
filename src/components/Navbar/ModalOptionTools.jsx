@@ -1,5 +1,4 @@
 import "./modalOptionTools.css";
-import Popup from 'reactjs-popup';
 
 const ModalOptionTool = () => {
     return (
@@ -29,11 +28,6 @@ const ModalOptionTool = () => {
                 </div>
             </div>
         </div>
-        // <>
-        //     <Popup trigger={<button>Trigger</button>} position="right center">
-        //         <div>Popup content here !!</div>
-        //     </Popup>
-        // </>
     )
 }
 
