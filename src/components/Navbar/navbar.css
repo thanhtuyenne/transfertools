@@ -1,15 +1,14 @@
-.container1{
-    position: relative;
+.container1 {
     display: flex;
     justify-content: center;
-    width:100%;
-    height:1024px;
-    background-color:#fff;
+    align-items: center;
+    margin-bottom: 47px;
+    width: 100%;
+    max-height: 94px;
 }
 
-
-.navbar{
-    position: absolute;
+.navbar {
+    /* position: absolute; */
     width: 617px;
     height: 94px;
     display: flex;
@@ -17,12 +16,15 @@
     border-radius: 16px;
     /* box-shadow: 0 0 10px #333; */
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-    justify-content:space-around;
+    justify-content: space-around;
     align-items: center;
-    top:100%;
-    transform: translateY(-150%);
+    /* top: 100%; */
+    /* transform: translateY(-150%); */
+    /* transform: translateX(-50%) translateY(-150%); */
+
 }
-.box_1{
+
+.box_1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,12 +35,14 @@
     width: 51px;
     height: 51px;
 }
-.box_1:hover{
+
+.box_1:hover {
     cursor: pointer;
     box-shadow: rgba(54, 53, 53, 0.17) 0px -23px 25px 0px inset, rgba(79, 74, 74, 0.15) 0px -36px 30px 0px inset, rgba(83, 79, 79, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 
 }
-.box_line{
+
+.box_line {
     width: 1px;
     height: 63px;
     background-color: #CCCCCC;
