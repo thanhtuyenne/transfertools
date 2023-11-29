@@ -7,13 +7,12 @@ import Header from "./components/Header/Header";
 import WhiteBoard from "./components/WhiteBoard/WhiteBoard";
 
 function App() {
-  const [isOpenInputText, setIsOpenInputText] = useState(false)
-  const [isOpenInputURL, setIsOpenInputURL] = useState(false)
-  const [isOpenInputAudio, setIsOpenInputAudio] = useState(false)
-  const [isOpenInputVideo, setIsOpenInputVideo] = useState(false)
-  const [isOpenInputImage, setIsOpenInputImage] = useState(false)
-  const [isOpenInputRecord, setIsOpenInputRecor] = useState(false)
-
+  const [isOpenInputText, setIsOpenInputText] = useState(false);
+  const [isOpenInputURL, setIsOpenInputURL] = useState(false);
+  const [isOpenInputAudio, setIsOpenInputAudio] = useState(false);
+  const [isOpenInputVideo, setIsOpenInputVideo] = useState(false);
+  const [isOpenInputImage, setIsOpenInputImage] = useState(false);
+  const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
 
   return (
     <div className="w-full h-screen bg-body relative flex flex-col">
@@ -25,24 +24,12 @@ function App() {
       </div>
       <div>
         <WhiteBoard>
-          {
-            isOpenInputText === true ? <TextInput /> : <></>
-          }
-          {
-            isOpenInputURL === true ? <URLInput /> : <></>
-          }
-          {
-            isOpenInputAudio === true ? <Audio /> : <></>
-          }
-          {
-            isOpenInputVideo === true ? <Video /> : <></>
-          }
-          {
-            isOpenInputImage === true ? <Image /> : <></>
-          }
-          {
-            isOpenInputRecord === true ? <Record /> : <></>
-          }
+          {isOpenInputText === true ? <TextInput /> : <></>}
+          {isOpenInputURL === true ? <URLInput /> : <></>}
+          {isOpenInputAudio === true ? <Audio /> : <></>}
+          {isOpenInputVideo === true ? <Video /> : <></>}
+          {isOpenInputImage === true ? <Image /> : <></>}
+          {isOpenInputRecord === true ? <Record /> : <></>}
         </WhiteBoard>
       </div>
       <div className="flex justify-center items-center">
@@ -55,9 +42,6 @@ function App() {
           setIsOpenInputRecor={setIsOpenInputRecor}
         />
       </div>
-      <Video />
-      <Image />
-      <URLInput />
     </div>
   );
 }
