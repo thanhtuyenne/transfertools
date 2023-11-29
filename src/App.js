@@ -21,6 +21,9 @@ function App() {
       <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center">
         <Navbar />
       </div>
+      <Video />
+      <Image />
+      <URLInput />
     </div>
   );
 }
