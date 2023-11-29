@@ -5,36 +5,39 @@ import Popup from "reactjs-popup";
 import ModalOptionTool from "./ModalOptionTools";
 import "./navbar.css"
 const Navbar = (props) => {
+    const { setIsOpenInputText, setIsOpenInputURL, setIsOpenInputAudio, setIsOpenInputVideo, setIsOpenInputImage, setIsOpenInputRecor } = props;
     return (
         <div className="container1">
             <div className="navbar">
-                <div className="box_1">
-                    <Popup trigger={<button><TextT size={32} /></button>}
-                        position="top center"
-                    // offsetY={25}
-                    // disabled={true}
-                    // arrowStyle={
-                    //     {
-                    //         color: '#CCCCCC',
-                    //         width: '30px',
-                    //         bottom: 0,
-                    //         right: "-10px",
-                    //         // border: "1px solid #CCCCCC"
-                    //     }
-                    // }
-                    >
-
-                        {/* <ModalOptionTool /> */}
-                    </Popup>
-
-                    {/* <TextT size={32} /> */}
+                <div className="box_1"
+                    onClick={() => setIsOpenInputText(true)}
+                >
+                    <TextT size={32} />
 
                 </div>
-                <div className="box_1"><Image size={32} /></div>
-                <div className="box_1"><VideoCamera size={32} /></div>
-                <div className="box_1"><GooglePodcastsLogo size={32} /></div>
-                <div className="box_1"><Microphone size={32} /></div>
-                <div className="box_1"><LinkSimple size={32} /></div>
+                <div className="box_1"
+                    onClick={() => setIsOpenInputImage(true)}
+                >
+
+                    <Image size={32} />
+
+                </div>
+                <div className="box_1"
+                    onClick={() => setIsOpenInputVideo(true)}
+                >
+                    <VideoCamera size={32} /></div>
+                <div className="box_1"
+                    onClick={() => setIsOpenInputAudio(true)}
+
+                ><GooglePodcastsLogo size={32} /></div>
+                <div className="box_1"
+                    onClick={() => setIsOpenInputRecor(true)}
+
+                ><Microphone size={32} /></div>
+                <div className="box_1"
+                    onClick={() => setIsOpenInputURL(true)}
+
+                ><LinkSimple size={32} /></div>
                 <div className="box_line"></div>
 
                 <div
