@@ -26,7 +26,7 @@ function App() {
       <div>
         <WhiteBoard>
           {
-            isOpenInputText === true ? <TextInput /> : <></>
+            isOpenInputText === true ? <TextInput/> : <></>
           }
           {
             isOpenInputURL === true ? <URLInput /> : <></>
@@ -46,6 +46,12 @@ function App() {
         </WhiteBoard>
         <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center">
           <Navbar
+            isOpenInputText={isOpenInputText}
+            isOpenInputURL={isOpenInputURL}
+            isOpenInputAudio={isOpenInputAudio}
+            isOpenInputVide={isOpenInputVideo}
+            isOpenInputImage={isOpenInputImage}
+            isOpenInputRecord={isOpenInputRecord}
             setIsOpenInputText={setIsOpenInputText}
             setIsOpenInputURL={setIsOpenInputURL}
             setIsOpenInputAudio={setIsOpenInputAudio}
