@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
-import { CloudArrowUp } from "@phosphor-icons/react";
+import { CloudArrowUp } from '@phosphor-icons/react'
+import { useDispatch } from "react-redux";
+import { dontClickFile, onClickFile } from "../../redux/fileSlice";
 
 function PopupDragFile({ toggle, accepts, callback }) {
   const inputFile = useRef(null);
