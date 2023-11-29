@@ -15,7 +15,7 @@ function App() {
   const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
 
   return (
-    <div className="w-full h-screen bg-body relative flex flex-col">
+    <div className="w-full h-screen bg-body relative flex flex-col items-stretch">
       {/* <button onClick={setToVoice}>To Voice</button>
       <button onClick={() => setToVoice(false)}>To Text</button>
       <Customize toVoice={toVoice} /> */}
@@ -31,16 +31,16 @@ function App() {
           {isOpenInputImage === true ? <Image /> : <></>}
           {isOpenInputRecord === true ? <Record /> : <></>}
         </WhiteBoard>
-      </div>
-      <div className="flex justify-center items-center">
-        <Navbar
-          setIsOpenInputText={setIsOpenInputText}
-          setIsOpenInputURL={setIsOpenInputURL}
-          setIsOpenInputAudio={setIsOpenInputAudio}
-          setIsOpenInputVideo={setIsOpenInputVideo}
-          setIsOpenInputImage={setIsOpenInputImage}
-          setIsOpenInputRecor={setIsOpenInputRecor}
-        />
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center">
+          <Navbar
+            setIsOpenInputText={setIsOpenInputText}
+            setIsOpenInputURL={setIsOpenInputURL}
+            setIsOpenInputAudio={setIsOpenInputAudio}
+            setIsOpenInputVideo={setIsOpenInputVideo}
+            setIsOpenInputImage={setIsOpenInputImage}
+            setIsOpenInputRecor={setIsOpenInputRecor}
+          />
+        </div>
       </div>
     </div>
   );

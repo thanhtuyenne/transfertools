@@ -1,5 +1,7 @@
 .whiteboard{
     width: 100%;
-    min-height:760px;
-    background-color: aqua;
+    height: 100%;
+    min-height:902px;
+    background-image: url(../../../public/bg-whiteboard.png);
+    /* opacity: 0.5; */
 }
