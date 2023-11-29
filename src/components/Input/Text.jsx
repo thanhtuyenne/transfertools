@@ -4,7 +4,6 @@ import {
   TextT,
   LinkSimple,
   Microphone,
-  WarningCircle,
 } from "@phosphor-icons/react";
 import Notify from "../Notify/Notify";
 import { useDispatch } from 'react-redux'
