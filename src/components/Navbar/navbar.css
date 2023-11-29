@@ -9,6 +9,8 @@
 
 .navbar {
     /* position: absolute; */
+    position: fixed;
+    bottom: 1.5rem;
     width: 617px;
     height: 94px;
     display: flex;
