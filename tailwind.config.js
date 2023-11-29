@@ -15,6 +15,9 @@ module.exports = {
         button: "#3B10E3",
         blue: "#3498DB",
       },
+      animation: {
+        "open-popup": "popup linear .2s",
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

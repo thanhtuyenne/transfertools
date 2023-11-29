@@ -6,6 +6,7 @@ import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import WhiteBoard from "./components/WhiteBoard/WhiteBoard";
 import BotChat from "./components/BotChat/BotChat";
+import Customize from "./components/Customize/Customize";
 
 function App() {
   const [isOpenInputText, setIsOpenInputText] = useState(false);
