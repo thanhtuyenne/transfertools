@@ -21,7 +21,7 @@ function PopupDragFile({ toggle, accepts, callback }) {
   return (
     <div
       id="overlay"
-      className="w-full h-full bg-black opacity-25 flex items-center justify-center absolute top-0"
+      className="w-full h-full bg-black opacity-75 flex items-center justify-center absolute top-0 z-10"
       onClick={closePopup}
     >
       <div

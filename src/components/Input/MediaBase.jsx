@@ -11,7 +11,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
   return (
     <>
       <div
-        className="cursor-pointer max-h-[200px] max-w-sm border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
+        className="cursor-pointer max-h-[200px] max-w-sm border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px] bg-white"
         onClick={openPopup}
       >
         <IconComp size={20} className="text-blue mr-2 shrink-0" />

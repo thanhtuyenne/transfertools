@@ -35,7 +35,7 @@ export const TextInput = () => {
     setMessage("");
   };
   return (
-    <div className="relative min-h-[40px] border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]">
+    <div className="bg-white relative min-h-[40px] border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]">
       <TextT size={20} className="text-blue bg-transparent mr-2" />
       <TextareaAutosize
         onChange={(ev) => validate(ev.target.value)}
@@ -61,7 +61,7 @@ export const URLInput = () => {
     setMess("");
   };
   return (
-    <div className="relative h-[40px] border-blue border-2 rounded-md inline-flex items-center p-[11px]">
+    <div className="bg-white relative h-[40px] border-blue border-2 rounded-md inline-flex items-center p-[11px]">
       <LinkSimple size={20} className="text-blue" />
       <input
         onChange={(ev) => validateURL(ev.target.value)}

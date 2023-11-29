@@ -5,6 +5,7 @@ import { TextInput, URLInput } from "./components/Input/Text";
 import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import WhiteBoard from "./components/WhiteBoard/WhiteBoard";
+import BotChat from "./components/BotChat/BotChat";
 
 function App() {
   const [isOpenInputText, setIsOpenInputText] = useState(false);
