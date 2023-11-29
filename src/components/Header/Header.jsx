@@ -4,7 +4,7 @@ import './header.css'
 const Header =()=>{
     return (
         <div className="headerTrans">
-            <button className="btn-notification"><Bell size={32} /></button>
+            <button className="btn-notification"><Bell size={25} /></button>
             <div className="btn-save"><span>SAVE</span></div>
         </div>
     )
