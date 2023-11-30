@@ -6,7 +6,7 @@
     width: 100%;
     max-height: 100px;
     background-color: rgba(0, 0, 0, 0.8);
-
+    position: fixed;
 }
 
 .btn-save {

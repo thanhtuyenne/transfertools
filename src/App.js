@@ -55,7 +55,7 @@ function App() {
           h: defaultSize.h,
           isSelected: false,
           z: 2,
-          children: <Video />,
+          children: <Record />,
         },
       ],
     },
