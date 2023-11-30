@@ -35,6 +35,7 @@ const Navbar = (props) => {
   const file = useSelector((state) => state.file.value);
 
   const [type, setType] = useState(null);
+  const [title, setTitle] = useState(null);
 
   return (
     <>
@@ -120,7 +121,7 @@ const Navbar = (props) => {
                   // border: "1px solid #CCCCCC"
                 }}
               >
-                <ModalOptionTool types={setType} />
+                <ModalOptionTool types={setType} titles={setTitle} />
               </Popup>
             ) : (
               <div>
@@ -130,8 +131,8 @@ const Navbar = (props) => {
           </div>
         </div>
       </div>
-      {type === "ToVoice" && <Customize toVoice={true} />}
-      {type === "ToText" && <Customize />}
+      {type === "ToVoice" && <Customize toVoice={true} title={title} />}
+      {type === "ToText" && <Customize title={title} />}
     </>
   );
 };
