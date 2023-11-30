@@ -29,7 +29,11 @@ function PopupDragFile({ toggle, accepts, callback }) {
   };
 
   return (
-    <>
+    <div
+      id="overlay"
+      className="w-full h-full bg-black opacity-25 flex items-center justify-center fixed top-0 left-0 right-0 bottom-0"
+      onClick={closePopup}
+    >
       <div
         id="overlay"
         className="animate-open-popup w-full h-full bg-black opacity-75 flex items-center justify-center absolute top-0 z-10"
@@ -56,7 +60,7 @@ function PopupDragFile({ toggle, accepts, callback }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
