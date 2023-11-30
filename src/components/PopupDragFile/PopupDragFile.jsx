@@ -1,7 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { CloudArrowUp } from "@phosphor-icons/react";
+import { useDispatch } from "react-redux";
+import { dontClickFile, onClickFile } from "../../redux/fileSlice";
 
 function PopupDragFile({ toggle, accepts, callback }) {
+  const dispatch = useDispatch();
+  // const [dataFile,setDataFile] = useState("")
   const inputFile = useRef(null);
   const closePopup = (e) => {
     toggle(false);
@@ -16,6 +20,11 @@ function PopupDragFile({ toggle, accepts, callback }) {
     if (event.target.files && event.target.files[0]) {
       callback(URL.createObjectURL(event.target.files[0]));
       toggle(false);
+    }
+    if (event.target.files[0]) {
+      dispatch(onClickFile());
+    } else {
+      dispatch(dontClickFile());
     }
   };
 

@@ -26,15 +26,33 @@ function App() {
       </div>
       <div>
         <WhiteBoard>
-          {isOpenInputText === true ? <TextInput /> : <></>}
-          {isOpenInputURL === true ? <URLInput /> : <></>}
-          {isOpenInputAudio === true ? <Audio /> : <></>}
-          {isOpenInputVideo === true ? <Video /> : <></>}
-          {isOpenInputImage === true ? <Image /> : <></>}
-          {isOpenInputRecord === true ? <Record /> : <></>}
+          {
+            isOpenInputText === true ? <TextInput/> : <></>
+          }
+          {
+            isOpenInputURL === true ? <URLInput /> : <></>
+          }
+          {
+            isOpenInputAudio === true ? <Audio /> : <></>
+          }
+          {
+            isOpenInputVideo === true ? <Video /> : <></>
+          }
+          {
+            isOpenInputImage === true ? <Image /> : <></>
+          }
+          {
+            isOpenInputRecord === true ? <Record /> : <></>
+          }
         </WhiteBoard>
         <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center">
           <Navbar
+            isOpenInputText={isOpenInputText}
+            isOpenInputURL={isOpenInputURL}
+            isOpenInputAudio={isOpenInputAudio}
+            isOpenInputVide={isOpenInputVideo}
+            isOpenInputImage={isOpenInputImage}
+            isOpenInputRecord={isOpenInputRecord}
             setIsOpenInputText={setIsOpenInputText}
             setIsOpenInputURL={setIsOpenInputURL}
             setIsOpenInputAudio={setIsOpenInputAudio}
