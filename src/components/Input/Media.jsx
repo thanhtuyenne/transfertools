@@ -31,7 +31,7 @@ export const Image = () => {
       placeholder="Upload your Image"
       accept={acceptType}
       callback={(value) => {
-        return <img src={value} />;
+        return <img src={value} className="pointer-events-none"/>;
       }}
     />
   );
