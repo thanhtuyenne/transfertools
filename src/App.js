@@ -18,12 +18,12 @@ function App() {
   const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
   const [defaultPosition, setDefaultPosition] = useState({
     x: 100,
-    y: 100
-  })
+    y: 100,
+  });
   const [defaultSize, setDefaultSize] = useState({
     w: 250,
-    h: 150
-  })
+    h: 150,
+  });
   const [data, setData] = useState([
     {
       typeId: 1,
@@ -38,10 +38,11 @@ function App() {
           h: defaultSize.h,
           isSelected: false,
           z: 2,
-          children: <Image/>
-        }
-      ]
-    },{
+          children: <Image />,
+        },
+      ],
+    },
+    {
       typeId: 2,
       typeName: "Video",
       list: [
@@ -54,15 +55,15 @@ function App() {
           h: defaultSize.h,
           isSelected: false,
           z: 2,
-          children: <Video/>
-        }
-      ]
-    }
+          children: <Video />,
+        },
+      ],
+    },
   ]);
-  const [update, setUpdate] = useState(0);  
-  
+  const [update, setUpdate] = useState(0);
+
   const addElement = (typeName) => {
-    setData(prev => {
+    setData((prev) => {
       const newEl = {
         type: typeName,
         x: defaultPosition.x,
@@ -71,38 +72,38 @@ function App() {
         h: defaultSize.h,
         isSelected: false,
         z: 2,
-        children: <></>
+        children: <></>,
       };
       let typeFound = prev.find((type) => type.typeName === typeName);
-      // Not found type 
+      // Not found type
       if (!typeFound) {
         typeFound = {
           typeId: data.length + 1,
           typeName,
-          list: [{...newEl, id:1}],
+          list: [{ ...newEl, id: 1 }],
         };
         prev.push(typeFound);
         return prev;
       }
       // Found type
-      else{
+      else {
         typeFound.list.push({ ...newEl, id: typeFound.list.length + 1 });
         return prev;
       }
-    })
-    setUpdate(prev => prev+1);
-  }
+    });
+    setUpdate((prev) => prev + 1);
+  };
 
   const updateElement = (type, id, values, syncValues) => {
     setData((prev) =>
-      prev.map(typeBlock => {
+      prev.map((typeBlock) => {
         // Update values inside this type Blockblock
-        if (typeBlock.typeName===type){
-          typeBlock.list = typeBlock.list.map(el => {
+        if (typeBlock.typeName === type) {
+          typeBlock.list = typeBlock.list.map((el) => {
             if (el.id === id) return { ...el, ...values };
-            if (syncValues) return {...el, ...syncValues};
+            if (syncValues) return { ...el, ...syncValues };
             return el;
-          })
+          });
           return typeBlock;
         }
         if (syncValues) {
@@ -114,9 +115,8 @@ function App() {
         return typeBlock;
       })
     );
-    setUpdate(prev => prev+1);
+    setUpdate((prev) => prev + 1);
   };
-
 
   return (
     <div className="w-full h-screen bg-body relative flex flex-col items-stretch">
@@ -128,24 +128,12 @@ function App() {
       </div>
       <div>
         <WhiteBoard>
-          {
-            isOpenInputText === true ? <TextInput/> : <></>
-          }
-          {
-            isOpenInputURL === true ? <URLInput /> : <></>
-          }
-          {
-            isOpenInputAudio === true ? <Audio /> : <></>
-          }
-          {
-            isOpenInputVideo === true ? <Video /> : <></>
-          }
-          {
-            isOpenInputImage === true ? <Image /> : <></>
-          }
-          {
-            isOpenInputRecord === true ? <Record /> : <></>
-          }
+          {isOpenInputText === true ? <TextInput /> : <></>}
+          {isOpenInputURL === true ? <URLInput /> : <></>}
+          {isOpenInputAudio === true ? <Audio /> : <></>}
+          {isOpenInputVideo === true ? <Video /> : <></>}
+          {isOpenInputImage === true ? <Image /> : <></>}
+          {isOpenInputRecord === true ? <Record /> : <></>}
         </WhiteBoard>
         <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center">
           <Navbar
@@ -164,8 +152,10 @@ function App() {
           />
         </div>
       </div>
-      <div className="w-100" style={{height: 'calc(100vh - 232px)', backgroundColor: '#ececec'}}>
-
+      <div
+        className="w-100"
+        style={{ height: "calc(100vh - 232px)", backgroundColor: "#ececec" }}
+      >
         <Whitespace
           data={data}
           setData={setData}
@@ -176,7 +166,6 @@ function App() {
         {/* <Video />
         <Image />
         <URLInput /> */}
-
       </div>
     </div>
   );
