@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import {
-    TextT,
-    LinkSimple,
-    Microphone,
-} from "@phosphor-icons/react";
+import { TextT, LinkSimple, Microphone } from "@phosphor-icons/react";
 import Notify from "../Notify/Notify";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import { dontClickInput, onClickInput } from "../../redux/clickSlice";
-
 
 // export const Noti = (message) => {
 //   return (
@@ -24,36 +19,34 @@ import { dontClickInput, onClickInput } from "../../redux/clickSlice";
 //   );
 // };
 export const TextInput = () => {
-    const [message, setMessage] = useState("");
-    const dispatch = useDispatch()
-    const [inputValue, setInputValue] = useState('');
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState("");
 
-    const handleChangeInput = (value) => {
-        setInputValue(value);
-        if (value.trim() !== '') {
-            // Đã có dữ liệu trong input
-            dispatch(onClickInput())
-        } else {
-            // Không có dữ liệu trong input
-            dispatch(dontClickInput())
+  const handleChangeInput = (value) => {
+    setInputValue(value);
+    if (value.trim() !== "") {
+      // Đã có dữ liệu trong input
+      dispatch(onClickInput());
+    } else {
+      // Không có dữ liệu trong input
+      dispatch(dontClickInput());
+    }
+  };
+  const validate = (text) => {
+    console.log(text.length);
+    if (text.length === 0) {
+      setMessage("Your text can't be empty");
+      console.log("check");
+      return;
+    }
+    setMessage("");
+  };
 
-        }
-    };
-    const validate = (text) => {
-        console.log(text.length);
-        if (text.length === 0) {
-            setMessage("Your text can't be empty");
-            console.log("check");
-            return;
-        }
-        setMessage("");
-    };
-
-    return (
-
-        <div className="bg-white relative min-h-[40px] border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]" >
-            <TextT size={20} className='text-blue bg-transparent mr-2' />
-            {/* <input
+  return (
+    <div className="bg-white relative w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
+      <TextT size={20} className="text-blue bg-transparent mr-2" />
+      {/* <input
                 value={inputValue}
                 onChange={(e) =>
                     handleChangeInput(e.target.value)
@@ -61,67 +54,65 @@ export const TextInput = () => {
                 type="text"
                 placeholder="Enter your text ..."
                 className="outline-none border-0 border-none focus:ring-0 bg-transparent " /> */}
-            <TextareaAutosize
-                value={inputValue}
-                onChange={(e) => {
-                    validate(e.target.value)
-                    handleChangeInput(e.target.value)
-                }}
-                className="outline-none border-0 border-none focus:ring-0 bg-transparent flex-grow overflow-y-scroll no-scrollbar p-0 mr-5"
-                placeholder="Enter your text ..."
-                minRows={1}
-                maxRows={10}
-            />
-            {message.length > 0 && <Notify message={message} />}
-
-        </div >
-    )
-}
+      <TextareaAutosize
+        value={inputValue}
+        onChange={(e) => {
+          validate(e.target.value);
+          handleChangeInput(e.target.value);
+        }}
+        className="h-full resize-none text-black outline-none border-0 border-none focus:ring-0 bg-transparent flex-grow p-0 mr-5 overflow-y-scroll no-scrollbar"
+        placeholder="Enter your text ..."
+        minRows={1}
+        maxRows={10}
+      />
+      {message.length > 0 && <Notify message={message} />}
+    </div>
+  );
+};
 
 export const URLInput = () => {
-    const [linkValue, setLinkValue] = useState('');
-    const [mess, setMess] = useState("");
-    const dispatch = useDispatch()
-    // xử lý lỗi
-    const regexURL =
-        /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-    const validateURL = (url) => {
-        if (!url.match(regexURL)) {
-            setMess("Your URL is not valid");
-            return;
-        }
-        setMess("");
-    };
-    // lưu trạng thái
-    const handleChangeLink = (value) => {
-        setLinkValue(value);
-        if (value.trim() !== '') {
-            // Đã có dữ liệu trong input
-            dispatch(onClickInput())
-        } else {
-            // Không có dữ liệu trong input
-            dispatch(dontClickInput())
+  const [linkValue, setLinkValue] = useState("");
+  const [mess, setMess] = useState("");
+  const dispatch = useDispatch();
+  // xử lý lỗi
+  const regexURL =
+    /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+  const validateURL = (url) => {
+    if (!url.match(regexURL)) {
+      setMess("Your URL is not valid");
+      return;
+    }
+    setMess("");
+  };
+  // lưu trạng thái
+  const handleChangeLink = (value) => {
+    setLinkValue(value);
+    if (value.trim() !== "") {
+      // Đã có dữ liệu trong input
+      dispatch(onClickInput());
+    } else {
+      // Không có dữ liệu trong input
+      dispatch(dontClickInput());
+    }
+  };
 
-        }
-    };
-
-    return (
-        <div className="bg-white relative h-[40px] border-blue border-2 rounded-md inline-flex items-center p-[11px]">
-            <LinkSimple size={20} className='text-blue' />
-            <input
-                value={linkValue}
-                onChange={(e) => {
-                    validateURL(e.target.value)
-                    handleChangeLink(e.target.value)
-                }}
-                type="url"
-                placeholder="Enter your text ..."
-                className="outline-none border-0 border-none focus:ring-0 bg-transparent  "/>
-            {mess.length > 0 && <Notify message={mess} />}
-
-        </div>
-    )
-}
+  return (
+    <div className="h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
+      <LinkSimple size={20} className="text-blue" />
+      <input
+        value={linkValue}
+        onChange={(e) => {
+          validateURL(e.target.value);
+          handleChangeLink(e.target.value);
+        }}
+        type="url"
+        placeholder="Enter your text ..."
+        className="w-full text-black outline-none border-0 border-none focus:ring-0 bg-transparent  "
+      />
+      {mess.length > 0 && <Notify message={mess} />}
+    </div>
+  );
+};
 
 // export const Record = () => {
 //     return (

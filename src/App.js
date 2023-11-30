@@ -17,7 +17,6 @@ function App() {
   const [isOpenInputImage, setIsOpenInputImage] = useState(false);
   const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
 
-
   const [defaultPosition, setDefaultPosition] = useState({
     x: 100,
     y: 100,
@@ -26,8 +25,6 @@ function App() {
     w: 250,
     h: 150,
   });
-
-
 
   const [data, setData] = useState([
     {
@@ -46,37 +43,36 @@ function App() {
           children: <></>,
         },
       ],
-    }
+    },
   ]);
-
 
   const [update, setUpdate] = useState(0);
   const nameType = [
     {
       name: "text",
-      input: <TextInput />
+      input: <TextInput />,
     },
     {
       name: "link",
-      input: <URLInput />
-    },
-    {
-      name: "audio",
-      input: <Audio />
-    },
-    {
-      name: "camera",
-      input: <Video />
-    },
-    {
-      name: "img",
-      input: <Image />
+      input: <URLInput />,
     },
     {
       name: "audioUpload",
-      input: <Record />
-    }
-  ]
+      input: <Audio />,
+    },
+    {
+      name: "camera",
+      input: <Video />,
+    },
+    {
+      name: "img",
+      input: <Image />,
+    },
+    {
+      name: "record",
+      input: <Record />,
+    },
+  ];
   const addElement = (typeName) => {
     setData((prev) => {
       const newEl = {
@@ -87,15 +83,15 @@ function App() {
         h: defaultSize.h,
         isSelected: false,
         z: 2,
-        children: <>{
-          nameType.map(item => {
-            if (item.name === typeName) {
-              return <>
-                {item.input}
-              </>
-            }
-          })
-        }</>,
+        children: (
+          <>
+            {nameType.map((item) => {
+              if (item.name === typeName) {
+                return <>{item.input}</>;
+              }
+            })}
+          </>
+        ),
       };
       let typeFound = prev.find((type) => type.typeName === typeName);
       // Not found type
@@ -151,8 +147,8 @@ function App() {
       </div>
       <div>
         <div
-          className="w-100"
-          style={{ height: "calc(100vh - 232px)", backgroundColor: "#ececec" }}
+          className="w-full"
+          // style={{ height: "100vh", backgroundColor: "#ececec" }}
         >
           <Whitespace
             data={data}
