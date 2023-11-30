@@ -35,6 +35,7 @@ code {
   }
 }
 
+<<<<<<< HEAD
 
 .whitespace{
   display: inline-block;
@@ -121,3 +122,14 @@ code {
   bottom: -.2rem;
 
 }
+=======
+@keyframes popup {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+>>>>>>> 71864ff02d72316fd58ff4327278d349b62df4cf

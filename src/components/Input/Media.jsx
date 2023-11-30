@@ -1,12 +1,7 @@
-import React, { useState } from "react";
 import MediaBase from "./MediaBase";
 import {
   GooglePodcastsLogo,
-  Hammer,
   Image as I,
-  LinkSimple,
-  Microphone,
-  TextT,
   VideoCamera,
 } from "@phosphor-icons/react/dist/ssr";
 

@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: #fff;
 }
 
 .option {
@@ -16,7 +17,8 @@
     /* height: 100%; */
     border-bottom: 1px solid #CCCCCC;
 }
-.option:hover{
+
+.option:hover {
     cursor: pointer;
     background-color: #CCCCCC;
 }
@@ -27,14 +29,16 @@
     border-bottom-right-radius: 16px;
 
 }
+
 .option:first-child {
     border-top: none;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
 
 }
-.option-text{
-    font-size:16px;
+
+.option-text {
+    font-size: 16px;
     /* margin: 0 10px; */
     height: 100%;
     width: 250px;
@@ -43,7 +47,8 @@
     text-overflow: ellipsis;
     /* margin: 0 22px; */
 }
-.option-text p{
+
+.option-text p {
     opacity: 0.6;
 
 }
