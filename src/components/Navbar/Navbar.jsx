@@ -15,6 +15,7 @@ import ModalOptionTool from "./ModalOptionTools";
 import "./navbar.css";
 const Navbar = (props) => {
   const {
+    addElement,
     isOpenInputText,
     isOpenInputURL,
     isOpenInputAudio,
@@ -35,33 +36,52 @@ const Navbar = (props) => {
   return (
     <div className="container1">
       <div className="navbar">
-        <div className="box_1" onClick={() => setIsOpenInputText(true)}>
+        <div className="box_1" onClick={() => {
+          setIsOpenInputText(true)
+          addElement("text")
+        }}>
           <TextT size={32} />
         </div>
-        <div className="box_1" onClick={() => setIsOpenInputImage(true)}>
+        <div className="box_1" onClick={() => {
+          setIsOpenInputImage(true)
+          addElement("img")
+
+        }}>
           <Image size={32} />
         </div>
-        <div className="box_1" onClick={() => setIsOpenInputVideo(true)}>
+        <div className="box_1" onClick={() => {
+          addElement("camera")
+          setIsOpenInputVideo(true)
+        }}>
           <VideoCamera size={32} />
         </div>
-        <div className="box_1" onClick={() => setIsOpenInputAudio(true)}>
+        <div className="box_1" onClick={() => {
+          addElement("audioUpload")
+          setIsOpenInputAudio(true)
+        }}>
           <GooglePodcastsLogo size={32} />
         </div>
-        <div className="box_1" onClick={() => setIsOpenInputRecor(true)}>
+        <div className="box_1" onClick={() => {
+          addElement("audio")
+          setIsOpenInputRecor(true)
+        }}>
           <Microphone size={32} />
         </div>
-        <div className="box_1" onClick={() => setIsOpenInputURL(true)}>
+        <div className="box_1" onClick={() => {
+          addElement("link")
+          setIsOpenInputURL(true)
+        }}>
           <LinkSimple size={32} />
         </div>
         <div className="box_line"></div>
 
         <div className="box_1">
           {(isOpenInputText && click) ||
-          (isOpenInputURL && click) ||
-          (isOpenInputAudio && file) ||
-          (isOpenInputVideo && file) ||
-          (isOpenInputImage && file) ||
-          (isOpenInputRecor && file) ? (
+            (isOpenInputURL && click) ||
+            (isOpenInputAudio && file) ||
+            (isOpenInputVideo && file) ||
+            (isOpenInputImage && file) ||
+            (isOpenInputRecor && file) ? (
             <Popup
               trigger={
                 <button>

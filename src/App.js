@@ -5,9 +5,9 @@ import { TextInput, URLInput } from "./components/Input/Text";
 import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
-import WhiteBoard from "./components/WhiteBoard/WhiteBoard";
 import BotChat from "./components/BotChat/BotChat";
 import Customize from "./components/Customize/Customize";
+// import Drag from "./components/drag/Drag";
 
 function App() {
   const [isOpenInputText, setIsOpenInputText] = useState(false);
@@ -16,6 +16,8 @@ function App() {
   const [isOpenInputVideo, setIsOpenInputVideo] = useState(false);
   const [isOpenInputImage, setIsOpenInputImage] = useState(false);
   const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
+
+
   const [defaultPosition, setDefaultPosition] = useState({
     x: 100,
     y: 100,
@@ -24,44 +26,57 @@ function App() {
     w: 250,
     h: 150,
   });
+
+
+
   const [data, setData] = useState([
     {
       typeId: 1,
-      typeName: "Image",
+      typeName: "none",
       list: [
         {
           id: 1,
-          type: "Image",
+          type: "none",
           x: defaultPosition.x,
           y: defaultPosition.y,
           w: defaultSize.w,
           h: defaultSize.h,
           isSelected: false,
           z: 2,
-          children: <Image />,
+          children: <></>,
         },
       ],
+    }
+  ]);
+
+
+  const [update, setUpdate] = useState(0);
+  const nameType = [
+    {
+      name: "text",
+      input: <TextInput />
     },
     {
-      typeId: 2,
-      typeName: "Video",
-      list: [
-        {
-          id: 1,
-          type: "Video",
-          x: defaultPosition.x,
-          y: defaultPosition.y,
-          w: defaultSize.w,
-          h: defaultSize.h,
-          isSelected: false,
-          z: 2,
-          children: <Video />,
-        },
-      ],
+      name: "link",
+      input: <URLInput />
     },
-  ]);
-  const [update, setUpdate] = useState(0);
-
+    {
+      name: "audio",
+      input: <Audio />
+    },
+    {
+      name: "camera",
+      input: <Video />
+    },
+    {
+      name: "img",
+      input: <Image />
+    },
+    {
+      name: "audioUpload",
+      input: <Record />
+    }
+  ]
   const addElement = (typeName) => {
     setData((prev) => {
       const newEl = {
@@ -72,7 +87,15 @@ function App() {
         h: defaultSize.h,
         isSelected: false,
         z: 2,
-        children: <></>,
+        children: <>{
+          nameType.map(item => {
+            if (item.name === typeName) {
+              return <>
+                {item.input}
+              </>
+            }
+          })
+        }</>,
       };
       let typeFound = prev.find((type) => type.typeName === typeName);
       // Not found type
@@ -127,45 +150,34 @@ function App() {
         <Header />
       </div>
       <div>
-        <WhiteBoard>
-          {isOpenInputText === true ? <TextInput /> : <></>}
-          {isOpenInputURL === true ? <URLInput /> : <></>}
-          {isOpenInputAudio === true ? <Audio /> : <></>}
-          {isOpenInputVideo === true ? <Video /> : <></>}
-          {isOpenInputImage === true ? <Image /> : <></>}
-          {isOpenInputRecord === true ? <Record /> : <></>}
-        </WhiteBoard>
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center">
-          <Navbar
-            isOpenInputText={isOpenInputText}
-            isOpenInputURL={isOpenInputURL}
-            isOpenInputAudio={isOpenInputAudio}
-            isOpenInputVide={isOpenInputVideo}
-            isOpenInputImage={isOpenInputImage}
-            isOpenInputRecord={isOpenInputRecord}
-            setIsOpenInputText={setIsOpenInputText}
-            setIsOpenInputURL={setIsOpenInputURL}
-            setIsOpenInputAudio={setIsOpenInputAudio}
-            setIsOpenInputVideo={setIsOpenInputVideo}
-            setIsOpenInputImage={setIsOpenInputImage}
-            setIsOpenInputRecor={setIsOpenInputRecor}
+        <div
+          className="w-100"
+          style={{ height: "calc(100vh - 232px)", backgroundColor: "#ececec" }}
+        >
+          <Whitespace
+            data={data}
+            setData={setData}
+            update={update}
+            updateElement={updateElement}
           />
         </div>
       </div>
-      <div
-        className="w-100"
-        style={{ height: "calc(100vh - 232px)", backgroundColor: "#ececec" }}
-      >
-        <Whitespace
-          data={data}
-          setData={setData}
-          update={update}
-          updateElement={updateElement}
+      <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
+        <Navbar
+          addElement={addElement}
+          isOpenInputText={isOpenInputText}
+          isOpenInputURL={isOpenInputURL}
+          isOpenInputAudio={isOpenInputAudio}
+          isOpenInputVide={isOpenInputVideo}
+          isOpenInputImage={isOpenInputImage}
+          isOpenInputRecord={isOpenInputRecord}
+          setIsOpenInputText={setIsOpenInputText}
+          setIsOpenInputURL={setIsOpenInputURL}
+          setIsOpenInputAudio={setIsOpenInputAudio}
+          setIsOpenInputVideo={setIsOpenInputVideo}
+          setIsOpenInputImage={setIsOpenInputImage}
+          setIsOpenInputRecor={setIsOpenInputRecor}
         />
-
-        {/* <Video />
-        <Image />
-        <URLInput /> */}
       </div>
     </div>
   );
