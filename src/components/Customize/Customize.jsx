@@ -1,21 +1,25 @@
 import React from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
-import { DownloadSimple, Plus } from "@phosphor-icons/react";
+import { DownloadSimple } from "@phosphor-icons/react";
 
 function Customize({ toVoice, title }) {
   const PitchList = [1, 0.5, 2];
   const SpeechList = ["1x", "2x", "0.5x"];
   const VoiceList = ["William", "Alice", "John", "Sarah", "Google"];
+  //LIST DRAFT
+  const elements = ["BOX1", "BOX2", "BOX3"];
   return (
     <>
       <div className="bg-white w-[20%] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
-        <div className="border-b-2 px-2">
-          <span className="text-lg font-bold pt-2 w-full">{title}</span>
-          <div className="flex justify-between my-2">
-            <span>Data</span>
-            <Plus size={20} className="cursor-pointer hover:text-blue" />
+        <div className="border-b-2 px-2 w-full">
+          <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
+            {title}
           </div>
+          {/* <div className="flex justify-between my-2 items-center w-full">
+            {/* <span>Data</span> */}
+          {/* </div> */}
+          <Dropdownlist title="Data" options={elements} />
         </div>
         {toVoice && (
           <div className="border-b-2 px-0 p-3">

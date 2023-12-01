@@ -1,16 +1,18 @@
-import {
-  Microphone,
-  Pause,
-  Play,
-  VinylRecord,
-  Record as R,
-} from "@phosphor-icons/react";
-import React, { useState } from "react";
-import { ReactMic } from "react-mic";
-
+import { Microphone, Pause, Record as R } from "@phosphor-icons/react";
+import React, { useState, useEffect } from "react";
+import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 function Record() {
   const [record, setRecord] = useState(false);
   const [click, setClick] = useState(false);
+  const [recordValue, setRecordValue] = useState("");
+  const reControl = useAudioRecorder();
+
+  useEffect(() => {
+    if (!reControl.recordingBlob) return;
+    console.log(reControl.recordingBlob);
+    addAudioElement(reControl.recordingBlob);
+  }, [reControl.recordingBlob]);
+
   const startRecord = () => {
     console.log("Start Record");
     setRecord(true);
@@ -21,17 +23,13 @@ function Record() {
     setRecord(false);
   };
 
-  const onData = (data) => {
-    console.log("Ondata: " + data);
+  const addAudioElement = (blob) => {
+    const url = URL.createObjectURL(blob);
+    setRecordValue(url);
   };
-
-  const onStop = (data) => {
-    console.log("OnStop: " + data);
-  };
-
   return (
     <>
-      <div className="bg-white w-full h-full cursor-pointer h-[40px] border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
+      <div className="bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
         <Microphone size={20} className="text-blue mr-2" />
         <div className="outline-none border-0 border-none focus:ring-0 flex-1 text-center">
           {click ? (
@@ -52,19 +50,25 @@ function Record() {
                 ) : (
                   <div
                     className="flex border-2 border-black w-fit px-3 py-1 rounded-md cursor-pointer items-center justify-around"
-                    onClick={stopRecord}
+                    onClick={() => {
+                      stopRecord();
+                    }}
                   >
                     <Pause size={28} color="red" />
                     <span className="text-black">Stop</span>
                   </div>
                 )}
               </div>
-              <ReactMic
-                record={record}
-                onData={onData}
-                onStop={onStop}
-                strokeColor="#3498DB"
-                className="h-[3.5rem] w-full"
+
+              <AudioRecorder
+                onRecordingComplete={addAudioElement}
+                audioTrackConstraints={{
+                  noiseSuppression: true,
+                  echoCancellation: true,
+                }}
+                recorderControls={reControl}
+                downloadFileExtension="webm"
+                showVisualizer={true}
               />
             </div>
           ) : (
@@ -72,6 +76,7 @@ function Record() {
               Click to record
             </span>
           )}
+          {recordValue && <audio id="audio" controls src={recordValue}></audio>}
         </div>
         {/* <ReactMic record={record} onData={onData} onStop={onStop} /> */}
       </div>
