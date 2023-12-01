@@ -4,13 +4,25 @@ import { useDispatch } from "react-redux";
 import { dontClickInput } from "../../redux/clickSlice";
 import { dontClickFile } from "../../redux/fileSlice";
 import Element from "./Element";
+import Customize from "../Customize/Customize";
 
 function Whitespace(props) {
   const dispatch = useDispatch();
   const [update2, setUpdate2] = useState(0);
+  const [isOpenCustomize, setisOpenCustomize] = useState(false);
+  const [DataOpenCustomize, setDataOpenCustomize] = useState({
+    title: "",
+  });
 
   // const [selected, setSelected] = useState();
-
+  const handleOpenCustomize = (typeModel) => {
+    setisOpenCustomize(true);
+    setDataOpenCustomize((data) => {
+      console.log(typeModel);
+      data.title = typeModel;
+      return data;
+    });
+  };
   const renderedElements = props.data?.map((typeBlock) => (
     <>
       {typeBlock.list?.length > 0 &&
@@ -20,6 +32,7 @@ function Whitespace(props) {
             key={index}
             coor={element}
             updateCoors={props.updateElement}
+            openCustomize={handleOpenCustomize}
           />
         ))}
     </>
@@ -76,6 +89,7 @@ function Whitespace(props) {
           height: "100vh",
         }}
       >
+        {isOpenCustomize && <Customize title={DataOpenCustomize.title} />}
         {renderedElements}
       </div>
     </div>
