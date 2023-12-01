@@ -40,6 +40,7 @@ function Record() {
                     className="flex border-2 border-black w-fit px-3 py-1 rounded-md cursor-pointer items-center justify-around"
                     onClick={startRecord}
                   >
+                    
                     <R
                       size={28}
                       color="red"

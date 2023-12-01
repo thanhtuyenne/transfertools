@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { TextT, LinkSimple, Microphone } from "@phosphor-icons/react";
 import Notify from "../Notify/Notify";
 import { useDispatch } from "react-redux";
 import { dontClickInput, onClickInput } from "../../redux/clickSlice";
+
+
 
 // export const Noti = (message) => {
 //   return (
@@ -34,10 +36,8 @@ export const TextInput = () => {
     }
   };
   const validate = (text) => {
-    console.log(text.length);
     if (text.length === 0) {
       setMessage("Your text can't be empty");
-      console.log("check");
       return;
     }
     setMessage("");
@@ -55,6 +55,11 @@ export const TextInput = () => {
                 placeholder="Enter your text ..."
                 className="outline-none border-0 border-none focus:ring-0 bg-transparent " /> */}
       <TextareaAutosize
+        onKeyDown={(e) => {
+
+          e.stopPropagation();
+        }
+        }
         value={inputValue}
         onChange={(e) => {
           validate(e.target.value);
@@ -104,6 +109,10 @@ export const URLInput = () => {
         onChange={(e) => {
           validateURL(e.target.value);
           handleChangeLink(e.target.value);
+        }}
+        onKeyDown={(e) => {
+
+          e.stopPropagation();
         }}
         type="url"
         placeholder="Enter your text ..."
