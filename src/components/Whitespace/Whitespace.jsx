@@ -1,5 +1,5 @@
 import { Repeat } from "@phosphor-icons/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Element from "./Element";
 
 function Whitespace(props) {
@@ -30,6 +30,7 @@ function Whitespace(props) {
         props.data?.map((typeBlock, idx1) => {
           typeBlock.list?.map((item, idx2) => {
             if (item.isSelected) {
+              // console.log("check:", item,idx1,idx2)
               removeElement(idx1, idx2);
             }
           });
