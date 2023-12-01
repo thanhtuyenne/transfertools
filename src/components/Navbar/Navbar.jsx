@@ -122,7 +122,7 @@ const Navbar = (props) => {
               <ModalOptionTool />
             </Popup>
           ) : (
-            <div>
+            <div >
               <ShieldSlash size={32} color="red" />
             </div>
           )}

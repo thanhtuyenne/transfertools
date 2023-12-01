@@ -1,8 +1,12 @@
 // import { Repeat } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { dontClickInput } from "../../redux/clickSlice";
+import { dontClickFile } from "../../redux/fileSlice";
 import Element from "./Element";
 
 function Whitespace(props) {
+  const dispatch = useDispatch();
   const [update2, setUpdate2] = useState(0);
 
   // const [selected, setSelected] = useState();
@@ -32,6 +36,8 @@ function Whitespace(props) {
             if (item.isSelected) {
               // console.log("check:", item,idx1,idx2)
               removeElement(idx1, idx2);
+              dispatch(dontClickInput());
+              dispatch(dontClickFile());
             }
           });
         });
@@ -45,6 +51,8 @@ function Whitespace(props) {
             typeBlock.list?.map((item, idx2) => {
               if (item.isSelected) {
                 removeElement(idx1, idx2);
+                dispatch(dontClickInput());
+                dispatch(dontClickFile());
               }
             });
           });

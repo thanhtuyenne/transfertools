@@ -11,6 +11,18 @@ import { ReactMic } from "react-mic";
 function Record() {
   const [record, setRecord] = useState(false);
   const [click, setClick] = useState(false);
+
+  // const checkPermissionStatus = () => {
+  //   navigator.permissions.query({ name: 'camera' }).then((permissionStatus) => {
+  //     if (permissionStatus.state === 'denied') {
+  //       console.log('Quyền truy cập vào camera bị từ chối');
+  //       // Thực hiện xử lý khi quyền truy cập bị từ chối ở đây
+  //     }
+  //   });
+  // };
+
+
+
   const startRecord = () => {
     console.log("Start Record");
     setRecord(true);
@@ -42,6 +54,7 @@ function Record() {
                     className="flex border-2 border-black w-fit px-3 py-1 rounded-md cursor-pointer items-center justify-around"
                     onClick={startRecord}
                   >
+                    
                     <R
                       size={28}
                       color="red"
