@@ -1,11 +1,11 @@
-import { Repeat } from "@phosphor-icons/react";
-import React, { useEffect, useRef, useState } from "react";
+// import { Repeat } from "@phosphor-icons/react";
+import React, { useEffect, useState } from "react";
 import Element from "./Element";
 
 function Whitespace(props) {
   const [update2, setUpdate2] = useState(0);
 
-  const [selected, setSelected] = useState();
+  // const [selected, setSelected] = useState();
 
   const renderedElements = props.data?.map((typeBlock) => (
     <>
