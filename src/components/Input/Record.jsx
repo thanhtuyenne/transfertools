@@ -1,8 +1,13 @@
-import { Microphone, Pause, Record as R } from "@phosphor-icons/react";
+import {
+  ArrowClockwise,
+  Microphone,
+  Pause,
+  Record as R,
+  Stop,
+} from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 function Record() {
-  const [record, setRecord] = useState(false);
   const [click, setClick] = useState(false);
   const [recordValue, setRecordValue] = useState("");
   const reControl = useAudioRecorder();
@@ -13,53 +18,73 @@ function Record() {
     addAudioElement(reControl.recordingBlob);
   }, [reControl.recordingBlob]);
 
-  const startRecord = () => {
-    console.log("Start Record");
-    setRecord(true);
-  };
-
-  const stopRecord = () => {
-    console.log("STOP RECORD");
-    setRecord(false);
-  };
-
   const addAudioElement = (blob) => {
     const url = URL.createObjectURL(blob);
     setRecordValue(url);
   };
+  function format(time) {
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = ~~time % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+    if (hrs > 0) {
+      ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+    ret += "" + String(mins).padStart(2, "0") + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+  }
+  const RecordDOM = () => {
+    return <span>{reControl.recordingTime}</span>;
+  };
   return (
     <>
       <div className="bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
-        <Microphone size={20} className="text-blue mr-2" />
+        <Microphone size={20} className="text-blue mr-2 flex-shrink-0" />
         <div className="outline-none border-0 border-none focus:ring-0 flex-1 text-center">
-          {click ? (
+          {!click && (
+            <span
+              className="text-black"
+              onClick={() => {
+                reControl.startRecording();
+                setClick(true);
+              }}
+            >
+              Click to record
+            </span>
+          )}
+          {reControl.isRecording && (
             <div className="flex flex-col">
               <div className="flex">
-                {!record ? (
+                <div className="flex items-center">
                   <div
-                    className="flex border-2 border-black w-fit px-3 py-1 rounded-md cursor-pointer items-center justify-around"
-                    onClick={startRecord}
-                  >
-                    <R
-                      size={28}
-                      color="red"
-                      className="transition-[0.25s] mr-1"
-                    />
-                    <span className="text-black">Start</span>
-                  </div>
-                ) : (
-                  <div
-                    className="flex border-2 border-black w-fit px-3 py-1 rounded-md cursor-pointer items-center justify-around"
+                    className="inline-flex bg-[#2f3640] text-white rounded-full p-2 items-center gap-2 mr-2"
                     onClick={() => {
-                      stopRecord();
+                      reControl.stopRecording();
                     }}
                   >
-                    <Pause size={28} color="red" />
-                    <span className="text-black">Stop</span>
+                    <Stop
+                      size={20}
+                      color="inherit"
+                      className="bg-white rounded-full p-1"
+                    />
+                    <span className="mr-2">
+                      {format(reControl.recordingTime)}
+                    </span>
                   </div>
-                )}
+                  <Pause
+                    size={30}
+                    color="black"
+                    onClick={() => {
+                      reControl.togglePauseResume();
+                    }}
+                  />
+                </div>
               </div>
-
+              {/* 
               <AudioRecorder
                 onRecordingComplete={addAudioElement}
                 audioTrackConstraints={{
@@ -69,14 +94,21 @@ function Record() {
                 recorderControls={reControl}
                 downloadFileExtension="webm"
                 showVisualizer={true}
+              /> */}
+            </div>
+          )}
+          {recordValue && !reControl.isRecording && (
+            <div className="flex items-center">
+              <audio id="audio" controls src={recordValue}></audio>
+              <ArrowClockwise
+                color="black"
+                size={24}
+                onClick={() => {
+                  reControl.startRecording();
+                }}
               />
             </div>
-          ) : (
-            <span className="text-black" onClick={() => setClick(true)}>
-              Click to record
-            </span>
           )}
-          {recordValue && <audio id="audio" controls src={recordValue}></audio>}
         </div>
         {/* <ReactMic record={record} onData={onData} onStop={onStop} /> */}
       </div>
