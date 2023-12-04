@@ -8,10 +8,16 @@ function Customize({ title, tools = [] }) {
   // const handleToolSelected = (value) => {
   //   setToolsSelected(value);
   // };
-  const [currentTool, setCurrentTool] = useState(tools[0].comp);
+  const [indexTool, setIndexTool] = useState(0);
+  const [currentTool, setCurrentTool] = useState(tools[indexTool].comp);
   const displayToolSelected = (toolIndex = 0) => {
+    setIndexTool(toolIndex);
     setCurrentTool(tools[toolIndex].comp);
   };
+  useEffect(() => {
+    setIndexTool(0);
+    displayToolSelected(indexTool);
+  }, [tools]);
   return (
     <>
       <div className="bg-white w-[20%] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
@@ -22,10 +28,10 @@ function Customize({ title, tools = [] }) {
           <Dropdownlist
             title="Tools"
             options={tools.map((v) => {
-              console.log(v);
               return v.title;
             })}
-            selected={displayToolSelected}
+            callback={displayToolSelected}
+            selected={indexTool}
           />
           {currentTool}
         </div>

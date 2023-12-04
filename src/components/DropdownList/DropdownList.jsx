@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-function Dropdownlist({ title, options, selected }) {
+function Dropdownlist({ title, options, callback, selected }) {
   return (
     <div className="flex flex-col mx-1 my-2 w-full">
       <p>{title}</p>
       <select
-        onChange={(e) => selected(e.target.value)}
+        onChange={(e) => callback(e.target.value)}
         className="w-full border-gray-300 rounded-md h-full"
+        value={selected}
       >
         {/* <option value="Select" /> */}
         {options.map((o, i) => (

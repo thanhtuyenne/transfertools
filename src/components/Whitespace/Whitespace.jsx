@@ -15,13 +15,14 @@ function Whitespace(props) {
     title: "",
     tools: [],
   });
+  const [focusElement, setFocusElement] = useState(null);
   // const [selected, setSelected] = useState();
-  const handleOpenCustomize = (typeModel) => {
+  const handleOpenCustomize = (typeModel, element) => {
+    if (focusElement === element) return;
+    setFocusElement(element);
     setisOpenCustomize(true);
     setDataOpenCustomize((data) => {
-      console.log(typeModel);
       data.title = typeModel;
-
       switch (typeModel) {
         case "Text":
           data.tools = [

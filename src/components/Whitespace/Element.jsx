@@ -89,7 +89,7 @@ function Box(props) {
         },
         { isSelected: false }
       );
-      props.openCustomize(props.type);
+      props.openCustomize(props.type, props.coor.children);
       document.removeEventListener("mouseup", handleMouseUp);
     };
 
