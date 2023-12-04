@@ -54,7 +54,7 @@ const Navbar = (props) => {
             className="box_1"
             onClick={() => {
               setIsOpenInputImage(true);
-              addElement("img");
+              addElement("image");
             }}
           >
             <Image size={32} />
@@ -89,7 +89,7 @@ const Navbar = (props) => {
           <div
             className="box_1"
             onClick={() => {
-              addElement("link");
+              addElement("url");
               setIsOpenInputURL(true);
             }}
           >
@@ -99,11 +99,11 @@ const Navbar = (props) => {
 
           <div className="box_1">
             {(isOpenInputText && click) ||
-            (isOpenInputURL && click) ||
-            (isOpenInputAudio && file) ||
-            (isOpenInputVideo && file) ||
-            (isOpenInputImage && file) ||
-            (isOpenInputRecor && file) ? (
+              (isOpenInputURL && click) ||
+              (isOpenInputAudio && file) ||
+              (isOpenInputVideo && file) ||
+              (isOpenInputImage && file) ||
+              (isOpenInputRecor && file) ? (
               <Popup
                 trigger={
                   <button>
@@ -125,14 +125,22 @@ const Navbar = (props) => {
               </Popup>
             ) : (
               <div>
-                <ShieldSlash size={32} color="red" />
+                {
+                  <ShieldSlash size={32} color="red" />
+                }
               </div>
             )}
           </div>
         </div>
       </div>
-      {type === "ToVoice" && <Customize toVoice={true} title={title} />}
-      {type === "ToText" && <Customize title={title} />}
+      {type === "ToVoice" && <Customize
+        toVoice={true}
+        title={title}
+
+      />}
+      {type === "ToText" && <Customize
+        title={title}
+      />}
     </>
   );
 };

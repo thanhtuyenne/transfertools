@@ -53,6 +53,7 @@ function Whitespace(props) {
                 removeElement(idx1, idx2);
                 dispatch(dontClickInput());
                 dispatch(dontClickFile());
+
               }
             });
           });

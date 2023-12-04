@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
 import { DownloadSimple } from "@phosphor-icons/react";
@@ -7,6 +7,7 @@ function Customize({ toVoice, title }) {
   const PitchList = [1, 0.5, 2];
   const SpeechList = ["1x", "2x", "0.5x"];
   const VoiceList = ["William", "Alice", "John", "Sarah", "Google"];
+  const [dataI,setDataI]= useState([])
   //LIST DRAFT
   const elements = ["BOX1", "BOX2", "BOX3"];
   return (
