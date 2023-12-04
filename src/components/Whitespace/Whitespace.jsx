@@ -5,6 +5,7 @@ import { dontClickInput } from "../../redux/clickSlice";
 import { dontClickFile } from "../../redux/fileSlice";
 import Element from "./Element";
 import Customize from "../Customize/Customize";
+import ToSpeech from "../Customize/ToSpeech";
 
 function Whitespace(props) {
   const dispatch = useDispatch();
@@ -14,7 +15,6 @@ function Whitespace(props) {
     title: "",
     tools: [],
   });
-
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel) => {
     setisOpenCustomize(true);
@@ -24,22 +24,72 @@ function Whitespace(props) {
 
       switch (typeModel) {
         case "Text":
-          data.tools = ["Text to speech", "Text to image"];
+          data.tools = [
+            {
+              title: "Text to speech",
+              comp: <ToSpeech />,
+            },
+            {
+              title: "Text to image",
+              comp: <></>,
+            },
+          ];
           break;
         case "Image":
-          data.tools = ["Image to text", "Image to ..."];
+          data.tools = [
+            {
+              title: "Image to text",
+              comp: <></>,
+            },
+            {
+              title: "Image to ...",
+              comp: <></>,
+            },
+          ];
           break;
         case "Video":
-          data.tools = ["Video to text", "Video to ..."];
+          data.tools = [
+            {
+              title: "Video to text",
+              comp: <></>,
+            },
+            {
+              title: "Video to ...",
+              comp: <></>,
+            },
+          ];
           break;
         case "Audio":
-          data.tools = ["Audio to text", "Audio to ..."];
-          break;
-        case "Record":
-          data.tools = ["Record to text", "Record to ..."];
+          data.tools = [
+            {
+              title: "Audio to text",
+              comp: <></>,
+            },
+            {
+              title: "Audio to ...",
+              comp: <></>,
+            },
+          ];
           break;
         case "URL":
-          data.tools = ["URL to text", "URL to ..."];
+          data.tools = [
+            {
+              title: "URL to ...",
+              comp: <></>,
+            },
+          ];
+          break;
+        case "Record":
+          data.tools = [
+            {
+              title: "Record to text",
+              comp: <></>,
+            },
+            {
+              title: "Record to ...",
+              comp: <></>,
+            },
+          ];
           break;
         default:
           break;
