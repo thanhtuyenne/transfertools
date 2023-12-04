@@ -12,6 +12,7 @@ function Whitespace(props) {
   const [isOpenCustomize, setisOpenCustomize] = useState(false);
   const [DataOpenCustomize, setDataOpenCustomize] = useState({
     title: "",
+    tools: [],
   });
 
   // const [selected, setSelected] = useState();
@@ -20,6 +21,29 @@ function Whitespace(props) {
     setDataOpenCustomize((data) => {
       console.log(typeModel);
       data.title = typeModel;
+
+      switch (typeModel) {
+        case "Text":
+          data.tools = ["Text to speech", "Text to image"];
+          break;
+        case "Image":
+          data.tools = ["Image to text", "Image to ..."];
+          break;
+        case "Video":
+          data.tools = ["Video to text", "Video to ..."];
+          break;
+        case "Audio":
+          data.tools = ["Audio to text", "Audio to ..."];
+          break;
+        case "Record":
+          data.tools = ["Record to text", "Record to ..."];
+          break;
+        case "URL":
+          data.tools = ["URL to text", "URL to ..."];
+          break;
+        default:
+          break;
+      }
       return data;
     });
   };
@@ -89,7 +113,12 @@ function Whitespace(props) {
           height: "100vh",
         }}
       >
-        {isOpenCustomize && <Customize title={DataOpenCustomize.title} />}
+        {isOpenCustomize && (
+          <Customize
+            title={DataOpenCustomize.title}
+            tools={DataOpenCustomize.tools}
+          />
+        )}
         {renderedElements}
       </div>
     </div>

@@ -45,7 +45,7 @@ const Navbar = (props) => {
             className="box_1"
             onClick={() => {
               setIsOpenInputText(true);
-              addElement("text");
+              addElement("Text");
             }}
           >
             <TextT size={32} />
@@ -54,7 +54,7 @@ const Navbar = (props) => {
             className="box_1"
             onClick={() => {
               setIsOpenInputImage(true);
-              addElement("img");
+              addElement("Image");
             }}
           >
             <Image size={32} />
@@ -62,7 +62,7 @@ const Navbar = (props) => {
           <div
             className="box_1"
             onClick={() => {
-              addElement("camera");
+              addElement("Video");
               setIsOpenInputVideo(true);
             }}
           >
@@ -71,7 +71,7 @@ const Navbar = (props) => {
           <div
             className="box_1"
             onClick={() => {
-              addElement("audioUpload");
+              addElement("Audio");
               setIsOpenInputAudio(true);
             }}
           >
@@ -80,7 +80,7 @@ const Navbar = (props) => {
           <div
             className="box_1"
             onClick={() => {
-              addElement("record");
+              addElement("Record");
               setIsOpenInputRecor(true);
             }}
           >
@@ -89,7 +89,7 @@ const Navbar = (props) => {
           <div
             className="box_1"
             onClick={() => {
-              addElement("link");
+              addElement("URL");
               setIsOpenInputURL(true);
             }}
           >
