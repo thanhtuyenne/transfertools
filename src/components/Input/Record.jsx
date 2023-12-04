@@ -40,6 +40,8 @@ function Record() {
   const RecordDOM = () => {
     return <span>{reControl.recordingTime}</span>;
   };
+
+  const [isPause, setIsPause] = useState(false);
   return (
     <>
       <div className="bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
@@ -64,6 +66,7 @@ function Record() {
                     className="inline-flex bg-[#2f3640] text-white rounded-full p-2 items-center gap-2 mr-2"
                     onClick={() => {
                       reControl.stopRecording();
+                      setIsPause(false);
                     }}
                   >
                     <Stop
@@ -77,10 +80,12 @@ function Record() {
                   </div>
                   <Pause
                     size={30}
-                    color="black"
                     onClick={() => {
                       reControl.togglePauseResume();
+                      setIsPause(!isPause);
                     }}
+                    color={!isPause ? "black" : "red"}
+                    className="transition-[0.25s]"
                   />
                 </div>
               </div>

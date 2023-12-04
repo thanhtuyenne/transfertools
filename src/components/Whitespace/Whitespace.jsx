@@ -4,13 +4,49 @@ import { useDispatch } from "react-redux";
 import { dontClickInput } from "../../redux/clickSlice";
 import { dontClickFile } from "../../redux/fileSlice";
 import Element from "./Element";
+import Customize from "../Customize/Customize";
 
 function Whitespace(props) {
   const dispatch = useDispatch();
   const [update2, setUpdate2] = useState(0);
+  const [isOpenCustomize, setisOpenCustomize] = useState(false);
+  const [DataOpenCustomize, setDataOpenCustomize] = useState({
+    title: "",
+    tools: [],
+  });
 
   // const [selected, setSelected] = useState();
+  const handleOpenCustomize = (typeModel) => {
+    setisOpenCustomize(true);
+    setDataOpenCustomize((data) => {
+      console.log(typeModel);
+      data.title = typeModel;
 
+      switch (typeModel) {
+        case "Text":
+          data.tools = ["Text to speech", "Text to image"];
+          break;
+        case "Image":
+          data.tools = ["Image to text", "Image to ..."];
+          break;
+        case "Video":
+          data.tools = ["Video to text", "Video to ..."];
+          break;
+        case "Audio":
+          data.tools = ["Audio to text", "Audio to ..."];
+          break;
+        case "Record":
+          data.tools = ["Record to text", "Record to ..."];
+          break;
+        case "URL":
+          data.tools = ["URL to text", "URL to ..."];
+          break;
+        default:
+          break;
+      }
+      return data;
+    });
+  };
   const renderedElements = props.data?.map((typeBlock) => (
     <>
       {typeBlock.list?.length > 0 &&
@@ -20,6 +56,7 @@ function Whitespace(props) {
             key={index}
             coor={element}
             updateCoors={props.updateElement}
+            openCustomize={handleOpenCustomize}
           />
         ))}
     </>
@@ -77,6 +114,12 @@ function Whitespace(props) {
           height: "100vh",
         }}
       >
+        {isOpenCustomize && (
+          <Customize
+            title={DataOpenCustomize.title}
+            tools={DataOpenCustomize.tools}
+          />
+        )}
         {renderedElements}
       </div>
     </div>

@@ -89,7 +89,7 @@ function Box(props) {
         },
         { isSelected: false }
       );
-
+      props.openCustomize(props.type);
       document.removeEventListener("mouseup", handleMouseUp);
     };
 
@@ -277,22 +277,10 @@ function Box(props) {
       {props.coor.isSelected && (
         <>
           {/* Bar resizer */}
-          <div
-            ref={leftResize}
-            className="resizer resizer-left"
-          ></div>
-          <div
-            ref={rightResize}
-            className="resizer resizer-right"
-          ></div>
-          <div
-            ref={topResize}
-            className="resizer resizer-top"
-          ></div>
-          <div
-            ref={bottomResize}
-            className="resizer resizer-bottom"
-          ></div>
+          <div ref={leftResize} className="resizer resizer-left"></div>
+          <div ref={rightResize} className="resizer resizer-right"></div>
+          <div ref={topResize} className="resizer resizer-top"></div>
+          <div ref={bottomResize} className="resizer resizer-bottom"></div>
           {/* Round resizer */}
           <div
             ref={topleftResize}

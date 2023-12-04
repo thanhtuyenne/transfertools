@@ -49,7 +49,7 @@ function App() {
   const [update, setUpdate] = useState(0);
   const nameType = [
     {
-      name: "text",
+      name: "Text",
       input: <TextInput />,
     },
     {
@@ -57,11 +57,11 @@ function App() {
       input: <URLInput />,
     },
     {
-      name: "audioUpload",
+      name: "Audio",
       input: <Audio />,
     },
     {
-      name: "camera",
+      name: "Video",
       input: <Video />,
     },
     {
@@ -69,7 +69,7 @@ function App() {
       input: <Image />,
     },
     {
-      name: "record",
+      name: "Record",
       input: <Record />,
     },
   ];
