@@ -19,7 +19,7 @@ function App() {
 
   const [defaultPosition, setDefaultPosition] = useState({
     x: 100,
-    y: 100,
+    y: 500,
   });
   const [defaultSize, setDefaultSize] = useState({
     w: 250,
