@@ -5,6 +5,8 @@ import { TextInput, URLInput } from "./components/Input/Text";
 import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
+import { Droppable } from "react-drag-and-drop";
+
 // import BotChat from "./components/BotChat/BotChat";
 // import Customize from "./components/Customize/Customize";
 // import Drag from "./components/drag/Drag";
@@ -46,6 +48,10 @@ function App() {
     },
   ]);
 
+  const onDrop = (value) => {
+    console.log("drop ", value);
+    addElement(value.components);
+  };
   const [update, setUpdate] = useState(0);
   const nameType = [
     {
@@ -152,18 +158,24 @@ function App() {
           className="w-full"
           // style={{ height: "100vh", backgroundColor: "#ececec" }}
         >
-          <Whitespace
-            data={data}
-            setData={setData}
-            update={update}
-            updateElement={updateElement}
-          />
+          <Droppable
+            types={["components"]} // <= allowed drop types
+            onDrop={onDrop}
+          >
+            <Whitespace
+              data={data}
+              setData={setData}
+              update={update}
+              updateElement={updateElement}
+            />
+          </Droppable>
         </div>
       </div>
       <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
         <Navbar
           data={data}
           addElement={addElement}
+          setDefaultPosition={setDefaultPosition}
           isOpenInputText={isOpenInputText}
           isOpenInputURL={isOpenInputURL}
           isOpenInputAudio={isOpenInputAudio}

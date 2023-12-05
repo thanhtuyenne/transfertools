@@ -18,9 +18,9 @@ export const Audio = () => {
       placeholder="Upload your Audio"
       accept={acceptType}
       callback={(value) => {
-        dispatch(onClickAudio())
+        dispatch(onClickAudio());
         return (
-          <audio controls>
+          <audio controls className="w-full">
             <source src={value} />
           </audio>
         );
@@ -38,8 +38,8 @@ export const Image = () => {
       placeholder="Upload your Image"
       accept={acceptType}
       callback={(value) => {
-        dispatch(onClickImage())
-        return <img src={value} className="pointer-events-none"/>;
+        dispatch(onClickImage());
+        return <img src={value} className="pointer-events-none" />;
       }}
     />
   );
@@ -54,7 +54,7 @@ export const Video = () => {
       placeholder="Upload your video"
       accept={acceptType}
       callback={(value) => {
-        dispatch(onClickVideo())
+        dispatch(onClickVideo());
         return (
           <video width="400" height="400" controls autoPlay>
             <source src={value} />

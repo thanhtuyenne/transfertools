@@ -3,10 +3,11 @@ import TextareaAutosize from "react-textarea-autosize";
 import { TextT, LinkSimple, Microphone } from "@phosphor-icons/react";
 import Notify from "../Notify/Notify";
 import { useDispatch } from "react-redux";
-import { dontClickInputText, onClickInputText } from "../../redux/clickTextSlice";
+import {
+  dontClickInputText,
+  onClickInputText,
+} from "../../redux/clickTextSlice";
 import { dontClickInputUrl, onClickInputUrl } from "../../redux/clickURLSlice";
-
-
 
 // export const Noti = (message) => {
 //   return (
@@ -45,8 +46,8 @@ export const TextInput = () => {
   };
 
   return (
-    <div className="bg-white relative w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
-      <TextT size={20} className="text-blue bg-transparent mr-2" />
+    <div className="bg-white w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
+      <TextT size={25} className="text-blue bg-transparent mr-2" />
       {/* <input
                 value={inputValue}
                 onChange={(e) =>
@@ -57,10 +58,8 @@ export const TextInput = () => {
                 className="outline-none border-0 border-none focus:ring-0 bg-transparent " /> */}
       <TextareaAutosize
         onKeyDown={(e) => {
-
           e.stopPropagation();
-        }
-        }
+        }}
         value={inputValue}
         onChange={(e) => {
           validate(e.target.value);
@@ -112,7 +111,6 @@ export const URLInput = () => {
           handleChangeLink(e.target.value);
         }}
         onKeyDown={(e) => {
-
           e.stopPropagation();
         }}
         type="url"

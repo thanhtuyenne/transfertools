@@ -10,7 +10,7 @@ import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import { useDispatch } from "react-redux";
 import { onClickRecord } from "../../redux/clickRecordSlice";
 function Record() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const [recordValue, setRecordValue] = useState("");
   const reControl = useAudioRecorder();
@@ -23,7 +23,7 @@ function Record() {
 
   const addAudioElement = (blob) => {
     const url = URL.createObjectURL(blob);
-    dispatch(onClickRecord())
+    dispatch(onClickRecord());
     setRecordValue(url);
   };
   function format(time) {
@@ -49,7 +49,7 @@ function Record() {
   return (
     <>
       <div className="bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
-        <Microphone size={20} className="text-blue mr-2 flex-shrink-0" />
+        <Microphone size={25} className="text-blue mr-2 flex-shrink-0" />
         <div className="outline-none border-0 border-none focus:ring-0 flex-1 text-center">
           {!click && (
             <span
@@ -108,7 +108,12 @@ function Record() {
           )}
           {recordValue && !reControl.isRecording && (
             <div className="flex items-center">
-              <audio id="audio" controls src={recordValue}></audio>
+              <audio
+                id="audio"
+                controls
+                src={recordValue}
+                className="w-full"
+              ></audio>
               <ArrowClockwise
                 color="black"
                 size={24}

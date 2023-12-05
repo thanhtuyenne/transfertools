@@ -24,7 +24,7 @@ function Whitespace(props) {
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
-    dispatch(onTypeModel(typeModel))
+    dispatch(onTypeModel(typeModel));
     setFocusElement(element);
     setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
@@ -171,23 +171,25 @@ function Whitespace(props) {
   };
 
   return (
-    <div className="w-full bg-repeat whitespace overflow-hidden" id="boxDrop">
-      <div
-        className="w-full"
-        style={{
-          backgroundColor: "rgba(255,255,255,.6)",
-          height: "100vh",
-        }}
-      >
-        {isOpenCustomize && (
-          <Customize
-            title={DataOpenCustomize.title}
-            tools={DataOpenCustomize.tools}
-          />
-        )}
-        {renderedElements}
+  
+      <div className="w-full bg-repeat whitespace overflow-hidden" id="boxDrop">
+        <div
+          className="w-full"
+          style={{
+            backgroundColor: "rgba(255,255,255,.6)",
+            height: "100vh",
+          }}
+        >
+          {isOpenCustomize && (
+            <Customize
+              title={DataOpenCustomize.title}
+              tools={DataOpenCustomize.tools}
+            />
+          )}
+          {renderedElements}
+        </div>
       </div>
-    </div>
+ 
   );
 }
 

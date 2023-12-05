@@ -15,9 +15,12 @@ import ModalOptionTool from "./ModalOptionTools";
 import "./navbar.css";
 import { useState } from "react";
 import Customize from "../Customize/Customize";
+import { Draggable } from "react-drag-and-drop";
+
 const Navbar = (props) => {
   const {
     addElement,
+    setDefaultPosition,
     isOpenInputText,
     isOpenInputURL,
     isOpenInputAudio,
@@ -31,6 +34,18 @@ const Navbar = (props) => {
     setIsOpenInputImage,
     setIsOpenInputRecor,
   } = props;
+  const showInfo = (e) => {
+    if (e.clientX && e.clientY) {
+      setDefaultPosition({
+        x: e.clientX - window.innerWidth * 0.13,
+        y:
+          window.innerHeight -
+          e.clientY -
+          99.6 +
+          (e.target.parentNode.title ? -400 : 60),
+      });
+    }
+  };
   const clickText = useSelector((state) => state.clickText.value);
   const clickImage = useSelector((state) => state.clickImage.value);
 
@@ -40,61 +55,77 @@ const Navbar = (props) => {
   return (
     <>
       <div className="container1">
-        <div className="navbar">
-          <div
-            className="box_1"
-            onClick={() => {
-              setIsOpenInputText(true);
-              addElement("Text");
-            }}
+        <div className="navbar" onDrag={showInfo}>
+          <Draggable className=" cursor-pointer" type="components" data="Text">
+            <div
+              className="box_1"
+              // onClick={() => {
+              //   setIsOpenInputText(true);
+              //   addElement("Text");
+              // }}
+            >
+              <TextT size={32} />
+            </div>
+          </Draggable>
+          <Draggable className=" cursor-pointer" type="components" data="Image">
+            <div
+              className="box_1"
+              // onClick={() => {
+              //   setIsOpenInputImage(true);
+              //   addElement("Image");
+              // }}
+            >
+              <Image size={32} />
+            </div>
+          </Draggable>
+          <Draggable className=" cursor-pointer" type="components" data="Video">
+            <div
+              className="box_1"
+              // onClick={() => {
+              //   addElement("Video");
+              //   setIsOpenInputVideo(true);
+              // }}
+            >
+              <VideoCamera size={32} />
+            </div>
+          </Draggable>
+          <Draggable className=" cursor-pointer" type="components" data="Audio">
+            <div
+              className="box_1"
+              // onClick={() => {
+              //   addElement("Audio");
+              //   setIsOpenInputAudio(true);
+              // }}
+            >
+              <GooglePodcastsLogo size={32} />
+            </div>
+          </Draggable>
+          <Draggable
+            className=" cursor-pointer"
+            type="components"
+            data="Record"
           >
-            <TextT size={32} />
-          </div>
-          <div
-            className="box_1"
-            onClick={() => {
-              setIsOpenInputImage(true);
-              addElement("Image");
-            }}
-          >
-            <Image size={32} />
-          </div>
-          <div
-            className="box_1"
-            onClick={() => {
-              addElement("Video");
-              setIsOpenInputVideo(true);
-            }}
-          >
-            <VideoCamera size={32} />
-          </div>
-          <div
-            className="box_1"
-            onClick={() => {
-              addElement("Audio");
-              setIsOpenInputAudio(true);
-            }}
-          >
-            <GooglePodcastsLogo size={32} />
-          </div>
-          <div
-            className="box_1"
-            onClick={() => {
-              addElement("Record");
-              setIsOpenInputRecor(true);
-            }}
-          >
-            <Microphone size={32} />
-          </div>
-          <div
-            className="box_1"
-            onClick={() => {
-              addElement("URL");
-              setIsOpenInputURL(true);
-            }}
-          >
-            <LinkSimple size={32} />
-          </div>
+            <div
+              className="box_1"
+              // onClick={() => {
+              //   addElement("Record");
+              //   setIsOpenInputRecor(true);
+              // }}
+            >
+              <Microphone size={32} />
+            </div>
+          </Draggable>
+          <Draggable className=" cursor-pointer" type="components" data="URL">
+            <div
+              className="box_1"
+              // onClick={() => {
+              //   addElement("URL");
+              //   setIsOpenInputURL(true);
+              // }}
+            >
+              <LinkSimple size={32} />
+            </div>
+          </Draggable>
           {/* <div className="box_line"></div> */}
 
           {/* <div className="box_1">
