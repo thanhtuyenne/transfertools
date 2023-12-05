@@ -24,6 +24,7 @@ function Whitespace(props) {
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
+    dispatch(onTypeModel(typeModel))
     setFocusElement(element);
     setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
