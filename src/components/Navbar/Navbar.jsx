@@ -164,13 +164,13 @@ const Navbar = (props) => {
           </div> */}
         </div>
       </div>
-      {type === "ToVoice" && (
+      {/* {type === "ToVoice" && (
         <Customize
           // toVoice={true}
           title={title}
         />
       )}
-      {type === "ToText" && <Customize title={title} />}
+      {type === "ToText" && <Customize title={title} />} */}
     </>
   );
 };

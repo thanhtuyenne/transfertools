@@ -22,10 +22,7 @@ function Customize({ title, tools = [] }) {
     setIndexTool(0);
     displayToolSelected(0);
   }, [displayToolSelected, tools]);
-  // const [dataI,setDataI]= useState([])
-  //LIST DRAFT
-  // const elements = ["BOX1", "BOX2", "BOX3"];
-  const [toVoice, setToVoice] = useState(false);
+  
   const transfer = useSelector((state) => state.typeModel.value);
   const inputText = useSelector((state) => state.clickText.value);
   const inputUrl = useSelector((state) => state.clickUrl.value);
@@ -37,7 +34,7 @@ function Customize({ title, tools = [] }) {
   return (
     <>
       <div className="bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
-        <div className="border-b-2 px-2 w-full">
+        <div className="bpx-2 w-full">
           <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
             {title}
           </div>

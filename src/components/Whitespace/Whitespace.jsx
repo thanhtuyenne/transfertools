@@ -38,7 +38,7 @@ function Whitespace(props) {
             },
             {
               title: "Text to image",
-              comp: <>Text to image</>,
+              comp: <>Text to image component</>,
             },
           ];
           break;
@@ -46,11 +46,11 @@ function Whitespace(props) {
           data.tools = [
             {
               title: "Image to text",
-              comp: <>Image to text</>,
+              comp: <>Image component</>,
             },
             {
               title: "Image to ...",
-              comp: <>Image to ...</>,
+              comp: <>Image component</>,
             },
           ];
           break;
@@ -58,11 +58,11 @@ function Whitespace(props) {
           data.tools = [
             {
               title: "Video to text",
-              comp: <>Video to text</>,
+              comp: <>Video component</>,
             },
             {
               title: "Video to ...",
-              comp: <>Video to ...</>,
+              comp: <>Video component</>,
             },
           ];
           break;
@@ -70,11 +70,11 @@ function Whitespace(props) {
           data.tools = [
             {
               title: "Audio to text",
-              comp: <>Audio to text</>,
+              comp: <>Audio component</>,
             },
             {
               title: "Audio to ...",
-              comp: <>Audio to ...</>,
+              comp: <>Audio component</>,
             },
           ];
           break;
@@ -82,7 +82,7 @@ function Whitespace(props) {
           data.tools = [
             {
               title: "URL to ...",
-              comp: <>URL to ...</>,
+              comp: <>URL component</>,
             },
           ];
           break;
