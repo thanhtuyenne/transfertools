@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
-
+// import { useSelector } from "react-redux";
 function Box(props) {
+
+  // const dispatch = useDispatch()
   // STATES AND STYLES AND VARIABLES
   const style = {
     zIndex: props.coor.z,
@@ -89,7 +91,7 @@ function Box(props) {
         },
         { isSelected: false }
       );
-      props.openCustomize(props.type);
+        props.openCustomize(props.type);
       document.removeEventListener("mouseup", handleMouseUp);
     };
 
@@ -262,9 +264,8 @@ function Box(props) {
   return (
     <div
       ref={ref}
-      className={` bg-white border-[1px] border-black relative box ${
-        props.coor.isSelected && "box-selected"
-      }`}
+      className={` bg-white border-[1px] border-black relative box ${props.coor.isSelected && "box-selected"
+        }`}
       style={style}
     >
       {/* Children here */}

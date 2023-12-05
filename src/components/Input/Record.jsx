@@ -7,7 +7,10 @@ import {
 } from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
+import { useDispatch } from "react-redux";
+import { onClickRecord } from "../../redux/clickRecordSlice";
 function Record() {
+  const dispatch = useDispatch()
   const [click, setClick] = useState(false);
   const [recordValue, setRecordValue] = useState("");
   const reControl = useAudioRecorder();
@@ -20,6 +23,7 @@ function Record() {
 
   const addAudioElement = (blob) => {
     const url = URL.createObjectURL(blob);
+    dispatch(onClickRecord())
     setRecordValue(url);
   };
   function format(time) {

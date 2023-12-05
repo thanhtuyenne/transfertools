@@ -31,8 +31,8 @@ const Navbar = (props) => {
     setIsOpenInputImage,
     setIsOpenInputRecor,
   } = props;
-  const click = useSelector((state) => state.click.value);
-  const file = useSelector((state) => state.file.value);
+  const clickText = useSelector((state) => state.clickText.value);
+  const clickImage = useSelector((state) => state.clickImage.value);
 
   const [type, setType] = useState(null);
   const [title, setTitle] = useState(null);
@@ -95,9 +95,9 @@ const Navbar = (props) => {
           >
             <LinkSimple size={32} />
           </div>
-          <div className="box_line"></div>
+          {/* <div className="box_line"></div> */}
 
-          <div className="box_1">
+          {/* <div className="box_1">
             {(isOpenInputText && click) ||
               (isOpenInputURL && click) ||
               (isOpenInputAudio && file) ||
@@ -130,11 +130,11 @@ const Navbar = (props) => {
                 }
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
       {type === "ToVoice" && <Customize
-        toVoice={true}
+        // toVoice={true}
         title={title}
 
       />}

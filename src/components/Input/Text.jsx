@@ -3,7 +3,8 @@ import TextareaAutosize from "react-textarea-autosize";
 import { TextT, LinkSimple, Microphone } from "@phosphor-icons/react";
 import Notify from "../Notify/Notify";
 import { useDispatch } from "react-redux";
-import { dontClickInput, onClickInput } from "../../redux/clickSlice";
+import { dontClickInputText, onClickInputText } from "../../redux/clickTextSlice";
+import { dontClickInputUrl, onClickInputUrl } from "../../redux/clickURLSlice";
 
 
 
@@ -29,10 +30,10 @@ export const TextInput = () => {
     setInputValue(value);
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
-      dispatch(onClickInput());
+      dispatch(onClickInputText());
     } else {
       // Không có dữ liệu trong input
-      dispatch(dontClickInput());
+      dispatch(dontClickInputText());
     }
   };
   const validate = (text) => {
@@ -94,10 +95,10 @@ export const URLInput = () => {
     setLinkValue(value);
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
-      dispatch(onClickInput());
+      dispatch(onClickInputUrl());
     } else {
       // Không có dữ liệu trong input
-      dispatch(dontClickInput());
+      dispatch(dontClickInputUrl());
     }
   };
 

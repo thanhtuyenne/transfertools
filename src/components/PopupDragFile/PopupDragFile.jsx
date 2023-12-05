@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { CloudArrowUp } from "@phosphor-icons/react";
 import { useDispatch } from "react-redux";
-import { dontClickFile, onClickFile } from "../../redux/fileSlice";
+import { dontClickImage,onClickImage } from "../../redux/clickImageSlice";
 
 function PopupDragFile({ toggle, accepts, callback }) {
   const dispatch = useDispatch();
@@ -22,9 +22,9 @@ function PopupDragFile({ toggle, accepts, callback }) {
       toggle(false);
     }
     if (event.target.files[0]) {
-      dispatch(onClickFile());
+      dispatch(onClickImage());
     } else {
-      dispatch(dontClickFile());
+      dispatch(dontClickImage());
     }
   };
 

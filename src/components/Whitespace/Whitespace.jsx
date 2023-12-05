@@ -1,25 +1,31 @@
 // import { Repeat } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { dontClickInput } from "../../redux/clickSlice";
-import { dontClickFile } from "../../redux/fileSlice";
+import { useDispatch} from "react-redux";
+import { dontClickInputText } from "../../redux/clickTextSlice";
+import { dontClickImage } from "../../redux/clickImageSlice";
 import Element from "./Element";
 import Customize from "../Customize/Customize";
+import { dontClickInputUrl } from "../../redux/clickURLSlice";
+import { dontClickRecord } from "../../redux/clickRecordSlice";
+import { dontClickVideo } from "../../redux/clickVideoSlice";
+import { dontClickAudio } from "../../redux/clickAudioSlice";
+import { onTypeModel } from "../../redux/typeModelSlice";
 
 function Whitespace(props) {
   const dispatch = useDispatch();
   const [update2, setUpdate2] = useState(0);
-  const [isOpenCustomize, setisOpenCustomize] = useState(false);
+  const [isOpenCustomize, setIsOpenCustomize] = useState(false);
   const [DataOpenCustomize, setDataOpenCustomize] = useState({
-    title: "",
     tools: [],
+    title: "",
   });
 
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel) => {
-    setisOpenCustomize(true);
+    dispatch(onTypeModel(typeModel))
+    setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
-      console.log(typeModel);
+      // console.log(m);
       data.title = typeModel;
 
       switch (typeModel) {
@@ -73,8 +79,12 @@ function Whitespace(props) {
             if (item.isSelected) {
               // console.log("check:", item,idx1,idx2)
               removeElement(idx1, idx2);
-              dispatch(dontClickInput());
-              dispatch(dontClickFile());
+              dispatch(dontClickInputText());
+              dispatch(dontClickImage());
+              dispatch(dontClickInputUrl());
+              dispatch(dontClickRecord());
+              dispatch(dontClickVideo());
+              dispatch(dontClickAudio());
             }
           });
         });
@@ -88,9 +98,12 @@ function Whitespace(props) {
             typeBlock.list?.map((item, idx2) => {
               if (item.isSelected) {
                 removeElement(idx1, idx2);
-                dispatch(dontClickInput());
-                dispatch(dontClickFile());
-
+                dispatch(dontClickInputText());
+                dispatch(dontClickImage());
+                dispatch(dontClickInputUrl());
+                dispatch(dontClickRecord());
+                dispatch(dontClickVideo());
+                dispatch(dontClickAudio());
               }
             });
           });
