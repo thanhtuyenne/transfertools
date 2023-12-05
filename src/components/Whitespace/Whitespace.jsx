@@ -1,26 +1,31 @@
 // import { Repeat } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { dontClickInput } from "../../redux/clickSlice";
-import { dontClickFile } from "../../redux/fileSlice";
+import { dontClickInputText } from "../../redux/clickTextSlice";
+import { dontClickImage } from "../../redux/clickImageSlice";
 import Element from "./Element";
 import Customize from "../Customize/Customize";
 import ToSpeech from "../Customize/ToSpeech";
+import { dontClickInputUrl } from "../../redux/clickURLSlice";
+import { dontClickRecord } from "../../redux/clickRecordSlice";
+import { dontClickVideo } from "../../redux/clickVideoSlice";
+import { dontClickAudio } from "../../redux/clickAudioSlice";
+import { onTypeModel } from "../../redux/typeModelSlice";
 
 function Whitespace(props) {
   const dispatch = useDispatch();
   const [update2, setUpdate2] = useState(0);
-  const [isOpenCustomize, setisOpenCustomize] = useState(false);
+  const [isOpenCustomize, setIsOpenCustomize] = useState(false);
   const [DataOpenCustomize, setDataOpenCustomize] = useState({
-    title: "",
     tools: [],
+    title: "",
   });
   const [focusElement, setFocusElement] = useState(null);
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
     setFocusElement(element);
-    setisOpenCustomize(true);
+    setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
       data.title = typeModel;
       switch (typeModel) {
@@ -122,10 +127,15 @@ function Whitespace(props) {
         props.data?.map((typeBlock, idx1) => {
           typeBlock.list?.map((item, idx2) => {
             if (item.isSelected) {
+              setIsOpenCustomize(false);
               // console.log("check:", item,idx1,idx2)
               removeElement(idx1, idx2);
-              dispatch(dontClickInput());
-              dispatch(dontClickFile());
+              dispatch(dontClickInputText());
+              dispatch(dontClickImage());
+              dispatch(dontClickInputUrl());
+              dispatch(dontClickRecord());
+              dispatch(dontClickVideo());
+              dispatch(dontClickAudio());
             }
           });
         });
@@ -139,8 +149,12 @@ function Whitespace(props) {
             typeBlock.list?.map((item, idx2) => {
               if (item.isSelected) {
                 removeElement(idx1, idx2);
-                dispatch(dontClickInput());
-                dispatch(dontClickFile());
+                dispatch(dontClickInputText());
+                dispatch(dontClickImage());
+                dispatch(dontClickInputUrl());
+                dispatch(dontClickRecord());
+                dispatch(dontClickVideo());
+                dispatch(dontClickAudio());
               }
             });
           });

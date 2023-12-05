@@ -21,6 +21,7 @@ const ModalOptionTool = ({ types, titles }) => {
           onClick={() => {
             types("ToText");
             titles("Speech to text");
+
           }}
         >
           <h1>Speech to text</h1>
@@ -33,6 +34,7 @@ const ModalOptionTool = ({ types, titles }) => {
           onClick={() => {
             types("ToText");
             titles("Record to text");
+
           }}
         >
           <h1>Record to text</h1>
@@ -45,6 +47,7 @@ const ModalOptionTool = ({ types, titles }) => {
           onClick={() => {
             types("ToText");
             titles("Image to text");
+
           }}
         >
           <h1>Image to text</h1>

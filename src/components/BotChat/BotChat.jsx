@@ -5,7 +5,7 @@ function BotChat({ closeBotChat }) {
   const [select, setSelect] = useState(false);
 
   return (
-    <div className="overflow-hidden z-10 bg-white border-[#ccc] border-2 w-[360px] h-[55%] fixed right-3 bottom-2 shadow-sm">
+    <div className="overflow-hidden z-50 bg-white border-[#ccc] border-2 w-[360px] h-[55%] fixed right-3 bottom-2 shadow-sm">
       <div className="flex flex-col justify-between">
         <div className="flex justify-between p-2 items-center border-b-2">
           <span className="text-lg font-bold">BOT AI</span>

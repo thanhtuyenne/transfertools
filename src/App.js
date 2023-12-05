@@ -5,8 +5,8 @@ import { TextInput, URLInput } from "./components/Input/Text";
 import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
-import BotChat from "./components/BotChat/BotChat";
-import Customize from "./components/Customize/Customize";
+// import BotChat from "./components/BotChat/BotChat";
+// import Customize from "./components/Customize/Customize";
 // import Drag from "./components/drag/Drag";
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
       typeName: "none",
       list: [
         {
-          id: 1,
+          id: 0,
           type: "none",
           x: 0,
           y: 0,
@@ -162,6 +162,7 @@ function App() {
       </div>
       <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
         <Navbar
+          data={data}
           addElement={addElement}
           isOpenInputText={isOpenInputText}
           isOpenInputURL={isOpenInputURL}
