@@ -81,6 +81,8 @@ function App() {
         y: defaultPosition.y,
         w: defaultSize.w,
         h: defaultSize.h,
+        mw: defaultSize.w,
+        mh: defaultSize.h,
         isSelected: false,
         z: 2,
         children: (

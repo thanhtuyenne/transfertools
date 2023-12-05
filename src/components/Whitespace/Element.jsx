@@ -143,6 +143,7 @@ function Box(props) {
       const dx = event.clientX - x;
       x = event.clientX;
       width += dx;
+      width = width > props.coor.mw ? width : props.coor.mw;
       box.style.width = `${width}px`;
     };
     const onMouseUpRightResize = (event) => {
@@ -165,6 +166,8 @@ function Box(props) {
       const dy = event.clientY - y;
       y = event.clientY;
       height += dy;
+      height = height > props.coor.mh ? height : props.coor.mh;
+
       box.style.height = `${height}px`;
     };
     const onMouseUpBottomResize = (event) => {
@@ -189,6 +192,7 @@ function Box(props) {
       const dx = event.clientX - x;
       x = event.clientX;
       width -= dx;
+      width = width > props.coor.mw ? width : props.coor.mw;
       box.style.width = `${width}px`;
       box.style.setProperty("--left", `${getRef("--left") + dx}px`);
     };
@@ -212,6 +216,7 @@ function Box(props) {
       const dy = event.clientY - y;
       y = event.clientY;
       height -= dy;
+      height = height > props.coor.mh ? height : props.coor.mh;
       box.style.height = `${height}px`;
       box.style.setProperty("--top", `${getRef("--top") + dy}px`);
     };
