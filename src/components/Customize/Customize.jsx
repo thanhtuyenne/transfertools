@@ -36,7 +36,7 @@ function Customize({ title, tools = [] }) {
 
   return (
     <>
-      <div className="bg-white w-[20%] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
+      <div className="bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
         <div className="border-b-2 px-2 w-full">
           <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
             {title}
