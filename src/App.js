@@ -6,6 +6,7 @@ import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
 import { Droppable } from "react-drag-and-drop";
+import Tools from "./components/Customize/Tools";
 
 // import BotChat from "./components/BotChat/BotChat";
 // import Customize from "./components/Customize/Customize";

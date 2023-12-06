@@ -1,7 +1,7 @@
 .modalOption {
     display: flex;
-    width: auto;
-    height: auto;
+    /* width: auto; */
+    /* height: auto; */
     border-radius: 16px;
     border: 1px solid #CCCCCC;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
@@ -9,6 +9,8 @@
     align-items: center;
     flex-direction: column;
     background-color: #fff;
+    max-height: 350px;
+    overflow-y: auto;
 }
 
 .option {
