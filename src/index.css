@@ -140,6 +140,16 @@ code {
   }
 }
 
+@keyframes blurShow {
+  0% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 /* SCROLLBAR CUSTOMIZE */
 
 .scrollar-cus::-webkit-scrollbar {
