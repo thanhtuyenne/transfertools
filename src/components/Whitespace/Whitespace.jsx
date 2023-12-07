@@ -11,6 +11,7 @@ import { dontClickRecord } from "../../redux/clickRecordSlice";
 import { dontClickVideo } from "../../redux/clickVideoSlice";
 import { dontClickAudio } from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
+import Preview from "../Customize/Preview";
 
 function Whitespace(props) {
   const dispatch = useDispatch();
@@ -35,10 +36,12 @@ function Whitespace(props) {
             {
               title: "Text to speech",
               comp: <ToSpeech />,
+              preview: <Preview type="Speech" />
             },
             {
               title: "Text to image",
-              comp: <>Text to image component</>,
+              comp: <></>,
+              preview: <Preview type="Image" />
             },
           ];
           break;
@@ -46,11 +49,18 @@ function Whitespace(props) {
           data.tools = [
             {
               title: "Image to text",
-              comp: <>Image component</>,
+              comp: <></>,
+              preview: <Preview type="Text" />
             },
             {
-              title: "Image to ...",
-              comp: <>Image component</>,
+              title: "Image to video",
+              comp: <></>,
+              preview: <Preview type="Video" />
+            },
+            {
+              title: "Image to audio",
+              comp: <></>,
+              preview: <Preview type="Speech" />
             },
           ];
           break;
@@ -58,23 +68,22 @@ function Whitespace(props) {
           data.tools = [
             {
               title: "Video to text",
-              comp: <>Video component</>,
-            },
-            {
-              title: "Video to ...",
-              comp: <>Video component</>,
-            },
+              comp: <></>,
+              preview: <Preview type="Text" />
+            }
           ];
           break;
         case "Audio":
           data.tools = [
             {
-              title: "Audio to text",
-              comp: <>Audio component</>,
+              title: "Speech to text",
+              comp: <></>,
+              preview: <Preview type="Text" />
             },
             {
-              title: "Audio to ...",
-              comp: <>Audio component</>,
+              title: "Speech to image",
+              comp: <></>,
+              preview: <Preview type="Image" />
             },
           ];
           break;
@@ -82,7 +91,8 @@ function Whitespace(props) {
           data.tools = [
             {
               title: "URL to ...",
-              comp: <>URL component</>,
+              comp: <></>,
+              preview: <></>
             },
           ];
           break;
@@ -90,11 +100,13 @@ function Whitespace(props) {
           data.tools = [
             {
               title: "Record to text",
-              comp: <>Record to text</>,
+              comp: <></>,
+              preview: <Preview type="Text" />
             },
             {
-              title: "Record to ...",
-              comp: <>Record to ...</>,
+              title: "Record to video",
+              comp: <></>,
+              preview: <Preview type="Video" />
             },
           ];
           break;
