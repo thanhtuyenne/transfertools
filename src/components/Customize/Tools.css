@@ -31,11 +31,3 @@
     border-right: 4px solid #4b7bec;
     color: #4b7bec;
 }
-
-.scrollar-cus::-webkit-scrollbar {
-    width: 8px;
-}
-
-.scrollar-cus::-webkit-scrollbar-thumb {
-    background: transparent;
-}

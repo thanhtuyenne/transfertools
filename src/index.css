@@ -139,3 +139,13 @@ code {
     left: 0;
   }
 }
+
+/* SCROLLBAR CUSTOMIZE */
+
+.scrollar-cus::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollar-cus::-webkit-scrollbar-thumb {
+  background: transparent;
+}

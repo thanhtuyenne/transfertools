@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
-import { DownloadSimple } from "@phosphor-icons/react";
 import { useSelector } from "react-redux";
 
 function Customize({ title, tools = [] }) {
@@ -13,8 +12,10 @@ function Customize({ title, tools = [] }) {
   const [currentTool, setCurrentTool] = useState(tools[indexTool].comp);
   const displayToolSelected = useCallback(
     (toolIndex = 0) => {
+      setClick(false);
       setIndexTool(toolIndex);
       setCurrentTool(tools[toolIndex].comp);
+      setPreview(tools[toolIndex].preview);
     },
     [tools]
   );
@@ -22,7 +23,7 @@ function Customize({ title, tools = [] }) {
     setIndexTool(0);
     displayToolSelected(0);
   }, [displayToolSelected, tools]);
-  
+
   const transfer = useSelector((state) => state.typeModel.value);
   const inputText = useSelector((state) => state.clickText.value);
   const inputUrl = useSelector((state) => state.clickUrl.value);
@@ -31,9 +32,12 @@ function Customize({ title, tools = [] }) {
   const inputRecord = useSelector((state) => state.clickRecord.value);
   const inputImage = useSelector((state) => state.clickImage.value);
 
+  const [preview, setPreview] = useState(tools[indexTool].preview);
+  const [clicked, setClick] = useState(false);
+
   return (
     <>
-      <div className="bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
+      <div className="scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
         <div className="bpx-2 w-full">
           <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
             {title}
@@ -55,23 +59,18 @@ function Customize({ title, tools = [] }) {
           (transfer === "Audio" && inputAudio === true) ||
           (transfer === "Record" && inputRecord === true) ||
           (transfer === "URL" && inputUrl === true) ? (
-            <Button title="Transfer" />
+            <Button
+              title="Transfer"
+              onClick={() => {
+                setClick(true);
+              }}
+            />
           ) : (
             <></>
           )}
         </div>
-        <div className="flex items-center justify-between p-2">
-          <p className="text-lg font-bold">Export</p>
-          <div>
-            {" "}
-            <abbr title="Export">
-              <DownloadSimple
-                size={20}
-                className="text-black cursor-pointer hover:text-blue transition-all"
-              />
-            </abbr>
-          </div>
-        </div>
+        {/* PREVIEW */}
+        {clicked && preview}
       </div>
     </>
   );
