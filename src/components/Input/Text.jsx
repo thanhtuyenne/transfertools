@@ -29,6 +29,7 @@ export const TextInput = () => {
 
   const handleChangeInput = (value) => {
     setInputValue(value);
+    localStorage.setItem('text', value);
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
       dispatch(onClickInputText());

@@ -25,7 +25,10 @@ function Customize({ title, tools = [] }) {
   }, [displayToolSelected, tools]);
 
   const transfer = useSelector((state) => state.typeModel.value);
-  const inputText = useSelector((state) => state.clickText.value);
+  const inputText = useSelector((state) => {
+    console.log(state.clickText)
+    return state.clickText.value;
+  });
   const inputUrl = useSelector((state) => state.clickUrl.value);
   const inputVideo = useSelector((state) => state.clickVideo.value);
   const inputAudio = useSelector((state) => state.clickAudio.value);
@@ -34,6 +37,57 @@ function Customize({ title, tools = [] }) {
 
   const [preview, setPreview] = useState(tools[indexTool].preview);
   const [clicked, setClick] = useState(false);
+  const [audioReview, setAudioReview] = useState(<></>);
+  const fetchReq = async () => {
+    
+    var text = localStorage.getItem('text');
+   
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      language: "vi",
+      text: text,
+      output_name: "output",
+      slow_speech: false,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    await fetch("http://103.130.212.204:5000/tts", requestOptions)
+      .then((response) => {
+        // console.log("res", response);
+        return response.json();
+      })
+      .then((result) =>
+        setAudioReview(
+          <audio controls>
+            <source
+              src={`http://103.130.212.204:5000/download/${
+                result.filename.substring(
+                  0,
+                  result.filename.lastIndexOf(".")
+                ) || result.filename
+              }`}
+              type="audio/mp3"
+            />
+          </audio>
+        )
+      )
+      .catch((error) => console.log("error", error));
+  };
+
+  const handleTransfer = async () => {
+    setClick(true);
+    let res = await fetchReq();
+    console.log(res);
+  };
 
   return (
     <>
@@ -59,18 +113,14 @@ function Customize({ title, tools = [] }) {
           (transfer === "Audio" && inputAudio === true) ||
           (transfer === "Record" && inputRecord === true) ||
           (transfer === "URL" && inputUrl === true) ? (
-            <Button
-              title="Transfer"
-              onClick={() => {
-                setClick(true);
-              }}
-            />
+            <Button title="Transfer" onClick={handleTransfer} />
           ) : (
             <></>
           )}
         </div>
         {/* PREVIEW */}
         {clicked && preview}
+        {audioReview}
       </div>
     </>
   );
