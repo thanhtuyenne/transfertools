@@ -25,10 +25,7 @@ function Customize({ title, tools = [] }) {
   }, [displayToolSelected, tools]);
 
   const transfer = useSelector((state) => state.typeModel.value);
-  const inputText = useSelector((state) => {
-    console.log(state.clickText)
-    return state.clickText.value;
-  });
+  const inputText = useSelector((state) => state.clickText.value);
   const inputUrl = useSelector((state) => state.clickUrl.value);
   const inputVideo = useSelector((state) => state.clickVideo.value);
   const inputAudio = useSelector((state) => state.clickAudio.value);
@@ -39,9 +36,7 @@ function Customize({ title, tools = [] }) {
   const [clicked, setClick] = useState(false);
   const [audioReview, setAudioReview] = useState(<></>);
   const fetchReq = async () => {
-    
-    var text = localStorage.getItem('text');
-   
+    var text = localStorage.getItem("text");
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -60,7 +55,7 @@ function Customize({ title, tools = [] }) {
       redirect: "follow",
     };
 
-    await fetch("http://103.130.212.204:5000/tts", requestOptions)
+    await fetch("https://103.130.212.204:5000/tts", requestOptions)
       .then((response) => {
         // console.log("res", response);
         return response.json();
@@ -69,7 +64,7 @@ function Customize({ title, tools = [] }) {
         setAudioReview(
           <audio controls>
             <source
-              src={`http://103.130.212.204:5000/download/${
+              src={`https://103.130.212.204:5000/download/${
                 result.filename.substring(
                   0,
                   result.filename.lastIndexOf(".")
