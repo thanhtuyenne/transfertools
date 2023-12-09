@@ -40,11 +40,14 @@ function Customize({ title, tools = [] }) {
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Access-Control-Request-Headers",
+      "Authorization, Content-Type"
+    );
 
     var raw = JSON.stringify({
-      language: "vi",
-      text: text,
-      output_name: "output",
+      text: "Chào tất cả các bạn test test 2",
+      output_name: "google_output",
       slow_speech: false,
     });
 
@@ -55,7 +58,7 @@ function Customize({ title, tools = [] }) {
       redirect: "follow",
     };
 
-    await fetch("https://103.130.212.204:5000/tts", requestOptions)
+    await fetch("https://103.130.212.204:5000/tts/google", requestOptions)
       .then((response) => {
         // console.log("res", response);
         return response.json();
@@ -64,12 +67,7 @@ function Customize({ title, tools = [] }) {
         setAudioReview(
           <audio controls>
             <source
-              src={`https://103.130.212.204:5000/download/${
-                result.filename.substring(
-                  0,
-                  result.filename.lastIndexOf(".")
-                ) || result.filename
-              }`}
+              src="https://103.130.212.204:5000/download/google_output"
               type="audio/mp3"
             />
           </audio>
