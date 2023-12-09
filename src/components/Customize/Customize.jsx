@@ -46,7 +46,7 @@ function Customize({ title, tools = [] }) {
     );
 
     var raw = JSON.stringify({
-      text: "Chào tất cả các bạn test test 2",
+      text: text,
       output_name: "google_output",
       slow_speech: false,
     });
