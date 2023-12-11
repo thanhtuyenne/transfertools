@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 // import { useSelector } from "react-redux";
 function Box(props) {
   // const dispatch = useDispatch()
@@ -61,6 +62,7 @@ function Box(props) {
     let startMouseX, startMouseY;
     let startX, startY;
     const handleMouseMove = (e) => {
+      // e.stopPropagation();
       let dx, dy;
       // New position of element
       dx = e.clientX - startMouseX + startX;
@@ -70,8 +72,9 @@ function Box(props) {
       ref.current.style.setProperty("--top", `${dy}px`);
     };
     // When user loosen the pointer
-    const handleMouseUp = () => {
+    const handleMouseUp = (e) => {
       // Clean up event listeners
+      // e.stopPropagation();
       ref.current.classList.remove("box-selected");
       document.removeEventListener("mousemove", handleMouseMove);
       // Update state
@@ -96,6 +99,7 @@ function Box(props) {
 
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
+      // e.stopPropagation();
       if (!ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");
@@ -266,47 +270,46 @@ function Box(props) {
   }, [props.coor]);
 
   return (
-    <div
-      ref={ref}
-      className={` bg-white border-[1px] border-black box ${
-        props.coor.isSelected && "box-selected"
-      }`}
-      style={style}
-    >
-      {/* Children here */}
-      {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
-      {props.coor.children}
-      {/* <div>
+      <div
+        ref={ref}
+        className={` bg-white border-[1px] border-black box ${props.coor.isSelected && "box-selected"
+          }`}
+        style={style}
+      >
+        {/* Children here */}
+        {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
+        {props.coor.children}
+        {/* <div>
         My name is
       </div> */}
-      {/* Resizing Bars and Dragging  */}
-      {props.coor.isSelected && (
-        <>
-          {/* Bar resizer */}
-          <div ref={leftResize} className="resizer resizer-left"></div>
-          <div ref={rightResize} className="resizer resizer-right"></div>
-          <div ref={topResize} className="resizer resizer-top"></div>
-          <div ref={bottomResize} className="resizer resizer-bottom"></div>
-          {/* Round resizer */}
-          <div
-            ref={topleftResize}
-            className="resizer resizer-topleft round-resizer"
-          ></div>
-          <div
-            ref={toprightResize}
-            className="resizer resizer-topright round-resizer"
-          ></div>
-          <div
-            ref={bottomleftResize}
-            className="resizer resizer-bottomleft round-resizer"
-          ></div>
-          <div
-            ref={bottomrightResize}
-            className="resizer resizer-bottomright round-resizer"
-          ></div>
-        </>
-      )}
-    </div>
+        {/* Resizing Bars and Dragging  */}
+        {props.coor.isSelected && (
+          <>
+            {/* Bar resizer */}
+            <div ref={leftResize} className="resizer resizer-left"></div>
+            <div ref={rightResize} className="resizer resizer-right"></div>
+            <div ref={topResize} className="resizer resizer-top"></div>
+            <div ref={bottomResize} className="resizer resizer-bottom"></div>
+            {/* Round resizer */}
+            <div
+              ref={topleftResize}
+              className="resizer resizer-topleft round-resizer"
+            ></div>
+            <div
+              ref={toprightResize}
+              className="resizer resizer-topright round-resizer"
+            ></div>
+            <div
+              ref={bottomleftResize}
+              className="resizer resizer-bottomleft round-resizer"
+            ></div>
+            <div
+              ref={bottomrightResize}
+              className="resizer resizer-bottomright round-resizer"
+            ></div>
+          </>
+        )}
+      </div>
   );
 }
 

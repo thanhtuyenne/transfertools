@@ -7,6 +7,7 @@ import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
 import { Droppable } from "react-drag-and-drop";
 import Tools from "./components/Customize/Tools";
+import RightClickMenu from "./components/PopupDragFile/PopupContextMenu";
 
 // import BotChat from "./components/BotChat/BotChat";
 // import Customize from "./components/Customize/Customize";
@@ -50,7 +51,7 @@ function App() {
   ]);
 
   const onDrop = (value) => {
-    console.log("drop ", value);
+    // console.log("drop ", value);
     addElement(value.components);
   };
   const [update, setUpdate] = useState(0);
@@ -96,7 +97,9 @@ function App() {
           <>
             {nameType.map((item) => {
               if (item.name === typeName) {
-                return <>{item.input}</>;
+                return <>
+                    {item.input}
+                </>;
               }
             })}
           </>
@@ -157,7 +160,7 @@ function App() {
       <div>
         <div
           className="w-full"
-          // style={{ height: "100vh", backgroundColor: "#ececec" }}
+        // style={{ height: "100vh", backgroundColor: "#ececec" }}
         >
           <Droppable
             types={["components"]} // <= allowed drop types
