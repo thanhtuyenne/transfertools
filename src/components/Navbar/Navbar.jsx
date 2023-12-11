@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Draggable } from "react-drag-and-drop";
 import Tools from "../Customize/Tools";
 import Popup from "reactjs-popup";
-import { DotsThreeOutline, DotsThreeVertical } from "@phosphor-icons/react";
+import { DotsThreeOutline, DotsThreeOutlineVertical, DotsThreeVertical } from "@phosphor-icons/react";
 import MobileOption from "./MobileOption";
 
 const Navbar = (props) => {
@@ -59,7 +59,7 @@ const Navbar = (props) => {
                 className="box_1 lg:hover:bg-[#686de0] flex flex-col font-bold text-white lg:text-black"
                 onClick={() => {
                   // setIsOpenInputText(true);
-                  // addElement("Text");
+                  addElement("Text");
                 }}
               >
                 <TextT size={32} />

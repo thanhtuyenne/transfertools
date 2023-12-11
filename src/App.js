@@ -151,7 +151,7 @@ function App() {
       <div>
         <Header />
       </div>
-      <div>
+      {/* <div> */}
         <div
           className="w-full"
           // style={{ height: "100vh", backgroundColor: "#ececec" }}
@@ -168,8 +168,8 @@ function App() {
             />
           </Droppable>
         </div>
-      </div>
-      <div className="lg:fixed lg:z-20 lg:bottom-0 lg:left-0 lg:right-0 lg:flex lg:justify-center lg:items-center ">
+      {/* </div> */}
+      <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
         <Navbar
           data={data}
           addElement={addElement}

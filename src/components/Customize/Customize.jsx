@@ -36,8 +36,8 @@ function Customize({ title, tools = [] }) {
   const [clicked, setClick] = useState(false);
 
   return (
-    <>
-      <div className="scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
+    <div className="bg-overlay w-full h-full z-1000 relative">
+      <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey lg:rounded-tr-0 lg:rounded-br-0 lg:rounded-tl-[16px] lg:rounded-bl-[16px] pt-1 px-3 pb-0 lg:fixed lg:right-0 lg:top-[20%]">
         <div className="bpx-2 w-full">
           <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
             {title}
@@ -72,7 +72,7 @@ function Customize({ title, tools = [] }) {
         {/* PREVIEW */}
         {clicked && preview}
       </div>
-    </>
+    </div>
   );
 }
 export default Customize;
