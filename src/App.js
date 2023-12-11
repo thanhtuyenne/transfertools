@@ -148,9 +148,6 @@ function App() {
 
   return (
     <div className="w-full h-screen bg-body relative flex flex-col items-stretch">
-      {/* <button onClick={setToVoice}>To Voice</button>
-      <button onClick={() => setToVoice(false)}>To Text</button>
-      <Customize toVoice={toVoice} /> */}
       <div>
         <Header />
       </div>
@@ -172,23 +169,23 @@ function App() {
           </Droppable>
         </div>
       </div>
-      <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
+      <div className="lg:fixed lg:z-20 lg:bottom-0 lg:left-0 lg:right-0 lg:flex lg:justify-center lg:items-center ">
         <Navbar
           data={data}
           addElement={addElement}
           setDefaultPosition={setDefaultPosition}
-          isOpenInputText={isOpenInputText}
-          isOpenInputURL={isOpenInputURL}
-          isOpenInputAudio={isOpenInputAudio}
-          isOpenInputVide={isOpenInputVideo}
-          isOpenInputImage={isOpenInputImage}
-          isOpenInputRecord={isOpenInputRecord}
-          setIsOpenInputText={setIsOpenInputText}
-          setIsOpenInputURL={setIsOpenInputURL}
-          setIsOpenInputAudio={setIsOpenInputAudio}
-          setIsOpenInputVideo={setIsOpenInputVideo}
-          setIsOpenInputImage={setIsOpenInputImage}
-          setIsOpenInputRecor={setIsOpenInputRecor}
+          // isOpenInputText={isOpenInputText}
+          // isOpenInputURL={isOpenInputURL}
+          // isOpenInputAudio={isOpenInputAudio}
+          // isOpenInputVide={isOpenInputVideo}
+          // isOpenInputImage={isOpenInputImage}
+          // isOpenInputRecord={isOpenInputRecord}
+          // setIsOpenInputText={setIsOpenInputText}
+          // setIsOpenInputURL={setIsOpenInputURL}
+          // setIsOpenInputAudio={setIsOpenInputAudio}
+          // setIsOpenInputVideo={setIsOpenInputVideo}
+          // setIsOpenInputImage={setIsOpenInputImage}
+          // setIsOpenInputRecor={setIsOpenInputRecor}
         />
       </div>
     </div>
