@@ -5,13 +5,13 @@ function Notify({ message }) {
   const [hover, setHover] = useState(false);
   return (
     <div
-      className="cursor-pointer absolute bottom-0 right-0"
+      className="cursor-pointer absolute top-0 right-0"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       <WarningCircle
         size={15}
-        className="text-white bg-red-600 rounded-full absolute bottom-2 right-2 "
+        className="text-white bg-red-600 rounded-full absolute top-2 right-2 "
       />
       {hover && (
         <span className="z-10 absolute bg-red-600 top-0 border-black border-1 bottom-2 w-56 rounded-md p-1 h-[40px] flex items-center ml-2">
