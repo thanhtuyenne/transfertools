@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import PopupDragFile from "../PopupDragFile/PopupDragFile";
-import { Trash } from "@phosphor-icons/react";
+import { Eraser, Trash } from "@phosphor-icons/react";
 import { useEffect } from "react";
 import ContextMenu from "./ContextMenu";
 
@@ -62,7 +62,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
                     onClick={(e) => removeInput(e)}
                     className="rounded-md items-center justify-around w-[150px] border-black bg-red-600 h-[40px] absolute bottom-0 right-0 flex transition-[0.25s] animate-blur-option"
                   >
-                    <Trash size={18} color="white" className="" />
+                    <Eraser size={18} color="white" className="" />
                     <span>Remove file</span>
                   </div>
                   <ContextMenu
