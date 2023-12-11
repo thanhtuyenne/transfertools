@@ -171,12 +171,12 @@ const Navbar = (props) => {
               }}
             >
               <Hammer size={32} />
-            </div>
+          </div>
           </abbr>
           <Popup
             trigger={
-              <div className="flex flex-col items-center">
-                <button className="relative hidden mobileOption">
+              <div className="flex flex-col lg:hidden items-center">
+                <button className="relative mobileOption">
                   <DotsThreeOutline size={32} color="white" />
                 </button>
                 <span className="font-bold text-white">MORE</span>
