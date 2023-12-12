@@ -49,3 +49,31 @@
 .btn-botAI:hover {
     background-color: #2b80b9;
 }
+
+/* RESPONSIVE */
+
+@media (max-width: 320px) {
+    .btn-save {
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin: 15px;
+    }
+
+    .btn-botAI svg {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+@media (min-width: 321px) and (max-width: 768px) {
+    .btn-save {
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin: 15px;
+    }
+
+    .btn-botAI svg {
+        width: 25px;
+        height: 25px;
+    }
+}
