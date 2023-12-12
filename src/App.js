@@ -148,13 +148,10 @@ function App() {
 
   return (
     <div className="w-full h-screen bg-body relative flex flex-col items-stretch">
-      {/* <button onClick={setToVoice}>To Voice</button>
-      <button onClick={() => setToVoice(false)}>To Text</button>
-      <Customize toVoice={toVoice} /> */}
       <div>
         <Header />
       </div>
-      <div>
+      {/* <div> */}
         <div
           className="w-full"
           // style={{ height: "100vh", backgroundColor: "#ececec" }}
@@ -171,24 +168,24 @@ function App() {
             />
           </Droppable>
         </div>
-      </div>
+      {/* </div> */}
       <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
         <Navbar
           data={data}
           addElement={addElement}
           setDefaultPosition={setDefaultPosition}
-          isOpenInputText={isOpenInputText}
-          isOpenInputURL={isOpenInputURL}
-          isOpenInputAudio={isOpenInputAudio}
-          isOpenInputVide={isOpenInputVideo}
-          isOpenInputImage={isOpenInputImage}
-          isOpenInputRecord={isOpenInputRecord}
-          setIsOpenInputText={setIsOpenInputText}
-          setIsOpenInputURL={setIsOpenInputURL}
-          setIsOpenInputAudio={setIsOpenInputAudio}
-          setIsOpenInputVideo={setIsOpenInputVideo}
-          setIsOpenInputImage={setIsOpenInputImage}
-          setIsOpenInputRecor={setIsOpenInputRecor}
+          // isOpenInputText={isOpenInputText}
+          // isOpenInputURL={isOpenInputURL}
+          // isOpenInputAudio={isOpenInputAudio}
+          // isOpenInputVide={isOpenInputVideo}
+          // isOpenInputImage={isOpenInputImage}
+          // isOpenInputRecord={isOpenInputRecord}
+          // setIsOpenInputText={setIsOpenInputText}
+          // setIsOpenInputURL={setIsOpenInputURL}
+          // setIsOpenInputAudio={setIsOpenInputAudio}
+          // setIsOpenInputVideo={setIsOpenInputVideo}
+          // setIsOpenInputImage={setIsOpenInputImage}
+          // setIsOpenInputRecor={setIsOpenInputRecor}
         />
       </div>
     </div>

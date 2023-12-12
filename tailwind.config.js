@@ -15,6 +15,7 @@ module.exports = {
         button: "#3B10E3",
         blue: "#3498DB",
         bgrgba: "rgba(104,109,224,0.1)",
+        overlay: "rgba(0,0,0,0.6)",
       },
       animation: {
         "open-popup": "popup linear .2s",

@@ -1,4 +1,3 @@
-import { ShieldSlash } from "@phosphor-icons/react";
 import {
   GooglePodcastsLogo,
   Hammer,
@@ -9,32 +8,16 @@ import {
   VideoCamera,
 } from "@phosphor-icons/react/dist/ssr";
 import { useSelector } from "react-redux";
-// import { useState } from "react";
-import Popup from "reactjs-popup";
-import ModalOptionTool from "./ModalOptionTools";
 import "./navbar.css";
 import { useState } from "react";
-import Customize from "../Customize/Customize";
 import { Draggable } from "react-drag-and-drop";
 import Tools from "../Customize/Tools";
+import Popup from "reactjs-popup";
+import { DotsThreeOutline, DotsThreeOutlineVertical, DotsThreeVertical } from "@phosphor-icons/react";
+import MobileOption from "./MobileOption";
 
 const Navbar = (props) => {
-  const {
-    addElement,
-    setDefaultPosition,
-    isOpenInputText,
-    isOpenInputURL,
-    isOpenInputAudio,
-    isOpenInputVideo,
-    isOpenInputImage,
-    isOpenInputRecor,
-    setIsOpenInputText,
-    setIsOpenInputURL,
-    setIsOpenInputAudio,
-    setIsOpenInputVideo,
-    setIsOpenInputImage,
-    setIsOpenInputRecor,
-  } = props;
+  const { setDefaultPosition, addElement } = props;
   const showInfo = (e) => {
     if (e.clientX && e.clientY) {
       setDefaultPosition({
@@ -47,11 +30,11 @@ const Navbar = (props) => {
       });
     }
   };
-  const clickText = useSelector((state) => state.clickText.value);
-  const clickImage = useSelector((state) => state.clickImage.value);
+  // const clickText = useSelector((state) => state.clickText.value);
+  // const clickImage = useSelector((state) => state.clickImage.value);
 
-  const [type, setType] = useState(null);
-  const [title, setTitle] = useState(null);
+  // const [type, setType] = useState(null);
+  // const [title, setTitle] = useState(null);
 
   const [openTool, setOpenTool] = useState(false);
   const [activeSetting, setActiveSetting] = useState(false);
@@ -73,13 +56,14 @@ const Navbar = (props) => {
           >
             <abbr title="Text">
               <div
-                className="box_1 hover:bg-[#686de0]"
-                // onClick={() => {
-                //   setIsOpenInputText(true);
-                //   addElement("Text");
-                // }}
+                className="box_1 lg:hover:bg-[#686de0] flex flex-col font-bold text-white lg:text-black"
+                onClick={() => {
+                  // setIsOpenInputText(true);
+                  addElement("Text");
+                }}
               >
                 <TextT size={32} />
+                <span className="lg:hidden">TEXT</span>
               </div>
             </abbr>
           </Draggable>
@@ -91,13 +75,14 @@ const Navbar = (props) => {
           >
             <abbr title="Image">
               <div
-                className="box_1 hover:bg-[#f0932b]"
+                className="box_1 lg:hover:bg-[#f0932b]  flex flex-col font-bold text-white lg:text-black"
                 // onClick={() => {
                 //   setIsOpenInputImage(true);
                 //   addElement("Image");
                 // }}
               >
                 <Image size={32} />
+                <span className="lg:hidden">IMAGE</span>
               </div>
             </abbr>
           </Draggable>
@@ -109,18 +94,19 @@ const Navbar = (props) => {
           >
             <abbr title="Video">
               <div
-                className="box_1 hover:bg-[#6ab04c]"
+                className="box_1 lg:hover:bg-[#6ab04c]  flex flex-col font-bold text-white lg:text-black"
                 // onClick={() => {
                 //   addElement("Video");
                 //   setIsOpenInputVideo(true);
                 // }}
               >
                 <VideoCamera size={32} />
+                <span className="lg:hidden">VIDEO</span>
               </div>
             </abbr>
           </Draggable>
           <Draggable
-            className=" cursor-pointer"
+            className=" cursor-pointer hidden lg:block"
             type="components"
             data="Audio"
             onDrag={() => handleOpenTool()}
@@ -138,7 +124,7 @@ const Navbar = (props) => {
             </abbr>
           </Draggable>
           <Draggable
-            className=" cursor-pointer"
+            className=" cursor-pointer hidden lg:block"
             type="components"
             data="Record"
             onDrag={() => handleOpenTool()}
@@ -156,7 +142,7 @@ const Navbar = (props) => {
             </abbr>
           </Draggable>
           <Draggable
-            className=" cursor-pointer"
+            className=" cursor-pointer hidden lg:block"
             type="components"
             data="URL"
             onDrag={() => handleOpenTool()}
@@ -173,45 +159,9 @@ const Navbar = (props) => {
               </div>
             </abbr>
           </Draggable>
-          {/* <div className="box_line"></div> */}
-
-          {/* <div className="box_1">
-            {(isOpenInputText && click) ||
-              (isOpenInputURL && click) ||
-              (isOpenInputAudio && file) ||
-              (isOpenInputVideo && file) ||
-              (isOpenInputImage && file) ||
-              (isOpenInputRecor && file) ? (
-              <Popup
-                trigger={
-                  <button>
-                    <Hammer size={32} />
-                  </button>
-                }
-                position="top center"
-                offsetY={25}
-                // disabled={true}
-                arrowStyle={{
-                  color: "rgba(0, 0, 0, 0.15)",
-                  width: "30px",
-                  bottom: 0,
-                  right: "-10px",
-                  // border: "1px solid #CCCCCC"
-                }}
-              >
-                <ModalOptionTool types={setType} titles={setTitle} />
-              </Popup>
-            ) : (
-              <div>
-                {
-                  <ShieldSlash size={32} color="red" />
-                }
-              </div>
-            )}
-          </div> */}
           <abbr title="Tools">
             <div
-              className={`box_1 hover:bg-[#7ed6df] ${
+              className={`box_1 hidden lg:block hover:bg-[#7ed6df] ${
                 activeSetting ? "active-setting" : ""
               }`}
               id="setting"
@@ -221,27 +171,31 @@ const Navbar = (props) => {
               }}
             >
               <Hammer size={32} />
-            </div>
+          </div>
           </abbr>
-          {/* <Popup
-              trigger={
-                <button>
-                  <Hammer size={32} />
+          <Popup
+            trigger={
+              <div className="flex flex-col lg:hidden items-center">
+                <button className="relative mobileOption">
+                  <DotsThreeOutline size={32} color="white" />
                 </button>
-              }
-              position="top center"
-              offsetY={25}
-              // disabled={true}
-              // arrowStyle={{
-              //   color: "rgba(0, 0, 0, 0.15)",
-              //   width: "30px",
-              //   bottom: 0,
-              //   right: "-10px",
-              //   // border: "1px solid #CCCCCC"
-              // }}
-            >
-              <ModalOptionTool types={setType} titles={setTitle} />
-            </Popup> */}
+                <span className="font-bold text-white">MORE</span>
+              </div>
+            }
+            // position="top center"
+            // offsetY={25}
+            // disabled={true}
+            // arrowStyle={{
+            //   color: "rgba(0, 0, 0, 0.15)",
+            //   width: "30px",
+            //   bottom: 0,
+            //   right: "-10px",
+            //   // border: "1px solid #CCCCCC"
+            // }}
+          >
+            {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
+            <MobileOption />
+          </Popup>
         </div>
       </div>
       {/* {type === "ToVoice" && (
