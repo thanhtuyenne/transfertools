@@ -12,10 +12,11 @@ import { dontClickVideo } from "../../redux/clickVideoSlice";
 import { dontClickAudio } from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
-import InputOption from "../Navbar/InputOption";
+import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 
 function Whitespace(props) {
   const dispatch = useDispatch();
+  const [onDelete, setOnDelete] = useState(true)
   const [update2, setUpdate2] = useState(0);
   const [isOpenCustomize, setIsOpenCustomize] = useState(false);
   const [DataOpenCustomize, setDataOpenCustomize] = useState({
@@ -123,19 +124,49 @@ function Whitespace(props) {
     <>
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
-          <Element
-            type={element.type}
-            key={index}
-            coor={element}
-            updateCoors={props.updateElement}
-            openCustomize={handleOpenCustomize}
-          />
+          <RightClickMenu setOnDelete={setOnDelete}>
+            <Element
+              type={element.type}
+              key={index}
+              coor={element}
+              updateCoors={props.updateElement}
+              openCustomize={handleOpenCustomize}
+            />
+          </RightClickMenu>
         ))}
     </>
   ));
   useEffect(() => {
     setUpdate2((prev) => prev + 1);
   }, [props.update]);
+
+
+  useEffect(() => {
+    if (onDelete === false) {
+      props.data?.map((typeBlock, idx1) => {
+        typeBlock.list?.map((item, idx2) => {
+          if (item.isSelected) {
+            setIsOpenCustomize(false);
+            // console.log("check:", item,idx1,idx2)
+            removeElement(idx1, idx2);
+            setOnDelete(true)
+          }
+        });
+      });
+    }
+
+    return () => {
+      if (onDelete === false) {
+        props.data?.map((typeBlock, idx1) => {
+          typeBlock.list?.map((item, idx2) => {
+            if (item.isSelected) {
+              removeElement(idx1, idx2);
+            }
+          });
+        });
+      }
+    };
+  }, [onDelete]);
 
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
