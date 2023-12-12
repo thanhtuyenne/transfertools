@@ -1,5 +1,6 @@
 import { PaperPlaneTilt, X } from "@phosphor-icons/react";
 import React, { useState } from "react";
+import "./botchat.css"
 
 function BotChat({ closeBotChat }) {
   const [select, setSelect] = useState(false);
@@ -34,7 +35,6 @@ function BotChat({ closeBotChat }) {
             </div>
           )}
           {/* SELECTED TOPIC */}
-          <div></div>
         </div>
         <div className="bg-white flex border-t-2 w-full items-center absolute bottom-0 h-12">
           <input

@@ -23,7 +23,7 @@ function Customize({ title, tools = [] }) {
   useEffect(() => {
     setIndexTool(0);
     displayToolSelected(0);
-    
+
   }, [displayToolSelected, tools]);
 
 
@@ -38,45 +38,43 @@ function Customize({ title, tools = [] }) {
   const [preview, setPreview] = useState(tools[indexTool].preview);
   const [clicked, setClick] = useState(false);
 
-  const [closePopup, setClosePopup] = useState(false);
-
   return (
     <div className="bg-overlay overlay_customize">
-      <div className="container_customize scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
-        <div className="bpx-2 w-full">
-          <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
-            {title}
-          </div>
-          <Dropdownlist
-            title="Tools"
-            options={tools.map((v) => {
-              return v.title;
-            })}
-            callback={displayToolSelected}
-            selected={indexTool}
-          />
-          {currentTool}
-        </div>
-        <div className="flex justify-end my-2">
-          {(transfer === "Text" && inputText === true) ||
-          (transfer === "Image" && inputImage === true) ||
-          (transfer === "Video" && inputVideo === true) ||
-          (transfer === "Audio" && inputAudio === true) ||
-          (transfer === "Record" && inputRecord === true) ||
-          (transfer === "URL" && inputUrl === true) ? (
-            <Button
-              title="Transfer"
-              onClick={() => {
-                setClick(true);
-              }}
+        <div className=" container_customize scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
+          <div className="bpx-2 w-full">
+            <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
+              {title}
+            </div>
+            <Dropdownlist
+              title="Tools"
+              options={tools.map((v) => {
+                return v.title;
+              })}
+              callback={displayToolSelected}
+              selected={indexTool}
             />
-          ) : (
-            <></>
-          )}
+            {currentTool}
+          </div>
+          <div className="flex justify-end my-2">
+            {(transfer === "Text" && inputText === true) ||
+              (transfer === "Image" && inputImage === true) ||
+              (transfer === "Video" && inputVideo === true) ||
+              (transfer === "Audio" && inputAudio === true) ||
+              (transfer === "Record" && inputRecord === true) ||
+              (transfer === "URL" && inputUrl === true) ? (
+              <Button
+                title="Transfer"
+                onClick={() => {
+                  setClick(true);
+                }}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+          {/* PREVIEW */}
+          {clicked && preview}
         </div>
-        {/* PREVIEW */}
-        {clicked && preview}
-      </div>
     </div>
   );
 }
