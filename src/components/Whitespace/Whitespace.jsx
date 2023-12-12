@@ -140,6 +140,34 @@ function Whitespace(props) {
     setUpdate2((prev) => prev + 1);
   }, [props.update]);
 
+
+  useEffect(() => {
+    if (onDelete === false) {
+      props.data?.map((typeBlock, idx1) => {
+        typeBlock.list?.map((item, idx2) => {
+          if (item.isSelected) {
+            setIsOpenCustomize(false);
+            // console.log("check:", item,idx1,idx2)
+            removeElement(idx1, idx2);
+            setOnDelete(true)
+          }
+        });
+      });
+    }
+
+    return () => {
+      if (onDelete === false) {
+        props.data?.map((typeBlock, idx1) => {
+          typeBlock.list?.map((item, idx2) => {
+            if (item.isSelected) {
+              removeElement(idx1, idx2);
+            }
+          });
+        });
+      }
+    };
+  }, [onDelete]);
+
   useEffect(() => {
     if (onDelete === false) {
       props.data?.map((typeBlock, idx1) => {
