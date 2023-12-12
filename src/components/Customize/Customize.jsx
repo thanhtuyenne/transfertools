@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
 import { useSelector } from "react-redux";
+import './Customize.css';
 
 function Customize({ title, tools = [] }) {
   // const [toolsSelected, setToolsSelected] = useState(0);
@@ -35,9 +36,11 @@ function Customize({ title, tools = [] }) {
   const [preview, setPreview] = useState(tools[indexTool].preview);
   const [clicked, setClick] = useState(false);
 
+  const [closePopup, setClosePopup] = useState(false);
+
   return (
-    <div className="bg-overlay w-full h-full z-1000 relative">
-      <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey lg:rounded-tr-0 lg:rounded-br-0 lg:rounded-tl-[16px] lg:rounded-bl-[16px] pt-1 px-3 pb-0 lg:fixed lg:right-0 lg:top-[20%]">
+    <div className="bg-overlay overlay_customize">
+      <div className="container_customize scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey lg:rounded-tr-0 lg:rounded-br-0 lg:rounded-tl-[16px] lg:rounded-bl-[16px] pt-1 px-3 pb-0 lg:fixed lg:right-0 lg:top-[20%]">
         <div className="bpx-2 w-full">
           <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
             {title}
