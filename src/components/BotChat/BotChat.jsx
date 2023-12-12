@@ -1,6 +1,5 @@
 import { PaperPlaneTilt, X } from "@phosphor-icons/react";
 import React, { useState } from "react";
-import "./botchat.css"
 
 function BotChat({ closeBotChat }) {
   const [select, setSelect] = useState(false);
