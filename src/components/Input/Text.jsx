@@ -14,6 +14,7 @@ import {
 } from "../../redux/clickTextSlice";
 import { dontClickInputUrl, onClickInputUrl } from "../../redux/clickURLSlice";
 import InputOption from "../Navbar/InputOption";
+import Popup from "reactjs-popup";
 
 // export const Noti = (message) => {
 //   return (
@@ -78,13 +79,17 @@ export const TextInput = () => {
         minRows={1}
         maxRows={10}
       />
-      <DotsThreeOutlineVertical
-        size={32}
-        className="lg:hidden text-blue"
-        onClick={() => setInputOption(!inputOption)}
-      />
+      <Popup trigger={
+        <DotsThreeOutlineVertical
+          size={32}
+          className="lg:hidden text-blue"
+          onClick={() => setInputOption(!inputOption)}
+        />
+      }>
+        <InputOption />
+      </Popup>
       {message.length > 0 && <Notify message={message} />}
-      {inputOption && <InputOption />}
+      {/* {inputOption && <InputOption />} */}
     </div>
   );
 };
