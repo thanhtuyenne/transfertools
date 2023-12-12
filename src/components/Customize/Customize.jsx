@@ -41,7 +41,7 @@ function Customize({ title, tools = [] }) {
   const [isHide, setHide] = useState(false);
 
   const handleSlideRight = () => {
-    parentRef.current.style.right = "-13rem";
+    parentRef.current.style.right = "-15rem";
     setHide(true);
   };
 
@@ -53,7 +53,7 @@ function Customize({ title, tools = [] }) {
   return (
     <div
       ref={parentRef}
-      className="z-100 animation-[open-popup] transition-[0.25s] min-h-[150px] max-h-[220px] w-[250px] container_customize scrollar-cus lg:min-h-[350px] lg:max-h-[450px] md:min-h-[350px] md:max-h-[450px] overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]"
+      className="z-100 animation-[open-popup] transition-[0.25s] min-h-[220px] max-h-[300px] w-[280px] container_customize scrollar-cus lg:min-h-[350px] lg:max-h-[450px] md:min-h-[350px] md:max-h-[450px] overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]"
     >
       <div className="bpx-2 w-full">
         <div className="flex items-center justify-between text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
