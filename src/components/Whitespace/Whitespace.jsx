@@ -12,6 +12,7 @@ import { dontClickVideo } from "../../redux/clickVideoSlice";
 import { dontClickAudio } from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
+import InputOption from "../Navbar/InputOption";
 
 function Whitespace(props) {
   const dispatch = useDispatch();
@@ -27,7 +28,9 @@ function Whitespace(props) {
     if (focusElement === element) return;
     dispatch(onTypeModel(typeModel));
     setFocusElement(element);
-    setIsOpenCustomize(true);
+    if (!window.matchMedia("screen and (max-width: 768px)").matches) {
+      setIsOpenCustomize(true);
+    }
     setDataOpenCustomize((data) => {
       data.title = typeModel;
       switch (typeModel) {
@@ -36,12 +39,12 @@ function Whitespace(props) {
             {
               title: "Text to speech",
               comp: <ToSpeech />,
-              preview: <Preview type="Speech" />
+              preview: <Preview type="Speech" />,
             },
             {
               title: "Text to image",
               comp: <></>,
-              preview: <Preview type="Image" />
+              preview: <Preview type="Image" />,
             },
           ];
           break;
@@ -50,17 +53,17 @@ function Whitespace(props) {
             {
               title: "Image to text",
               comp: <></>,
-              preview: <Preview type="Text" />
+              preview: <Preview type="Text" />,
             },
             {
               title: "Image to video",
               comp: <></>,
-              preview: <Preview type="Video" />
+              preview: <Preview type="Video" />,
             },
             {
               title: "Image to audio",
               comp: <></>,
-              preview: <Preview type="Speech" />
+              preview: <Preview type="Speech" />,
             },
           ];
           break;
@@ -69,8 +72,8 @@ function Whitespace(props) {
             {
               title: "Video to text",
               comp: <></>,
-              preview: <Preview type="Text" />
-            }
+              preview: <Preview type="Text" />,
+            },
           ];
           break;
         case "Audio":
@@ -78,12 +81,12 @@ function Whitespace(props) {
             {
               title: "Speech to text",
               comp: <></>,
-              preview: <Preview type="Text" />
+              preview: <Preview type="Text" />,
             },
             {
               title: "Speech to image",
               comp: <></>,
-              preview: <Preview type="Image" />
+              preview: <Preview type="Image" />,
             },
           ];
           break;
@@ -92,7 +95,7 @@ function Whitespace(props) {
             {
               title: "URL to ...",
               comp: <></>,
-              preview: <></>
+              preview: <></>,
             },
           ];
           break;
@@ -101,12 +104,12 @@ function Whitespace(props) {
             {
               title: "Record to text",
               comp: <></>,
-              preview: <Preview type="Text" />
+              preview: <Preview type="Text" />,
             },
             {
               title: "Record to video",
               comp: <></>,
-              preview: <Preview type="Video" />
+              preview: <Preview type="Video" />,
             },
           ];
           break;
@@ -183,25 +186,23 @@ function Whitespace(props) {
   };
 
   return (
-  
-      <div className="w-full bg-repeat whitespace overflow-hidden" id="boxDrop">
-        <div
-          className="w-full"
-          style={{
-            backgroundColor: "rgba(255,255,255,.6)",
-            height: "100vh",
-          }}
-        >
-          {isOpenCustomize && (
-            <Customize
-              title={DataOpenCustomize.title}
-              tools={DataOpenCustomize.tools}
-            />
-          )}
-          {renderedElements}
-        </div>
+    <div className="w-full bg-repeat whitespace overflow-hidden" id="boxDrop">
+      <div
+        className="w-full"
+        style={{
+          backgroundColor: "rgba(255,255,255,.6)",
+          height: "100vh",
+        }}
+      >
+        {isOpenCustomize && (
+          <Customize
+            title={DataOpenCustomize.title}
+            tools={DataOpenCustomize.tools}
+          />
+        )}
+        {renderedElements}
       </div>
- 
+    </div>
   );
 }
 
