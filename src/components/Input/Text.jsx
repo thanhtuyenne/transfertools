@@ -79,17 +79,17 @@ export const TextInput = () => {
         minRows={1}
         maxRows={10}
       />
-      {/* <Popup trigger={
+      <Popup trigger={
         <DotsThreeOutlineVertical
           size={32}
           className="lg:hidden text-blue"
-          onClick={() => setInputOption(!inputOption)}
+          onClick={(e) => {setInputOption(!inputOption); e.stopPropagation();}}
+         
         />
       }>
         <InputOption />
       </Popup>
-      {message.length > 0 && <Notify message={message} />} */}
-      {/* {inputOption && <InputOption />} */}
+      {message.length > 0 && <Notify message={message} />}
     </div>
   );
 };

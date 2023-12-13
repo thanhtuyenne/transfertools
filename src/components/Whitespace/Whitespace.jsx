@@ -1,6 +1,6 @@
 // import { Repeat } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { dontClickInputText } from "../../redux/clickTextSlice";
 import { dontClickImage } from "../../redux/clickImageSlice";
 import Element from "./Element";
@@ -13,8 +13,10 @@ import { dontClickAudio } from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
 import RightClickMenu from "../PopupDragFile/PopupContextMenu";
+import { dontClickDelete } from "../../redux/clickDeletefile";
 
 function Whitespace(props) {
+  const deleteInput  = useSelector(state => state.clickDelete.value)
   const dispatch = useDispatch();
   const [onDelete, setOnDelete] = useState(true);
   const [update2, setUpdate2] = useState(0);
@@ -123,7 +125,7 @@ function Whitespace(props) {
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
           <RightClickMenu
-            setOnDelete={setOnDelete}
+            // setOnDelete={setOnDelete}
           >
             <Element
               type={element.type}
@@ -141,21 +143,21 @@ function Whitespace(props) {
   }, [props.update]);
 
   useEffect(() => {
-    if (onDelete === false) {
+    if (deleteInput === true) {
       props.data?.map((typeBlock, idx1) => {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
             setIsOpenCustomize(false);
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
-            setOnDelete(true);
+            dispatch(dontClickDelete())
           }
         });
       });
     }
 
     return () => {
-      if (onDelete === false) {
+      if (deleteInput === true) {
         props.data?.map((typeBlock, idx1) => {
           typeBlock.list?.map((item, idx2) => {
             if (item.isSelected) {
@@ -165,7 +167,7 @@ function Whitespace(props) {
         });
       }
     };
-  }, [onDelete]);
+  }, [deleteInput]);
 
   useEffect(() => {
     if (onDelete === false) {

@@ -6,15 +6,17 @@ import clickVideoSlice from './clickVideoSlice'
 import clickRecordSlice from './clickRecordSlice'
 import clickAudioSlice from './clickAudioSlice'
 import typeModelSlice from './typeModelSlice'
+import clickDeleteSlice from './clickDeletefile'
 
 export const store = configureStore({
   reducer: {
     clickText: clickTextSlice,
     clickUrl: clickURLSlice,
-    clickImage:clickImageSlice,
+    clickImage: clickImageSlice,
     clickVideo: clickVideoSlice,
-    clickRecord:clickRecordSlice,
-    clickAudio:clickAudioSlice,
+    clickRecord: clickRecordSlice,
+    clickAudio: clickAudioSlice,
     typeModel: typeModelSlice,
+    clickDelete: clickDeleteSlice,
   }
 })

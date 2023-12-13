@@ -44,7 +44,7 @@ function Customize({ title, tools = [], isOpen }) {
   const [clicked, setClick] = useState(false);
 
   const parentRef = useRef();
-  const [isHide, setHide] = useState(false);
+  const [isHide, setHide] = useState(true);
 
   const handleSlideRight = () => {
     // parentRef.current.style.left = "135%";
@@ -57,7 +57,7 @@ function Customize({ title, tools = [], isOpen }) {
         <div
           className="absolute z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
           ref={parentRef}
-          onClick={() => setHide(true)}
+          // onClick={() => setHide(true)}
         >
           <div
             // ref={parentRef}

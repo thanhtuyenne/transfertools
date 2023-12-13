@@ -61,9 +61,6 @@ const Navbar = (props) => {
     };
   }, []);
 
-
-  console.log("check res:", screen)
-
   return (
     <>
       <div className="container1">
