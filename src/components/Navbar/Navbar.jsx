@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { useSelector } from "react-redux";
 import "./navbar.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Draggable } from "react-drag-and-drop";
 import Tools from "../Customize/Tools";
 import Popup from "reactjs-popup";
@@ -39,7 +39,7 @@ const Navbar = (props) => {
 
   // const [type, setType] = useState(null);
   // const [title, setTitle] = useState(null);
-
+  const [screen, setScreen] = useState(window.innerWidth <= 768);
   const [openTool, setOpenTool] = useState(false);
   const [activeSetting, setActiveSetting] = useState(false);
 
@@ -47,6 +47,22 @@ const Navbar = (props) => {
     setOpenTool(false);
     setActiveSetting(false);
   };
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreen(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+  console.log("check res:", screen)
 
   return (
     <>
@@ -63,7 +79,7 @@ const Navbar = (props) => {
                 className="box_1 lg:hover:bg-[#686de0] md:hover:bg-[#686de0] flex flex-col font-bold text-white md:text-black"
                 onClick={() => {
                   // setIsOpenInputText(true);
-                  addElement("Text");
+                  // addElement("Text");
                 }}
               >
                 <TextT size={32} />
@@ -80,10 +96,10 @@ const Navbar = (props) => {
             <abbr title="Image">
               <div
                 className="box_1 lg:hover:bg-[#f0932b] md:hover:bg-[#f0932b] flex flex-col font-bold text-white md:text-black"
-                // onClick={() => {
-                //   setIsOpenInputImage(true);
-                //   addElement("Image");
-                // }}
+              // onClick={() => {
+              //   setIsOpenInputImage(true);
+              //   addElement("Image");
+              // }}
               >
                 <Image size={32} />
                 <span className="lg:hidden md:hidden">IMAGE</span>
@@ -99,107 +115,102 @@ const Navbar = (props) => {
             <abbr title="Video">
               <div
                 className="box_1 lg:hover:bg-[#6ab04c] md:hover:bg-[#6ab04c] flex flex-col font-bold text-white md:text-black"
-                // onClick={() => {
-                //   addElement("Video");
-                //   setIsOpenInputVideo(true);
-                // }}
+              // onClick={() => {
+              //   addElement("Video");
+              //   setIsOpenInputVideo(true);
+              // }}
               >
                 <VideoCamera size={32} />
                 <span className="lg:hidden md:hidden">VIDEO</span>
               </div>
             </abbr>
           </Draggable>
-          <Draggable
-            className=" cursor-pointer"
-            type="components"
-            data="Audio"
-            onDrag={() => handleOpenTool()}
-          >
-            <abbr title="Audio">
-              <div
-                className="hidden md:flex lg:flex box_1 hover:bg-[#f9ca24]"
-                // onClick={() => {
-                //   addElement("Audio");
-                //   setIsOpenInputAudio(true);
-                // }}
+          {
+            screen ?
+              <Popup
+                trigger={
+                  <div className="flex flex-col lg:hidden md:hidden items-center">
+                    <button className="relative mobileOption">
+                      <DotsThreeOutline size={32} color="white" />
+                    </button>
+                    <span className="font-bold text-white">MORE</span>
+                  </div>
+                }
+                arrow={false}
               >
-                <GooglePodcastsLogo size={32} />
-              </div>
-            </abbr>
-          </Draggable>
-          <Draggable
-            className=" cursor-pointer"
-            type="components"
-            data="Record"
-            onDrag={() => handleOpenTool()}
-          >
-            <abbr title="Record">
-              <div
-                className="hidden md:flex lg:flex box_1 hover:bg-[#95afc0]"
-                // onClick={() => {
-                //   addElement("Record");
-                //   setIsOpenInputRecor(true);
-                // }}
-              >
-                <Microphone size={32} />
-              </div>
-            </abbr>
-          </Draggable>
-          <Draggable
-            className=" cursor-pointer"
-            type="components"
-            data="URL"
-            onDrag={() => handleOpenTool()}
-          >
-            <abbr title="URL">
-              <div
-                className="hidden md:flex lg:flex box_1 hover:bg-[#e66767]"
-                // onClick={() => {
-                //   addElement("URL");
-                //   setIsOpenInputURL(true);
-                // }}
-              >
-                <LinkSimple size={32} />
-              </div>
-            </abbr>
-          </Draggable>
-          <abbr title="Tools">
-            <div
-              className={`hidden md:flex lg:flex box_1 hover:bg-[#7ed6df] ${
-                activeSetting ? "active-setting" : ""
-              }`}
-              id="setting"
-              onClick={() => {
-                setOpenTool(!openTool);
-                setActiveSetting(!activeSetting);
-              }}
-            >
-              <Hammer size={32} />
-            </div>
-          </abbr>
-          <Popup
-            trigger={
-              <div className="flex flex-col lg:hidden md:hidden items-center">
-                <button className="relative mobileOption">
-                  <DotsThreeOutline size={32} color="white" />
-                </button>
-                <span className="font-bold text-white">MORE</span>
-              </div>
-            }
-            // position="top center"
-            // offsetY={25}
-            // disabled={true}
-            // arrowStyle={{
-            //   color: "rgba(0, 0, 0, 0.15)",
-            //   width: "30px",
-            //   bottom: 0,
-            //   right: "-10px",
-            //   // border: "1px solid #CCCCCC"
-            // }}
-          >
-            {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
-            <MobileOption />
-          </Popup>
+                {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
+                <MobileOption />
+              </Popup> :
+              <>
+                <Draggable
+                  className=" cursor-pointer"
+                  type="components"
+                  data="Audio"
+                  onDrag={() => handleOpenTool()}
+                >
+                  <abbr title="Audio">
+                    <div
+                      className="md:flex lg:flex box_1 hover:bg-[#f9ca24]"
+                    // onClick={() => {
+                    //   addElement("Audio");
+                    //   setIsOpenInputAudio(true);
+                    // }}
+                    >
+                      <GooglePodcastsLogo size={32} />
+                    </div>
+                  </abbr>
+                </Draggable>
+                <Draggable
+                  className=" cursor-pointer"
+                  type="components"
+                  data="Record"
+                  onDrag={() => handleOpenTool()}
+                >
+                  <abbr title="Record">
+                    <div
+                      className="md:flex lg:flex box_1 hover:bg-[#95afc0]"
+                    // onClick={() => {
+                    //   addElement("Record");
+                    //   setIsOpenInputRecor(true);
+                    // }}
+                    >
+                      <Microphone size={32} />
+                    </div>
+                  </abbr>
+                </Draggable>
+                <Draggable
+                  className=" cursor-pointer"
+                  type="components"
+                  data="URL"
+                  onDrag={() => handleOpenTool()}
+                >
+                  <abbr title="URL">
+                    <div
+                      className="md:flex lg:flex box_1 hover:bg-[#e66767]"
+                    // onClick={() => {
+                    //   addElement("URL");
+                    //   setIsOpenInputURL(true);
+                    // }}
+                    >
+                      <LinkSimple size={32} />
+                    </div>
+                  </abbr>
+                </Draggable>
+                <abbr title="Tools">
+                  <div
+                    className={`md:flex lg:flex box_1 hover:bg-[#7ed6df] ${activeSetting ? "active-setting" : ""
+                      }`}
+                    id="setting"
+                    onClick={() => {
+                      setOpenTool(!openTool);
+                      setActiveSetting(!activeSetting);
+                    }}
+                  >
+                    <Hammer size={32} />
+                  </div>
+                </abbr>
+              </>
+          }
         </div>
       </div>
       {/* {type === "ToVoice" && (

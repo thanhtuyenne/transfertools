@@ -29,9 +29,9 @@ function Whitespace(props) {
     if (focusElement === element) return;
     dispatch(onTypeModel(typeModel));
     setFocusElement(element);
-    if (!window.matchMedia("screen and (max-width: 768px)").matches) {
-      setIsOpenCustomize(true);
-    }
+    // if (!window.matchMedia("screen and (max-width: 768px)").matches) {
+    // }
+    setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
       data.title = typeModel;
       switch (typeModel) {

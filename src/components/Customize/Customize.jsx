@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
 import { useSelector } from "react-redux";
-import './Customize.css';
+// import './Customize.css';
 
 function Customize({ title, tools = [] }) {
   // const [toolsSelected, setToolsSelected] = useState(0);
@@ -39,8 +39,8 @@ function Customize({ title, tools = [] }) {
   const [clicked, setClick] = useState(false);
 
   return (
-    <div className="bg-overlay overlay_customize">
-        <div className=" container_customize scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
+    <div className=" overlay_customize">
+        <div className=" scrollar-cus min-h-[350px] max-h-[450px] overflow-auto bg-white w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed right-0 top-[20%]">
           <div className="bpx-2 w-full">
             <div className="text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
               {title}
