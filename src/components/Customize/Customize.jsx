@@ -51,13 +51,35 @@ function Customize({ title, tools = [], isOpen }) {
     setHide(true);
   };
 
+  function getCurrentDimension() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+
+  // FOR RESPONSIVE
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
+  useEffect(() => {
+    const updateDimension = () => {
+      setScreenSize(getCurrentDimension());
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+      if (screenSize.width >= 768) {
+        setHide(false);
+      }
+    };
+  }, [screenSize]);
+
   return (
     <>
       {!isHide ? (
         <div
           className="absolute z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
           ref={parentRef}
-          // onClick={() => setHide(true)}
         >
           <div
             // ref={parentRef}
