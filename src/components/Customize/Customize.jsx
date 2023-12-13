@@ -74,6 +74,9 @@ function Customize({ title, tools = [], isOpen }) {
     };
   }, [screenSize]);
 
+  useEffect(() => {
+    setScreenSize(getCurrentDimension());
+  })
   return (
     <>
       {!isHide ? (
