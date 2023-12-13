@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
 import { useSelector } from "react-redux";
@@ -35,6 +35,7 @@ function Customize({ title, tools = [] }) {
   const [preview, setPreview] = useState(tools[indexTool].preview);
   const [clicked, setClick] = useState(false);
   const [audioReview, setAudioReview] = useState(<></>);
+  const audio_review = useRef();
   const fetchReq = async () => {
     var text = localStorage.getItem("text");
 
@@ -57,21 +58,24 @@ function Customize({ title, tools = [] }) {
       body: raw,
       redirect: "follow",
     };
-
-    await fetch("https://103.130.212.204:5000/tts/google", requestOptions)
+    
+    await fetch("https://www.netdancetalent.asia/tts/google", requestOptions)
       .then((response) => {
         // console.log("res", response);
         return response.json();
       })
-      .then((result) =>
+      .then((result) =>{
         setAudioReview(
-          <audio controls>
+          <audio controls ref={audio_review}>
             <source
-              src="https://103.130.212.204:5000/download/google_output"
+              src="https://www.netdancetalent.asia/download/google_output"
               type="audio/mp3"
             />
           </audio>
         )
+        audio_review.current.pause();
+        audio_review.current.load();
+        }
       )
       .catch((error) => console.log("error", error));
   };
