@@ -1,7 +1,7 @@
 /* RESPONSIVE */
 /* FOR MOBILE */
 @media (min-width: 375px) and (max-width: 768px) {
-    .overlay_customize {
+    /* .overlay_customize {
         position: relative;
         width: 100%;
         height: inherit;
@@ -13,5 +13,5 @@
         left: 50%;
         transform: translate(-50%, -50%);
         border-radius: 8px;
-    }
+    } */
 }

@@ -29,8 +29,6 @@ function Whitespace(props) {
     if (focusElement === element) return;
     dispatch(onTypeModel(typeModel));
     setFocusElement(element);
-    // if (!window.matchMedia("screen and (max-width: 768px)").matches) {
-    // }
     setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
       data.title = typeModel;
@@ -142,7 +140,6 @@ function Whitespace(props) {
     setUpdate2((prev) => prev + 1);
   }, [props.update]);
 
-
   useEffect(() => {
     if (onDelete === false) {
       props.data?.map((typeBlock, idx1) => {
@@ -151,7 +148,7 @@ function Whitespace(props) {
             setIsOpenCustomize(false);
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
-            setOnDelete(true)
+            setOnDelete(true);
           }
         });
       });
@@ -257,6 +254,7 @@ function Whitespace(props) {
           <Customize
             title={DataOpenCustomize.title}
             tools={DataOpenCustomize.tools}
+            // isOpen={setIsOpenCustomize}
           />
         )}
         {renderedElements}
