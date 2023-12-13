@@ -87,8 +87,8 @@ export const TextInput = () => {
         />
       }>
         <InputOption />
-      </Popup> */}
-      {message.length > 0 && <Notify message={message} />}
+      </Popup>
+      {message.length > 0 && <Notify message={message} />} */}
       {/* {inputOption && <InputOption />} */}
     </div>
   );
