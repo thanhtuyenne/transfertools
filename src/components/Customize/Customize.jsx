@@ -44,42 +44,26 @@ function Customize({ title, tools = [], isOpen }) {
   const [clicked, setClick] = useState(false);
 
   const parentRef = useRef();
-  const [isHide, setHide] = useState(true);
+  const [screen, setScreen] = useState(window.innerWidth >= 768);
+
 
   const handleSlideRight = () => {
-    // parentRef.current.style.left = "135%";
-    setHide(true);
+    setScreen(false);
   };
-
-  function getCurrentDimension() {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-  }
-
-  // FOR RESPONSIVE
-  const [screenSize, setScreenSize] = useState(getCurrentDimension());
   useEffect(() => {
-    const updateDimension = () => {
-      setScreenSize(getCurrentDimension());
+    const handleResize = () => {
+      setScreen(window.innerWidth >= 768);
     };
-    window.addEventListener("resize", updateDimension);
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener("resize", updateDimension);
-      if (screenSize.width >= 768) {
-        setHide(false);
-      }
+      window.removeEventListener('resize', handleResize);
     };
-  }, [screenSize]);
-
-  useEffect(() => {
-    setScreenSize(getCurrentDimension());
-  })
+  }, []);
   return (
     <>
-      {!isHide ? (
+      {screen ? (
         <div
           className="absolute z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
           ref={parentRef}
@@ -98,7 +82,7 @@ function Customize({ title, tools = [], isOpen }) {
                   />
                 )} */}
                 {title}
-                {!isHide && (
+                {screen && (
                   <Minus
                     size={20}
                     className="lg:hidden md:hidden cursor-pointer"
@@ -140,7 +124,7 @@ function Customize({ title, tools = [], isOpen }) {
       ) : (
         <div
           className="md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
-          onClick={() => setHide(false)}
+          onClick={() => setScreen(true)}
         >
           <Swap size={32} className="" color="#3498DB" />
         </div>
