@@ -76,7 +76,7 @@ const Navbar = (props) => {
                 className="box_1 lg:hover:bg-[#686de0] md:hover:bg-[#686de0] flex flex-col font-bold text-white md:text-black"
                 onClick={() => {
                   // setIsOpenInputText(true);
-                  // addElement("Text");
+                  addElement("Text");
                 }}
               >
                 <TextT size={32} />
@@ -93,10 +93,10 @@ const Navbar = (props) => {
             <abbr title="Image">
               <div
                 className="box_1 lg:hover:bg-[#f0932b] md:hover:bg-[#f0932b] flex flex-col font-bold text-white md:text-black"
-              // onClick={() => {
-              //   setIsOpenInputImage(true);
-              //   addElement("Image");
-              // }}
+              onClick={() => {
+                // setIsOpenInputImage(true);
+                addElement("Image");
+              }}
               >
                 <Image size={32} />
                 <span className="lg:hidden md:hidden">IMAGE</span>
@@ -112,10 +112,10 @@ const Navbar = (props) => {
             <abbr title="Video">
               <div
                 className="box_1 lg:hover:bg-[#6ab04c] md:hover:bg-[#6ab04c] flex flex-col font-bold text-white md:text-black"
-              // onClick={() => {
-              //   addElement("Video");
-              //   setIsOpenInputVideo(true);
-              // }}
+              onClick={() => {
+                addElement("Video");
+                // setIsOpenInputVideo(true);
+              }}
               >
                 <VideoCamera size={32} />
                 <span className="lg:hidden md:hidden">VIDEO</span>
@@ -148,10 +148,10 @@ const Navbar = (props) => {
                   <abbr title="Audio">
                     <div
                       className="md:flex lg:flex box_1 hover:bg-[#f9ca24]"
-                    // onClick={() => {
-                    //   addElement("Audio");
-                    //   setIsOpenInputAudio(true);
-                    // }}
+                    onClick={() => {
+                      addElement("Audio");
+                      // setIsOpenInputAudio(true);
+                    }}
                     >
                       <GooglePodcastsLogo size={32} />
                     </div>
@@ -166,10 +166,10 @@ const Navbar = (props) => {
                   <abbr title="Record">
                     <div
                       className="md:flex lg:flex box_1 hover:bg-[#95afc0]"
-                    // onClick={() => {
-                    //   addElement("Record");
-                    //   setIsOpenInputRecor(true);
-                    // }}
+                    onClick={() => {
+                      addElement("Record");
+                      // setIsOpenInputRecor(true);
+                    }}
                     >
                       <Microphone size={32} />
                     </div>
@@ -184,10 +184,10 @@ const Navbar = (props) => {
                   <abbr title="URL">
                     <div
                       className="md:flex lg:flex box_1 hover:bg-[#e66767]"
-                    // onClick={() => {
-                    //   addElement("URL");
-                    //   setIsOpenInputURL(true);
-                    // }}
+                    onClick={() => {
+                      addElement("URL");
+                      // setIsOpenInputURL(true);
+                    }}
                     >
                       <LinkSimple size={32} />
                     </div>

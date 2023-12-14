@@ -22,8 +22,8 @@ function App() {
   const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
 
   const [defaultPosition, setDefaultPosition] = useState({
-    x: 100,
-    y: 500,
+    x: window.innerWidth / 4,
+    y: window.innerHeight / 2,
   });
   const [defaultSize, setDefaultSize] = useState({
     w: 250,
