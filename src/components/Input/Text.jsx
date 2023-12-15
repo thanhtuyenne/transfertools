@@ -79,14 +79,18 @@ export const TextInput = () => {
         minRows={1}
         maxRows={10}
       />
-      <Popup trigger={
-        <DotsThreeOutlineVertical
-          size={32}
-          className="lg:hidden text-blue"
-          onClick={(e) => {setInputOption(!inputOption); e.stopPropagation();}}
-         
-        />
-      }>
+      <Popup
+        trigger={
+          <DotsThreeOutlineVertical
+            size={32}
+            className="lg:hidden text-blue"
+            onClick={(e) => {
+              setInputOption(!inputOption);
+              e.stopPropagation();
+            }}
+          />
+        }
+      >
         <InputOption />
       </Popup>
       {message.length > 0 && <Notify message={message} />}
@@ -119,6 +123,7 @@ export const URLInput = () => {
       dispatch(dontClickInputUrl());
     }
   };
+  const [inputOption, setInputOption] = useState(false);
 
   return (
     <div className="h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
@@ -136,6 +141,20 @@ export const URLInput = () => {
         placeholder="Enter your text ..."
         className="w-full text-black outline-none border-0 border-none focus:ring-0 bg-transparent  "
       />
+      <Popup
+        trigger={
+          <DotsThreeOutlineVertical
+            size={32}
+            className="lg:hidden text-blue"
+            onClick={(e) => {
+              setInputOption(!inputOption);
+              e.stopPropagation();
+            }}
+          />
+        }
+      >
+        <InputOption />
+      </Popup>
       {mess.length > 0 && <Notify message={mess} />}
     </div>
   );

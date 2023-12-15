@@ -48,16 +48,15 @@ const Navbar = (props) => {
     setActiveSetting(false);
   };
 
-
   useEffect(() => {
     const handleResize = () => {
       setScreen(window.innerWidth <= 768);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -93,10 +92,10 @@ const Navbar = (props) => {
             <abbr title="Image">
               <div
                 className="box_1 lg:hover:bg-[#f0932b] md:hover:bg-[#f0932b] flex flex-col font-bold text-white md:text-black"
-              onClick={() => {
-                // setIsOpenInputImage(true);
-                addElement("Image");
-              }}
+                onClick={() => {
+                  // setIsOpenInputImage(true);
+                  addElement("Image");
+                }}
               >
                 <Image size={32} />
                 <span className="lg:hidden md:hidden">IMAGE</span>
@@ -112,102 +111,103 @@ const Navbar = (props) => {
             <abbr title="Video">
               <div
                 className="box_1 lg:hover:bg-[#6ab04c] md:hover:bg-[#6ab04c] flex flex-col font-bold text-white md:text-black"
-              onClick={() => {
-                addElement("Video");
-                // setIsOpenInputVideo(true);
-              }}
+                onClick={() => {
+                  addElement("Video");
+                  // setIsOpenInputVideo(true);
+                }}
               >
                 <VideoCamera size={32} />
                 <span className="lg:hidden md:hidden">VIDEO</span>
               </div>
             </abbr>
           </Draggable>
-          {
-            screen ?
-              <Popup
-                trigger={
-                  <div className="flex flex-col lg:hidden md:hidden items-center">
-                    <button className="relative mobileOption">
-                      <DotsThreeOutline size={32} color="white" />
-                    </button>
-                    <span className="font-bold text-white">MORE</span>
-                  </div>
-                }
-                arrow={false}
+          {screen ? (
+            <Popup
+              trigger={
+                <div className="flex flex-col lg:hidden md:hidden items-center">
+                  <button className="relative mobileOption">
+                    <DotsThreeOutline size={32} color="white" />
+                  </button>
+                  <span className="font-bold text-white">MORE</span>
+                </div>
+              }
+              arrow={false}
+            >
+              {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
+              <MobileOption addElement={addElement} />
+            </Popup>
+          ) : (
+            <>
+              <Draggable
+                className=" cursor-pointer"
+                type="components"
+                data="Audio"
+                onDrag={() => handleOpenTool()}
               >
-                {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
-                <MobileOption />
-              </Popup> :
-              <>
-                <Draggable
-                  className=" cursor-pointer"
-                  type="components"
-                  data="Audio"
-                  onDrag={() => handleOpenTool()}
-                >
-                  <abbr title="Audio">
-                    <div
-                      className="md:flex lg:flex box_1 hover:bg-[#f9ca24]"
+                <abbr title="Audio">
+                  <div
+                    className="md:flex lg:flex box_1 hover:bg-[#f9ca24]"
                     onClick={() => {
                       addElement("Audio");
                       // setIsOpenInputAudio(true);
                     }}
-                    >
-                      <GooglePodcastsLogo size={32} />
-                    </div>
-                  </abbr>
-                </Draggable>
-                <Draggable
-                  className=" cursor-pointer"
-                  type="components"
-                  data="Record"
-                  onDrag={() => handleOpenTool()}
-                >
-                  <abbr title="Record">
-                    <div
-                      className="md:flex lg:flex box_1 hover:bg-[#95afc0]"
+                  >
+                    <GooglePodcastsLogo size={32} />
+                  </div>
+                </abbr>
+              </Draggable>
+              <Draggable
+                className=" cursor-pointer"
+                type="components"
+                data="Record"
+                onDrag={() => handleOpenTool()}
+              >
+                <abbr title="Record">
+                  <div
+                    className="md:flex lg:flex box_1 hover:bg-[#95afc0]"
                     onClick={() => {
                       addElement("Record");
                       // setIsOpenInputRecor(true);
                     }}
-                    >
-                      <Microphone size={32} />
-                    </div>
-                  </abbr>
-                </Draggable>
-                <Draggable
-                  className=" cursor-pointer"
-                  type="components"
-                  data="URL"
-                  onDrag={() => handleOpenTool()}
-                >
-                  <abbr title="URL">
-                    <div
-                      className="md:flex lg:flex box_1 hover:bg-[#e66767]"
+                  >
+                    <Microphone size={32} />
+                  </div>
+                </abbr>
+              </Draggable>
+              <Draggable
+                className=" cursor-pointer"
+                type="components"
+                data="URL"
+                onDrag={() => handleOpenTool()}
+              >
+                <abbr title="URL">
+                  <div
+                    className="md:flex lg:flex box_1 hover:bg-[#e66767]"
                     onClick={() => {
                       addElement("URL");
                       // setIsOpenInputURL(true);
                     }}
-                    >
-                      <LinkSimple size={32} />
-                    </div>
-                  </abbr>
-                </Draggable>
-                <abbr title="Tools">
-                  <div
-                    className={`md:flex lg:flex box_1 hover:bg-[#7ed6df] ${activeSetting ? "active-setting" : ""
-                      }`}
-                    id="setting"
-                    onClick={() => {
-                      setOpenTool(!openTool);
-                      setActiveSetting(!activeSetting);
-                    }}
                   >
-                    <Hammer size={32} />
+                    <LinkSimple size={32} />
                   </div>
                 </abbr>
-              </>
-          }
+              </Draggable>
+              <abbr title="Tools">
+                <div
+                  className={`md:flex lg:flex box_1 hover:bg-[#7ed6df] ${
+                    activeSetting ? "active-setting" : ""
+                  }`}
+                  id="setting"
+                  onClick={() => {
+                    setOpenTool(!openTool);
+                    setActiveSetting(!activeSetting);
+                  }}
+                >
+                  <Hammer size={32} />
+                </div>
+              </abbr>
+            </>
+          )}
         </div>
       </div>
       {/* {type === "ToVoice" && (

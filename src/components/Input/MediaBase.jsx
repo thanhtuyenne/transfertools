@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
 import PopupDragFile from "../PopupDragFile/PopupDragFile";
-import { Eraser, Trash } from "@phosphor-icons/react";
+import { Eraser, Trash, DotsThreeOutlineVertical } from "@phosphor-icons/react";
 import { useEffect } from "react";
 import ContextMenu from "./ContextMenu";
+import { Popup } from "reactjs-popup";
+import InputOption from "../Navbar/InputOption";
 
 function MediaBase({ IconComp, placeholder, accept, callback }) {
   const [popup, setShowPopup] = useState(false);
@@ -39,6 +41,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
     setRightClick(false);
   };
   // document.addEventListener("mousedown", closeContext);
+  const [inputOption, setInputOption] = useState(false);
 
   return (
     <>
@@ -77,6 +80,20 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
             <span className="text-black w-full text-center">{placeholder}</span>
           )}
         </div>
+        <Popup
+          trigger={
+            <DotsThreeOutlineVertical
+              size={32}
+              className="lg:hidden text-blue"
+              onClick={(e) => {
+                setInputOption(!inputOption);
+                e.stopPropagation();
+              }}
+            />
+          }
+        >
+          <InputOption />
+        </Popup>
       </div>
       {popup && file == null && (
         <div className="fixed top-0 left-0 w-full h-full">
