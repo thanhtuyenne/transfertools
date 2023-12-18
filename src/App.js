@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { Audio, Video, Image } from "./components/Input/Media";
 import { TextInput, URLInput } from "./components/Input/Text";
@@ -50,7 +50,8 @@ function App() {
     },
   ]);
 
-  const onDrop = (value) => {
+  const onDrop = (value, e) => {
+    e.stopPropagation();
     // console.log("drop ", value);
     addElement(value.components);
   };
@@ -146,15 +147,19 @@ function App() {
     );
     setUpdate((prev) => prev + 1);
   };
-
   return (
-    <div className="w-full h-screen bg-body relative flex flex-col items-stretch">
+    <div
+      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto
+      "
+      id="ws-container"
+    >
       <div>
         <Header />
       </div>
       {/* <div> */}
       <div
         className="w-full"
+
         // style={{ height: "100vh", backgroundColor: "#ececec" }}
       >
         <Droppable

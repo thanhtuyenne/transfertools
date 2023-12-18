@@ -62,7 +62,7 @@ function Box(props) {
     let startMouseX, startMouseY;
     let startX, startY;
     const handleMouseMove = (e) => {
-      // e.stopPropagation();
+      e.stopPropagation();
       let dx, dy;
       // New position of element
       dx = e.clientX - startMouseX + startX;
@@ -74,7 +74,7 @@ function Box(props) {
     // When user loosen the pointer
     const handleMouseUp = (e) => {
       // Clean up event listeners
-      // e.stopPropagation();
+      e.stopPropagation();
       ref.current.classList.remove("box-selected");
       document.removeEventListener("mousemove", handleMouseMove);
       // Update state
@@ -99,7 +99,7 @@ function Box(props) {
 
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
-      // e.stopPropagation();
+      e.stopPropagation();
       if (!ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");

@@ -1,5 +1,5 @@
 // import { Repeat } from "@phosphor-icons/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dontClickInputText } from "../../redux/clickTextSlice";
 import { dontClickImage } from "../../redux/clickImageSlice";
@@ -242,11 +242,45 @@ function Whitespace(props) {
     data[idx1]?.list?.splice(idx2, 1);
     props.setData(data);
   };
+  const wsRef = useRef();
+  const wsCon = document.getElementById("ws-container");
+  let pos = { top: 0, left: 0, x: 0, y: 0 };
+  const mouseDownHandler = function (e) {
+    if (!wsRef.current.contains(e.target)) return;
+    pos = {
+      // The current scroll
+      left: wsCon.scrollLeft,
+      top: wsCon.scrollTop,
+      // Get the current mouse position
+      x: e.clientX,
+      y: e.clientY,
+    };
+    wsCon.addEventListener("mousemove", mouseMoveHandler);
+    wsCon.addEventListener("mouseup", mouseUpHandler);
+  };
+  if (wsCon) wsCon.addEventListener("mousedown", mouseDownHandler);
+
+  const mouseMoveHandler = function (e) {
+    // How far the mouse has been moved
+    const dx = e.clientX - pos.x;
+    const dy = e.clientY - pos.y;
+
+    // Scroll the element
+    wsCon.scrollTop = pos.top - dy;
+    wsCon.scrollLeft = pos.left - dx;
+  };
+  const mouseUpHandler = function () {
+    wsCon.removeEventListener("mousemove", mouseMoveHandler);
+    wsCon.style.cursor = "grab";
+    wsCon.style.removeProperty("user-select");
+    wsCon.removeEventListener("mouseup", mouseUpHandler);
+  };
 
   return (
     <div
-      className="w-[1000vw] h-[1000vw] bg-repeat whitespace overflow-hidden scrollar-cus "
+      className="w-[1000vw] h-[1000vh] bg-repeat whitespace"
       id="boxDrop"
+      ref={wsRef}
     >
       <div
         className="w-full h-full"
