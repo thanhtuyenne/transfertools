@@ -22,8 +22,8 @@ function App() {
   const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
 
   const [defaultPosition, setDefaultPosition] = useState({
-    x: window.innerWidth / 4,
-    y: window.innerHeight / 2,
+    x: 0,
+    y: 0,
   });
   const [defaultSize, setDefaultSize] = useState({
     w: 250,
@@ -97,9 +97,7 @@ function App() {
           <>
             {nameType.map((item) => {
               if (item.name === typeName) {
-                return <>
-                    {item.input}
-                </>;
+                return <>{item.input}</>;
               }
             })}
           </>
@@ -155,22 +153,22 @@ function App() {
         <Header />
       </div>
       {/* <div> */}
-        <div
-          className="w-full"
+      <div
+        className="w-full"
         // style={{ height: "100vh", backgroundColor: "#ececec" }}
+      >
+        <Droppable
+          types={["components"]} // <= allowed drop types
+          onDrop={onDrop}
         >
-          <Droppable
-            types={["components"]} // <= allowed drop types
-            onDrop={onDrop}
-          >
-            <Whitespace
-              data={data}
-              setData={setData}
-              update={update}
-              updateElement={updateElement}
-            />
-          </Droppable>
-        </div>
+          <Whitespace
+            data={data}
+            setData={setData}
+            update={update}
+            updateElement={updateElement}
+          />
+        </Droppable>
+      </div>
       {/* </div> */}
       <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
         <Navbar

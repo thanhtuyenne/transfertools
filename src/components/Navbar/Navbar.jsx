@@ -24,13 +24,20 @@ const Navbar = (props) => {
   const { setDefaultPosition, addElement } = props;
   const showInfo = (e) => {
     if (e.clientX && e.clientY) {
+      const workspace = document.querySelector(".whitespace");
+      let rect;
+      if (workspace) {
+        rect = workspace.getBoundingClientRect();
+      }
       setDefaultPosition({
-        x: e.clientX - window.innerWidth * 0.13,
-        y:
-          window.innerHeight -
-          e.clientY -
-          99.6 +
-          (e.target.parentNode.title ? -400 : 60),
+        // x: e.clientX - window.innerWidth * 0.13,
+        // y:
+        //   window.innerHeight -
+        //   e.clientY -
+        //   99.6 +
+        //   (e.target.parentNode.title ? -400 : 60),
+        x: e.clientX - 250 / 2 + window.scrollX,
+        y: rect.height - window.scrollY - 150 / 2 - e.clientY,
       });
     }
   };
@@ -48,6 +55,18 @@ const Navbar = (props) => {
     setActiveSetting(false);
   };
 
+  const setCenterDefaultrPositionBox = () => {
+    setDefaultPosition({
+      x: window.scrollX + window.innerWidth / 2 - 250 / 2,
+      y: 0,
+    });
+  };
+
+  const handleClickAddElement = (type) => {
+    // setIsOpenInputText(true);
+    setCenterDefaultrPositionBox();
+    addElement(type);
+  };
   useEffect(() => {
     const handleResize = () => {
       setScreen(window.innerWidth <= 768);
@@ -73,8 +92,8 @@ const Navbar = (props) => {
             <abbr title="Text">
               <div
                 className="box_1 lg:hover:bg-[#686de0] md:hover:bg-[#686de0] flex flex-col font-bold text-white md:text-black"
-                onClick={() => {
-                  // setIsOpenInputText(true);
+                onClick={(e) => {
+                  setCenterDefaultrPositionBox();
                   addElement("Text");
                 }}
               >

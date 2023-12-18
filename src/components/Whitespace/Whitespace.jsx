@@ -16,7 +16,7 @@ import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 import { dontClickDelete } from "../../redux/clickDeletefile";
 
 function Whitespace(props) {
-  const deleteInput  = useSelector(state => state.clickDelete.value)
+  const deleteInput = useSelector((state) => state.clickDelete.value);
   const dispatch = useDispatch();
   const [onDelete, setOnDelete] = useState(true);
   const [update2, setUpdate2] = useState(0);
@@ -125,7 +125,7 @@ function Whitespace(props) {
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
           <RightClickMenu
-            // setOnDelete={setOnDelete}
+          // setOnDelete={setOnDelete}
           >
             <Element
               type={element.type}
@@ -150,7 +150,7 @@ function Whitespace(props) {
             setIsOpenCustomize(false);
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
-            dispatch(dontClickDelete())
+            dispatch(dontClickDelete());
           }
         });
       });
@@ -177,7 +177,7 @@ function Whitespace(props) {
             setIsOpenCustomize(false);
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
-            setOnDelete(true)
+            setOnDelete(true);
           }
         });
       });
@@ -187,14 +187,14 @@ function Whitespace(props) {
             typeBlock.list?.map((item, idx2) => {
               if (item.isSelected) {
                 removeElement(idx1, idx2);
-                setOnDelete(true)
+                setOnDelete(true);
               }
             });
           });
         }
-      }
+      };
     }
-  }, [onDelete])
+  }, [onDelete]);
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Backspace") {
@@ -244,12 +244,14 @@ function Whitespace(props) {
   };
 
   return (
-    <div className="w-full bg-repeat whitespace overflow-hidden" id="boxDrop">
+    <div
+      className="w-[1000vw] h-[1000vw] bg-repeat whitespace overflow-hidden scrollar-cus "
+      id="boxDrop"
+    >
       <div
-        className="w-full"
+        className="w-full h-full"
         style={{
           backgroundColor: "rgba(255,255,255,.6)",
-          height: "100vh",
         }}
       >
         {isOpenCustomize && (

@@ -270,46 +270,47 @@ function Box(props) {
   }, [props.coor]);
 
   return (
-      <div
-        ref={ref}
-        className={` bg-white border-[1px] border-black box ${props.coor.isSelected && "box-selected"
-          }`}
-        style={style}
-      >
-        {/* Children here */}
-        {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
-        {props.coor.children}
-        {/* <div>
+    <div
+      ref={ref}
+      className={` bg-white border-[1px] border-black box ${
+        props.coor.isSelected && "box-selected"
+      }`}
+      style={style}
+    >
+      {/* Children here */}
+      {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
+      {props.coor.children}
+      {/* <div>
         My name is
       </div> */}
-        {/* Resizing Bars and Dragging  */}
-        {props.coor.isSelected && (
-          <>
-            {/* Bar resizer */}
-            <div ref={leftResize} className="resizer resizer-left"></div>
-            <div ref={rightResize} className="resizer resizer-right"></div>
-            <div ref={topResize} className="resizer resizer-top"></div>
-            <div ref={bottomResize} className="resizer resizer-bottom"></div>
-            {/* Round resizer */}
-            <div
-              ref={topleftResize}
-              className="resizer resizer-topleft round-resizer"
-            ></div>
-            <div
-              ref={toprightResize}
-              className="resizer resizer-topright round-resizer"
-            ></div>
-            <div
-              ref={bottomleftResize}
-              className="resizer resizer-bottomleft round-resizer"
-            ></div>
-            <div
-              ref={bottomrightResize}
-              className="resizer resizer-bottomright round-resizer"
-            ></div>
-          </>
-        )}
-      </div>
+      {/* Resizing Bars and Dragging  */}
+      {props.coor.isSelected && (
+        <>
+          {/* Bar resizer */}
+          <div ref={leftResize} className="resizer resizer-left"></div>
+          <div ref={rightResize} className="resizer resizer-right"></div>
+          <div ref={topResize} className="resizer resizer-top"></div>
+          <div ref={bottomResize} className="resizer resizer-bottom"></div>
+          {/* Round resizer */}
+          <div
+            ref={topleftResize}
+            className="resizer resizer-topleft round-resizer"
+          ></div>
+          <div
+            ref={toprightResize}
+            className="resizer resizer-topright round-resizer"
+          ></div>
+          <div
+            ref={bottomleftResize}
+            className="resizer resizer-bottomleft round-resizer"
+          ></div>
+          <div
+            ref={bottomrightResize}
+            className="resizer resizer-bottomright round-resizer"
+          ></div>
+        </>
+      )}
+    </div>
   );
 }
 
