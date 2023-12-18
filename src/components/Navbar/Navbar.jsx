@@ -21,7 +21,7 @@ import {
 import MobileOption from "./MobileOption";
 
 const Navbar = (props) => {
-  const { setDefaultPosition, addElement } = props;
+  const { setDefaultPosition, addElement, isActive } = props;
   // const wsContainer = document.getElementById("ws-container");
   const showInfo = (e) => {
     e.stopPropagation();
@@ -91,7 +91,7 @@ const Navbar = (props) => {
       <div className="container1">
         <div className="navbar" onDrag={showInfo}>
           <Draggable
-            className=" cursor-pointer"
+            className=" cursord-pointer"
             type="components"
             data="Text"
             onDrag={() => handleOpenTool()}
@@ -120,8 +120,10 @@ const Navbar = (props) => {
             <abbr title="Image">
               <div
                 className="box_1 lg:hover:bg-[#f0932b] md:hover:bg-[#f0932b] flex flex-col font-bold text-white md:text-black"
-                onClick={() => {
-                  // setIsOpenInputImage(true);
+                onMouseDown={(e) => {
+                  setCenterDefaultrPositionBox();
+                }}
+                onMouseUp={(e) => {
                   addElement("Image");
                 }}
               >
@@ -139,9 +141,11 @@ const Navbar = (props) => {
             <abbr title="Video">
               <div
                 className="box_1 lg:hover:bg-[#6ab04c] md:hover:bg-[#6ab04c] flex flex-col font-bold text-white md:text-black"
-                onClick={() => {
+                onMouseDown={(e) => {
+                  setCenterDefaultrPositionBox();
+                }}
+                onMouseUp={(e) => {
                   addElement("Video");
-                  // setIsOpenInputVideo(true);
                 }}
               >
                 <VideoCamera size={32} />
@@ -175,9 +179,11 @@ const Navbar = (props) => {
                 <abbr title="Audio">
                   <div
                     className="md:flex lg:flex box_1 hover:bg-[#f9ca24]"
-                    onClick={() => {
+                    onMouseDown={(e) => {
+                      setCenterDefaultrPositionBox();
+                    }}
+                    onMouseUp={(e) => {
                       addElement("Audio");
-                      // setIsOpenInputAudio(true);
                     }}
                   >
                     <GooglePodcastsLogo size={32} />
@@ -193,9 +199,11 @@ const Navbar = (props) => {
                 <abbr title="Record">
                   <div
                     className="md:flex lg:flex box_1 hover:bg-[#95afc0]"
-                    onClick={() => {
+                    onMouseDown={(e) => {
+                      setCenterDefaultrPositionBox();
+                    }}
+                    onMouseUp={(e) => {
                       addElement("Record");
-                      // setIsOpenInputRecor(true);
                     }}
                   >
                     <Microphone size={32} />
@@ -211,9 +219,11 @@ const Navbar = (props) => {
                 <abbr title="URL">
                   <div
                     className="md:flex lg:flex box_1 hover:bg-[#e66767]"
-                    onClick={() => {
+                    onMouseDown={(e) => {
+                      setCenterDefaultrPositionBox();
+                    }}
+                    onMouseUp={(e) => {
                       addElement("URL");
-                      // setIsOpenInputURL(true);
                     }}
                   >
                     <LinkSimple size={32} />

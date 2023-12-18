@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { GearSix } from "@phosphor-icons/react";
+import Popup from "reactjs-popup";
+import Setting from "../Setting/Setting";
 
 function ToggleSwitch() {
   const [toggle, setToggle] = useState(false);
@@ -7,22 +9,19 @@ function ToggleSwitch() {
     setToggle(!toggle);
   };
   return (
-    <>
-      <div
-        className={`relative border-2 rounded-full w-[90px] h-[40px] ml-2 ${
-          !toggle ? `bg-white border-[#3498DB]` : `bg-[#3498DB] border-none`
-        }`}
+    <div>
+      <Popup
+        trigger={
+          <div className="relative flex items-center font-bold bg-[#3498DB] text-white w-[110px] cursor-pointer p-2 rounded-md justify-between">
+            <span className="text-lg">Setting</span>
+            <GearSix size={26} />
+          </div>
+        }
+        arrow={false}
       >
-        <div
-          className={`ml-1 p-1 cursor-pointer absolute rounded-full transition-[1.5s] top-[50%] translate-y-[-50%] ${
-            !toggle ? `bg-[#3498DB] left-0 ` : `left-[50%] bg-white`
-          }`}
-          onClick={() => handleChange()}
-        >
-          <GearSix size={26} color={!toggle ? "white" : "#3498DB"} />
-        </div>
-      </div>
-    </>
+        <Setting />
+      </Popup>
+    </div>
   );
 }
 
