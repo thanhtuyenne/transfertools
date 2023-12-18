@@ -91,7 +91,7 @@ const Navbar = (props) => {
       <div className="container1">
         <div className="navbar" onDrag={showInfo}>
           <Draggable
-            className=" cursord-pointer"
+            className=" cursor-pointer"
             type="components"
             data="Text"
             onDrag={() => handleOpenTool()}
@@ -100,9 +100,11 @@ const Navbar = (props) => {
               <div
                 className="box_1 lg:hover:bg-[#686de0] md:hover:bg-[#686de0] flex flex-col font-bold text-white md:text-black"
                 onMouseDown={(e) => {
+                  e.stopPropagation();
                   setCenterDefaultrPositionBox();
                 }}
                 onMouseUp={(e) => {
+                  e.stopPropagation();
                   addElement("Text");
                 }}
               >
@@ -121,9 +123,11 @@ const Navbar = (props) => {
               <div
                 className="box_1 lg:hover:bg-[#f0932b] md:hover:bg-[#f0932b] flex flex-col font-bold text-white md:text-black"
                 onMouseDown={(e) => {
+                  e.stopPropagation();
                   setCenterDefaultrPositionBox();
                 }}
                 onMouseUp={(e) => {
+                  e.stopPropagation();
                   addElement("Image");
                 }}
               >
@@ -142,9 +146,11 @@ const Navbar = (props) => {
               <div
                 className="box_1 lg:hover:bg-[#6ab04c] md:hover:bg-[#6ab04c] flex flex-col font-bold text-white md:text-black"
                 onMouseDown={(e) => {
+                  e.stopPropagation();
                   setCenterDefaultrPositionBox();
                 }}
                 onMouseUp={(e) => {
+                  e.stopPropagation();
                   addElement("Video");
                 }}
               >
@@ -180,9 +186,11 @@ const Navbar = (props) => {
                   <div
                     className="md:flex lg:flex box_1 hover:bg-[#f9ca24]"
                     onMouseDown={(e) => {
+                      e.stopPropagation();
                       setCenterDefaultrPositionBox();
                     }}
                     onMouseUp={(e) => {
+                      e.stopPropagation();
                       addElement("Audio");
                     }}
                   >
@@ -200,9 +208,11 @@ const Navbar = (props) => {
                   <div
                     className="md:flex lg:flex box_1 hover:bg-[#95afc0]"
                     onMouseDown={(e) => {
+                      e.stopPropagation();
                       setCenterDefaultrPositionBox();
                     }}
                     onMouseUp={(e) => {
+                      e.stopPropagation();
                       addElement("Record");
                     }}
                   >
@@ -220,9 +230,11 @@ const Navbar = (props) => {
                   <div
                     className="md:flex lg:flex box_1 hover:bg-[#e66767]"
                     onMouseDown={(e) => {
+                      e.stopPropagation();
                       setCenterDefaultrPositionBox();
                     }}
                     onMouseUp={(e) => {
+                      e.stopPropagation();
                       addElement("URL");
                     }}
                   >

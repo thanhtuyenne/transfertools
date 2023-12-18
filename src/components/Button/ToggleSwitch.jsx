@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import { GearSix } from "@phosphor-icons/react";
 import Popup from "reactjs-popup";
-import Setting from "../Setting/Setting";
+import PopupSetting from "../PopupSetting/PopupSetting";
 
 function ToggleSwitch() {
-  const [toggle, setToggle] = useState(false);
-  const handleChange = () => {
-    setToggle(!toggle);
-  };
   return (
     <div>
       <Popup
@@ -17,9 +13,10 @@ function ToggleSwitch() {
             <GearSix size={26} />
           </div>
         }
+        closeOnDocumentClick={false}
         arrow={false}
       >
-        <Setting />
+        <PopupSetting />
       </Popup>
     </div>
   );

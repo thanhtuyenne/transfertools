@@ -269,7 +269,8 @@ function Whitespace(props) {
     wsCon.scrollTop = pos.top - dy;
     wsCon.scrollLeft = pos.left - dx;
   };
-  const mouseUpHandler = function () {
+  const mouseUpHandler = function (e) {
+    e.stopPropagation();
     wsCon.removeEventListener("mousemove", mouseMoveHandler);
     wsCon.style.cursor = "grab";
     wsCon.style.removeProperty("user-select");
