@@ -1,6 +1,6 @@
 .headerTrans {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     z-index: 100;
     width: 100%;
@@ -8,6 +8,7 @@
     background-color: #2f3640;
     position: fixed;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding: 0 12px;
 }
 
 .btn-save {
@@ -48,4 +49,32 @@
 
 .btn-botAI:hover {
     background-color: #2b80b9;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 320px) {
+    .btn-save {
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin: 15px;
+    }
+
+    .btn-botAI svg {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+@media (min-width: 321px) and (max-width: 768px) {
+    .btn-save {
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin: 15px;
+    }
+
+    .btn-botAI svg {
+        width: 25px;
+        height: 25px;
+    }
 }

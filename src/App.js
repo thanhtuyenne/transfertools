@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { Audio, Video, Image } from "./components/Input/Media";
 import { TextInput, URLInput } from "./components/Input/Text";
@@ -7,6 +7,9 @@ import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
 import { Droppable } from "react-drag-and-drop";
 import Tools from "./components/Customize/Tools";
+import RightClickMenu from "./components/PopupDragFile/PopupContextMenu";
+import Draggable from "react-draggable";
+import { useSelector } from "react-redux";
 
 // import BotChat from "./components/BotChat/BotChat";
 // import Customize from "./components/Customize/Customize";
@@ -21,8 +24,8 @@ function App() {
   const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
 
   const [defaultPosition, setDefaultPosition] = useState({
-    x: 100,
-    y: 500,
+    x: 0,
+    y: 0,
   });
   const [defaultSize, setDefaultSize] = useState({
     w: 250,
@@ -49,8 +52,9 @@ function App() {
     },
   ]);
 
-  const onDrop = (value) => {
-    console.log("drop ", value);
+  const onDrop = (value, e) => {
+    e.stopPropagation();
+    // console.log("drop ", value);
     addElement(value.components);
   };
   const [update, setUpdate] = useState(0);
@@ -146,51 +150,40 @@ function App() {
     setUpdate((prev) => prev + 1);
   };
 
+  const toolbox = useSelector((state) => state.toolbox.value);
+
   return (
-    <div className="w-full h-screen bg-body relative flex flex-col items-stretch">
-      {/* <button onClick={setToVoice}>To Voice</button>
-      <button onClick={() => setToVoice(false)}>To Text</button>
-      <Customize toVoice={toVoice} /> */}
+    <div
+      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto
+      "
+      id="ws-container"
+    >
       <div>
         <Header />
       </div>
-      <div>
-        <div
-          className="w-full"
-          // style={{ height: "100vh", backgroundColor: "#ececec" }}
+      <div className="w-full">
+        <Droppable
+          types={["components"]} // <= allowed drop types
+          onDrop={onDrop}
         >
-          <Droppable
-            types={["components"]} // <= allowed drop types
-            onDrop={onDrop}
-          >
-            <Whitespace
-              data={data}
-              setData={setData}
-              update={update}
-              updateElement={updateElement}
-            />
-          </Droppable>
+          <Whitespace
+            data={data}
+            setData={setData}
+            update={update}
+            updateElement={updateElement}
+          />
+        </Droppable>
+      </div>
+      {/* </div> */}
+      <Draggable disabled={!toolbox}>
+        <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
+          <Navbar
+            data={data}
+            addElement={addElement}
+            setDefaultPosition={setDefaultPosition}
+          />
         </div>
-      </div>
-      <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
-        <Navbar
-          data={data}
-          addElement={addElement}
-          setDefaultPosition={setDefaultPosition}
-          isOpenInputText={isOpenInputText}
-          isOpenInputURL={isOpenInputURL}
-          isOpenInputAudio={isOpenInputAudio}
-          isOpenInputVide={isOpenInputVideo}
-          isOpenInputImage={isOpenInputImage}
-          isOpenInputRecord={isOpenInputRecord}
-          setIsOpenInputText={setIsOpenInputText}
-          setIsOpenInputURL={setIsOpenInputURL}
-          setIsOpenInputAudio={setIsOpenInputAudio}
-          setIsOpenInputVideo={setIsOpenInputVideo}
-          setIsOpenInputImage={setIsOpenInputImage}
-          setIsOpenInputRecor={setIsOpenInputRecor}
-        />
-      </div>
+      </Draggable>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 // import { useSelector } from "react-redux";
 function Box(props) {
   // const dispatch = useDispatch()
@@ -61,6 +62,7 @@ function Box(props) {
     let startMouseX, startMouseY;
     let startX, startY;
     const handleMouseMove = (e) => {
+      e.stopPropagation();
       let dx, dy;
       // New position of element
       dx = e.clientX - startMouseX + startX;
@@ -70,8 +72,9 @@ function Box(props) {
       ref.current.style.setProperty("--top", `${dy}px`);
     };
     // When user loosen the pointer
-    const handleMouseUp = () => {
+    const handleMouseUp = (e) => {
       // Clean up event listeners
+      e.stopPropagation();
       ref.current.classList.remove("box-selected");
       document.removeEventListener("mousemove", handleMouseMove);
       // Update state
@@ -96,6 +99,7 @@ function Box(props) {
 
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
+      e.stopPropagation();
       if (!ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");

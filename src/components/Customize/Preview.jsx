@@ -5,23 +5,23 @@ import {
   TextT,
   VideoCamera,
 } from "@phosphor-icons/react";
-import React from "react";
+import React, { forwardRef, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
-function Preview({ type}) {
+const Preview = forwardRef(function Preview({ type }, ref) {
   return (
     <>
       {/* PREVIEW */}
       <div className="w-full border-t-2 py-2 flex flex-col">
         <span className="text-lg font-bold pt-2 w-full mb-1 pb-3">Preview</span>
-        {type === "Speech" &&  (
+        {type === "Speech" && (
           <div className="cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
             <GooglePodcastsLogo
               size={25}
               className="text-blue mr-2 shrink-0 flex-0"
             />
             <div className="outline-none border-0 border-none focus:ring-0 h-full flex items-center justify-center flex-1">
-              <audio controls autoPlay className="w-full">
+              <audio ref={ref} controls autoPlay className="w-full">
                 <source src="" type="audio/mpeg" />
               </audio>
             </div>
@@ -61,26 +61,26 @@ function Preview({ type}) {
           </div>
         )}
       </div>
-        <div className="flex items-center justify-between p-2">
-          <p className="text-lg font-bold">Export</p>
-          <div>
-            {" "}
-            <abbr title="Export">
-              <DownloadSimple
-                size={20}
-                className="text-black cursor-pointer hover:text-blue transition-all"
-              />
-            </abbr>
-          </div>
+      <div className="flex items-center justify-between p-2">
+        <p className="text-lg font-bold">Export</p>
+        <div>
+          {" "}
+          <abbr title="Export">
+            <DownloadSimple
+              size={20}
+              className="text-black cursor-pointer hover:text-blue transition-all"
+            />
+          </abbr>
         </div>
-        {/* SHOW WHEN CAN NOT TRANSFER */}
-        {/* <>
+      </div>
+      {/* SHOW WHEN CAN NOT TRANSFER */}
+      {/* <>
             <div className="text-center cursor-pointer w-full h-full bg-white border-red-600 border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
               <span className="w-full text-red-600">CAN NOT TRANSFER</span>
             </div>
           </> */}
     </>
   );
-}
+});
 
 export default Preview;

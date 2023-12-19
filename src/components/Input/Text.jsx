@@ -1,6 +1,11 @@
 import React, { useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { TextT, LinkSimple, Microphone } from "@phosphor-icons/react";
+import {
+  TextT,
+  LinkSimple,
+  Microphone,
+  DotsThreeOutlineVertical,
+} from "@phosphor-icons/react";
 import Notify from "../Notify/Notify";
 import { useDispatch } from "react-redux";
 import {
@@ -8,6 +13,8 @@ import {
   onClickInputText,
 } from "../../redux/clickTextSlice";
 import { dontClickInputUrl, onClickInputUrl } from "../../redux/clickURLSlice";
+import InputOption from "../Navbar/InputOption";
+import Popup from "reactjs-popup";
 
 // export const Noti = (message) => {
 //   return (
@@ -46,6 +53,8 @@ export const TextInput = () => {
     setMessage("");
   };
 
+  const [inputOption, setInputOption] = useState(false);
+
   return (
     <div className="bg-white w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
       <TextT size={25} className="text-blue bg-transparent mr-2" />
@@ -71,6 +80,20 @@ export const TextInput = () => {
         minRows={1}
         maxRows={10}
       />
+      <Popup
+        trigger={
+          <DotsThreeOutlineVertical
+            size={32}
+            className="lg:hidden text-blue"
+            onClick={(e) => {
+              setInputOption(!inputOption);
+              e.stopPropagation();
+            }}
+          />
+        }
+      >
+        <InputOption />
+      </Popup>
       {message.length > 0 && <Notify message={message} />}
     </div>
   );
@@ -101,6 +124,7 @@ export const URLInput = () => {
       dispatch(dontClickInputUrl());
     }
   };
+  const [inputOption, setInputOption] = useState(false);
 
   return (
     <div className="h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
@@ -118,6 +142,20 @@ export const URLInput = () => {
         placeholder="Enter your text ..."
         className="w-full text-black outline-none border-0 border-none focus:ring-0 bg-transparent  "
       />
+      <Popup
+        trigger={
+          <DotsThreeOutlineVertical
+            size={32}
+            className="lg:hidden text-blue"
+            onClick={(e) => {
+              setInputOption(!inputOption);
+              e.stopPropagation();
+            }}
+          />
+        }
+      >
+        <InputOption />
+      </Popup>
       {mess.length > 0 && <Notify message={mess} />}
     </div>
   );

@@ -1,6 +1,6 @@
 // import { Repeat } from "@phosphor-icons/react";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { dontClickInputText } from "../../redux/clickTextSlice";
 import { dontClickImage } from "../../redux/clickImageSlice";
 import Element from "./Element";
@@ -12,9 +12,13 @@ import { dontClickVideo } from "../../redux/clickVideoSlice";
 import { dontClickAudio } from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
+import RightClickMenu from "../PopupDragFile/PopupContextMenu";
+import { dontClickDelete } from "../../redux/clickDeletefile";
 
 function Whitespace(props) {
+  const deleteInput = useSelector((state) => state.clickDelete.value);
   const dispatch = useDispatch();
+  const [onDelete, setOnDelete] = useState(true);
   const [update2, setUpdate2] = useState(0);
   const [isOpenCustomize, setIsOpenCustomize] = useState(false);
   const [DataOpenCustomize, setDataOpenCustomize] = useState({
@@ -30,18 +34,20 @@ function Whitespace(props) {
     setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
       data.title = typeModel;
+      const ref = React.createRef();
+
       switch (typeModel) {
         case "Text":
           data.tools = [
             {
               title: "Text to speech",
               comp: <ToSpeech />,
-              preview: <Preview type="Speech" />
+              preview: <Preview type="Speech" ref={ref}/>,
             },
             {
               title: "Text to image",
               comp: <></>,
-              preview: <Preview type="Image" />
+              preview: <Preview type="Image" />,
             },
           ];
           break;
@@ -50,17 +56,17 @@ function Whitespace(props) {
             {
               title: "Image to text",
               comp: <></>,
-              preview: <Preview type="Text" />
+              preview: <Preview type="Text" />,
             },
             {
               title: "Image to video",
               comp: <></>,
-              preview: <Preview type="Video" />
+              preview: <Preview type="Video" />,
             },
             {
               title: "Image to audio",
               comp: <></>,
-              preview: <Preview type="Speech" />
+              preview: <Preview type="Speech" />,
             },
           ];
           break;
@@ -69,8 +75,8 @@ function Whitespace(props) {
             {
               title: "Video to text",
               comp: <></>,
-              preview: <Preview type="Text" />
-            }
+              preview: <Preview type="Text" />,
+            },
           ];
           break;
         case "Audio":
@@ -78,12 +84,12 @@ function Whitespace(props) {
             {
               title: "Speech to text",
               comp: <></>,
-              preview: <Preview type="Text" />
+              preview: <Preview type="Text" />,
             },
             {
               title: "Speech to image",
               comp: <></>,
-              preview: <Preview type="Image" />
+              preview: <Preview type="Image" />,
             },
           ];
           break;
@@ -92,7 +98,7 @@ function Whitespace(props) {
             {
               title: "URL to ...",
               comp: <></>,
-              preview: <></>
+              preview: <></>,
             },
           ];
           break;
@@ -101,12 +107,12 @@ function Whitespace(props) {
             {
               title: "Record to text",
               comp: <></>,
-              preview: <Preview type="Text" />
+              preview: <Preview type="Text" />,
             },
             {
               title: "Record to video",
               comp: <></>,
-              preview: <Preview type="Video" />
+              preview: <Preview type="Video" />,
             },
           ];
           break;
@@ -120,13 +126,17 @@ function Whitespace(props) {
     <>
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
-          <Element
-            type={element.type}
-            key={index}
-            coor={element}
-            updateCoors={props.updateElement}
-            openCustomize={handleOpenCustomize}
-          />
+          <RightClickMenu
+          // setOnDelete={setOnDelete}
+          >
+            <Element
+              type={element.type}
+              key={index}
+              coor={element}
+              updateCoors={props.updateElement}
+              openCustomize={handleOpenCustomize}
+            />
+          </RightClickMenu>
         ))}
     </>
   ));
@@ -134,6 +144,59 @@ function Whitespace(props) {
     setUpdate2((prev) => prev + 1);
   }, [props.update]);
 
+  useEffect(() => {
+    if (deleteInput === true) {
+      props.data?.map((typeBlock, idx1) => {
+        typeBlock.list?.map((item, idx2) => {
+          if (item.isSelected) {
+            setIsOpenCustomize(false);
+            // console.log("check:", item,idx1,idx2)
+            removeElement(idx1, idx2);
+            dispatch(dontClickDelete());
+          }
+        });
+      });
+    }
+
+    return () => {
+      if (deleteInput === true) {
+        props.data?.map((typeBlock, idx1) => {
+          typeBlock.list?.map((item, idx2) => {
+            if (item.isSelected) {
+              removeElement(idx1, idx2);
+            }
+          });
+        });
+      }
+    };
+  }, [deleteInput]);
+
+  useEffect(() => {
+    if (onDelete === false) {
+      props.data?.map((typeBlock, idx1) => {
+        typeBlock.list?.map((item, idx2) => {
+          if (item.isSelected) {
+            setIsOpenCustomize(false);
+            // console.log("check:", item,idx1,idx2)
+            removeElement(idx1, idx2);
+            setOnDelete(true);
+          }
+        });
+      });
+      return () => {
+        if (onDelete === false) {
+          props.data?.map((typeBlock, idx1) => {
+            typeBlock.list?.map((item, idx2) => {
+              if (item.isSelected) {
+                removeElement(idx1, idx2);
+                setOnDelete(true);
+              }
+            });
+          });
+        }
+      };
+    }
+  }, [onDelete]);
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Backspace") {
@@ -181,27 +244,61 @@ function Whitespace(props) {
     data[idx1]?.list?.splice(idx2, 1);
     props.setData(data);
   };
+  const wsRef = useRef();
+  const wsCon = document.getElementById("ws-container");
+  let pos = { top: 0, left: 0, x: 0, y: 0 };
+  const mouseDownHandler = function (e) {
+    if (!wsRef.current.contains(e.target)) return;
+    pos = {
+      // The current scroll
+      left: wsCon.scrollLeft,
+      top: wsCon.scrollTop,
+      // Get the current mouse position
+      x: e.clientX,
+      y: e.clientY,
+    };
+    wsCon.addEventListener("mousemove", mouseMoveHandler);
+    wsCon.addEventListener("mouseup", mouseUpHandler);
+  };
+  if (wsCon) wsCon.addEventListener("mousedown", mouseDownHandler);
+
+  const mouseMoveHandler = function (e) {
+    // How far the mouse has been moved
+    const dx = e.clientX - pos.x;
+    const dy = e.clientY - pos.y;
+
+    // Scroll the element
+    wsCon.scrollTop = pos.top - dy;
+    wsCon.scrollLeft = pos.left - dx;
+  };
+  const mouseUpHandler = function (e) {
+    e.stopPropagation();
+    wsCon.removeEventListener("mousemove", mouseMoveHandler);
+    wsCon.style.cursor = "grab";
+    wsCon.style.removeProperty("user-select");
+    wsCon.removeEventListener("mouseup", mouseUpHandler);
+  };
 
   return (
-  
-      <div className="w-full bg-repeat whitespace overflow-hidden" id="boxDrop">
-        <div
-          className="w-full"
-          style={{
-            backgroundColor: "rgba(255,255,255,.6)",
-            height: "100vh",
-          }}
-        >
-          {isOpenCustomize && (
-            <Customize
-              title={DataOpenCustomize.title}
-              tools={DataOpenCustomize.tools}
-            />
-          )}
-          {renderedElements}
-        </div>
+    <div
+      className="w-[1000vw] h-[1000vh] bg-repeat whitespace"
+      id="boxDrop"
+      ref={wsRef}>
+      <div
+        className="w-full h-full"
+        style={{
+          backgroundColor: "rgba(255,255,255,.6)",
+        }}>
+        {isOpenCustomize && (
+          <Customize
+            title={DataOpenCustomize.title}
+            tools={DataOpenCustomize.tools}
+            // isOpen={setIsOpenCustomize}
+          />
+        )}
+        {renderedElements}
       </div>
- 
+    </div>
   );
 }
 

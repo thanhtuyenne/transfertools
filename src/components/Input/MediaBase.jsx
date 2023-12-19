@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
 import PopupDragFile from "../PopupDragFile/PopupDragFile";
-import { Trash } from "@phosphor-icons/react";
+import { Eraser, Trash, DotsThreeOutlineVertical } from "@phosphor-icons/react";
 import { useEffect } from "react";
 import ContextMenu from "./ContextMenu";
+import { Popup } from "reactjs-popup";
+import InputOption from "../Navbar/InputOption";
 
 function MediaBase({ IconComp, placeholder, accept, callback }) {
   const [popup, setShowPopup] = useState(false);
@@ -39,6 +41,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
     setRightClick(false);
   };
   // document.addEventListener("mousedown", closeContext);
+  const [inputOption, setInputOption] = useState(false);
 
   return (
     <>
@@ -62,7 +65,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
                     onClick={(e) => removeInput(e)}
                     className="rounded-md items-center justify-around w-[150px] border-black bg-red-600 h-[40px] absolute bottom-0 right-0 flex transition-[0.25s] animate-blur-option"
                   >
-                    <Trash size={18} color="white" className="" />
+                    <Eraser size={18} color="white" className="" />
                     <span>Remove file</span>
                   </div>
                   <ContextMenu
@@ -77,6 +80,20 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
             <span className="text-black w-full text-center">{placeholder}</span>
           )}
         </div>
+        <Popup
+          trigger={
+            <DotsThreeOutlineVertical
+              size={32}
+              className="lg:hidden text-blue"
+              onClick={(e) => {
+                setInputOption(!inputOption);
+                e.stopPropagation();
+              }}
+            />
+          }
+        >
+          <InputOption />
+        </Popup>
       </div>
       {popup && file == null && (
         <div className="fixed top-0 left-0 w-full h-full">
