@@ -14,6 +14,7 @@ import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
 import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 import { dontClickDelete } from "../../redux/clickDeletefile";
+import Tools from "../Customize/Tools";
 
 function Whitespace(props) {
   const deleteInput = useSelector((state) => state.clickDelete.value);
@@ -26,6 +27,7 @@ function Whitespace(props) {
     title: "",
   });
   const [focusElement, setFocusElement] = useState(null);
+  const tools = useSelector((tool) => tool.tools.value);
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
@@ -297,6 +299,7 @@ function Whitespace(props) {
           />
         )}
         {renderedElements}
+        {tools && <Tools />}
       </div>
     </div>
   );

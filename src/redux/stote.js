@@ -9,6 +9,7 @@ import typeModelSlice from "./typeModelSlice";
 import clickDeleteSlice from "./clickDeletefile";
 import activeToolbox from "./activeToolboxSlice";
 import activeCustomize from "./activeCustomizeSlice";
+import activeTools from "./activeToolsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
     clickDelete: clickDeleteSlice,
     toolbox: activeToolbox,
     customize: activeCustomize,
+    tools: activeTools,
   },
 });

@@ -7,7 +7,7 @@ import {
   TextT,
   VideoCamera,
 } from "@phosphor-icons/react/dist/ssr";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./navbar.css";
 import { useEffect, useState } from "react";
 import { Draggable } from "react-drag-and-drop";
@@ -19,9 +19,10 @@ import {
   DotsThreeVertical,
 } from "@phosphor-icons/react";
 import MobileOption from "./MobileOption";
+import { IsActiveTools, NotActiveTools } from "../../redux/activeToolsSlice";
 
 const Navbar = (props) => {
-  const { setDefaultPosition, addElement, isActive } = props;
+  const { setDefaultPosition, addElement } = props;
   // const wsContainer = document.getElementById("ws-container");
   const showInfo = (e) => {
     e.stopPropagation();
@@ -51,12 +52,15 @@ const Navbar = (props) => {
   // const [type, setType] = useState(null);
   // const [title, setTitle] = useState(null);
   const [screen, setScreen] = useState(window.innerWidth <= 768);
-  const [openTool, setOpenTool] = useState(false);
+  // const [openTool, setOpenTool] = useState(false);
   const [activeSetting, setActiveSetting] = useState(false);
+  const dispatch = useDispatch();
+  const tools = useSelector((state) => state.tools.value);
 
   const handleOpenTool = (e) => {
     // e.stopPropagation();
-    setOpenTool(false);
+    // setOpenTool(false);
+    dispatch(NotActiveTools());
     setActiveSetting(false);
   };
 
@@ -249,7 +253,9 @@ const Navbar = (props) => {
                   }`}
                   id="setting"
                   onClick={() => {
-                    setOpenTool(!openTool);
+                    tools
+                      ? dispatch(NotActiveTools())
+                      : dispatch(IsActiveTools());
                     setActiveSetting(!activeSetting);
                   }}
                 >
@@ -267,7 +273,7 @@ const Navbar = (props) => {
         />
       )}
       {type === "ToText" && <Customize title={title} />} */}
-      {openTool && <Tools />}
+      {/* {openTool && <Tools />} */}
     </>
   );
 };
