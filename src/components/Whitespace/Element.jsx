@@ -114,6 +114,8 @@ function Box(props) {
       e.stopPropagation();
       ref.current.classList.remove("box-selected");
       document.removeEventListener("touchmove", handleTouchMove);
+      // ref.current.firstChild.classList.remove("touch-none");
+
       // Update state
       const newXY = coorRelative(
         getRef("--left"),
@@ -151,13 +153,15 @@ function Box(props) {
     const handleTouchStart = (e) => {
       // if (e.target !== e.currentTarget) return;
       e.stopPropagation();
-      e.preventDefault();
       if (!ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");
       ref.current.classList.add("box-selected");
+      // ref.current.firstChild.classList.add("touch-none");
+
       startMouseX = e.touches[0].pageX;
       startMouseY = e.touches[0].pageY;
+
       // Attach event listeners
       document.addEventListener("touchmove", handleTouchMove);
       document.addEventListener("touchend", handleTouchEnd);

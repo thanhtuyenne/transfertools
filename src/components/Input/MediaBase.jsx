@@ -49,7 +49,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
   return (
     <>
       <div
-        className="cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
+        className="touch-none cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
         onDoubleClick={openPopup}
         ref={mediaRef}
       >

@@ -66,7 +66,7 @@ export const TextInput = () => {
   const [inputOption, setInputOption] = useState(false);
 
   return (
-    <div className="bg-white w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
+    <div className="touch-none bg-white w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
       <TextT size={25} className="text-blue bg-transparent mr-2" />
       <TextareaAutosize
         onKeyDown={(e) => {
@@ -135,7 +135,7 @@ export const URLInput = () => {
   const [inputOption, setInputOption] = useState(false);
 
   return (
-    <div className="h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
+    <div className="touch-none h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
       <LinkSimple size={20} className="text-blue" />
       <input
         value={linkValue}

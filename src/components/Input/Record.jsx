@@ -48,7 +48,7 @@ function Record() {
   const [isPause, setIsPause] = useState(false);
   return (
     <>
-      <div className="bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
+      <div className="touch-none bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
         <Microphone size={25} className="text-blue mr-2 flex-shrink-0" />
         <div className="outline-none border-0 border-none focus:ring-0 flex-1 text-center">
           {!click && (
