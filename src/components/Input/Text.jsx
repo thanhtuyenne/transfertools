@@ -13,7 +13,11 @@ import {
   dontClickInputText,
   onClickInputText,
 } from "../../redux/clickTextSlice";
-import { dontClickInputUrl, onClickInputUrl, setInputValueUrl } from "../../redux/clickURLSlice";
+import {
+  dontClickInputUrl,
+  onClickInputUrl,
+  setInputValueUrl,
+} from "../../redux/clickURLSlice";
 import InputOption from "../Navbar/InputOption";
 import Popup from "reactjs-popup";
 
@@ -49,7 +53,6 @@ export const TextInput = () => {
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
       dispatch(setInputValueText(value));
-      
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputText());
@@ -62,8 +65,6 @@ export const TextInput = () => {
     }
     setMessage("");
   };
-
-  const [inputOption, setInputOption] = useState(false);
 
   return (
     <div className="touch-none bg-white w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
@@ -85,14 +86,7 @@ export const TextInput = () => {
       />
       <Popup
         trigger={
-          <DotsThreeOutlineVertical
-            size={32}
-            className="lg:hidden text-blue"
-            onClick={(e) => {
-              setInputOption(!inputOption);
-              e.stopPropagation();
-            }}
-          />
+          <DotsThreeOutlineVertical size={32} className="lg:hidden text-blue" />
         }
       >
         <InputOption />
@@ -132,7 +126,6 @@ export const URLInput = () => {
       dispatch(dontClickInputUrl());
     }
   };
-  const [inputOption, setInputOption] = useState(false);
 
   return (
     <div className="touch-none h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
@@ -144,7 +137,6 @@ export const URLInput = () => {
           handleChangeLink(e.target.value);
         }}
         onBlur={handleInputBlur2}
-
         onKeyDown={(e) => {
           e.stopPropagation();
         }}
@@ -154,14 +146,7 @@ export const URLInput = () => {
       />
       <Popup
         trigger={
-          <DotsThreeOutlineVertical
-            size={32}
-            className="lg:hidden text-blue"
-            onClick={(e) => {
-              setInputOption(!inputOption);
-              e.stopPropagation();
-            }}
-          />
+          <DotsThreeOutlineVertical size={32} className="lg:hidden text-blue" />
         }
       >
         <InputOption />

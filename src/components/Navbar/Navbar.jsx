@@ -76,9 +76,7 @@ const Navbar = (props) => {
       x:
         wsContainer.scrollLeft +
         window.innerWidth / 2 -
-        250 / 2 +
-        Math.floor(Math.random() * (80 - 40 + 1)) +
-        40, //change width from 40 - 80
+        250 / 2 ,
       y:
         rect.height -
         wsContainer.scrollTop -

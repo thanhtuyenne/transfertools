@@ -153,7 +153,7 @@ function Customize({ title, tools = [] }) {
     <>
       {screen ? (
         <div
-          className="absolute left-0 top-0 z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
+          className="fixed left-0 top-0 z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
           ref={parentRef}
         >
           <Draggable onDrag={(e) => e.stopPropagation()} disabled={!customize}>

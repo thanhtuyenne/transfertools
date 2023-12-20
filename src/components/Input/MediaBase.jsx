@@ -44,7 +44,6 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
     setRightClick(false);
   };
   // document.addEventListener("mousedown", closeContext);
-  const [inputOption, setInputOption] = useState(false);
 
   return (
     <>
@@ -88,10 +87,6 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
             <DotsThreeOutlineVertical
               size={32}
               className="lg:hidden text-blue"
-              onClick={(e) => {
-                setInputOption(!inputOption);
-                e.stopPropagation();
-              }}
             />
           }
         >
