@@ -187,7 +187,10 @@ const Navbar = (props) => {
               arrow={false}
             >
               {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
-              <MobileOption addElement={addElement} />
+              <MobileOption
+                addElement={addElement}
+                setCenterDefaultPosition={setCenterDefaultrPositionBox}
+              />
             </Popup>
           ) : (
             <>
