@@ -277,14 +277,6 @@ const Navbar = (props) => {
           )}
         </div>
       </div>
-      {/* {type === "ToVoice" && (
-        <Customize
-          // toVoice={true}
-          title={title}
-        />
-      )}
-      {type === "ToText" && <Customize title={title} />} */}
-      {/* {openTool && <Tools />} */}
     </>
   );
 };

@@ -317,28 +317,30 @@ function Whitespace(props) {
   };
 
   return (
-    <div
-      className="w-[1000vw] h-[1000vh] bg-repeat whitespace"
-      id="boxDrop"
-      ref={wsRef}
-    >
+    <>
       <div
-        className="w-full h-full"
-        style={{
-          backgroundColor: "rgba(255,255,255,.6)",
-        }}
+        className="w-[10000px] h-[10000px] bg-repeat whitespace"
+        id="boxDrop"
+        ref={wsRef}
       >
-        {isOpenCustomize && (
-          <Customize
-            title={DataOpenCustomize.title}
-            tools={DataOpenCustomize.tools}
-            // isOpen={setIsOpenCustomize}
-          />
-        )}
-        {renderedElements}
-        {tools && <Tools />}
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundColor: "rgba(255,255,255,.6)",
+          }}
+        >
+          {renderedElements}
+          {tools && <Tools />}
+        </div>
       </div>
-    </div>
+      {isOpenCustomize && (
+        <Customize
+          title={DataOpenCustomize.title}
+          tools={DataOpenCustomize.tools}
+          // isOpen={setIsOpenCustomize}
+        />
+      )}
+    </>
   );
 }
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 // import { useSelector } from "react-redux";
 function Box(props) {
   // const dispatch = useDispatch()
@@ -70,6 +69,19 @@ function Box(props) {
       // Update element position
       ref.current.style.setProperty("--left", `${dx}px`);
       ref.current.style.setProperty("--top", `${dy}px`);
+      console.log("mouse");
+    };
+
+    const handleTouchMove = (e) => {
+      e.stopPropagation();
+      let dx, dy;
+      // New position of element
+      dx = e.touches[0].pageX - startMouseX + startX;
+      dy = e.touches[0].pageY - startMouseY + startY;
+      // Update element position
+      ref.current.style.setProperty("--left", `${dx}px`);
+      ref.current.style.setProperty("--top", `${dy}px`);
+      console.log("touch");
     };
     // When user loosen the pointer
     const handleMouseUp = (e) => {
@@ -97,6 +109,31 @@ function Box(props) {
       document.removeEventListener("mouseup", handleMouseUp);
     };
 
+    const handleTouchEnd = (e) => {
+      // Clean up event listeners
+      e.stopPropagation();
+      ref.current.classList.remove("box-selected");
+      document.removeEventListener("touchmove", handleTouchMove);
+      // Update state
+      const newXY = coorRelative(
+        getRef("--left"),
+        getRef("--top"),
+        props.coor.h
+      );
+      props.updateCoors(
+        props.coor.type,
+        props.coor.id,
+        {
+          x: newXY.x,
+          y: newXY.y,
+          isSelected: true,
+        },
+        { isSelected: false }
+      );
+      props.openCustomize(props.type, props.coor.children);
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
       e.stopPropagation();
@@ -111,10 +148,28 @@ function Box(props) {
       document.addEventListener("mouseup", handleMouseUp);
     };
 
+    const handleTouchStart = (e) => {
+      // if (e.target !== e.currentTarget) return;
+      e.stopPropagation();
+      e.preventDefault();
+      if (!ref.current.contains(e.target)) return;
+      startX = getRef("--left");
+      startY = getRef("--top");
+      ref.current.classList.add("box-selected");
+      startMouseX = e.touches[0].pageX;
+      startMouseY = e.touches[0].pageY;
+      // Attach event listeners
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+    };
+
     ref.current.addEventListener("mousedown", handleMouseDown);
+    ref.current.addEventListener("touchstart", handleTouchStart);
     return () => {
-      if (ref.current)
+      if (ref.current) {
         ref.current.removeEventListener("mousedown", handleMouseDown);
+        ref.current.removeEventListener("touchstart", handleTouchStart);
+      }
     };
   }, [props.coor]);
 

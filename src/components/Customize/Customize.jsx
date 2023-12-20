@@ -205,7 +205,7 @@ function Customize({ title, tools = [] }) {
       ) : (
         <Draggable>
           <div
-            className="md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
+            className="z-[100] md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
             onClick={() => setScreen(true)}
             onTouchStart={() => setScreen(true)}
           >
