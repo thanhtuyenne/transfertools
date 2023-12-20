@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { Audio, Video, Image } from "./components/Input/Media";
 import { TextInput, URLInput } from "./components/Input/Text";
@@ -8,12 +8,16 @@ import Whitespace from "./components/Whitespace/Whitespace";
 import { Droppable } from "react-drag-and-drop";
 import Tools from "./components/Customize/Tools";
 import RightClickMenu from "./components/PopupDragFile/PopupContextMenu";
+import { useDispatch } from "react-redux";
+import { onClickDataIdType } from "./redux/clickDataIdType";
 
 // import BotChat from "./components/BotChat/BotChat";
 // import Customize from "./components/Customize/Customize";
 // import Drag from "./components/drag/Drag";
 
 function App() {
+
+  const dispatch = useDispatch();
   const [isOpenInputText, setIsOpenInputText] = useState(false);
   const [isOpenInputURL, setIsOpenInputURL] = useState(false);
   const [isOpenInputAudio, setIsOpenInputAudio] = useState(false);
@@ -98,13 +102,15 @@ function App() {
             {nameType.map((item) => {
               if (item.name === typeName) {
                 return <>
-                    {item.input}
+                  {item.input}
                 </>;
               }
             })}
           </>
         ),
       };
+      // const newData = [...prevData];
+
       let typeFound = prev.find((type) => type.typeName === typeName);
       // Not found type
       if (!typeFound) {
@@ -148,47 +154,56 @@ function App() {
     );
     setUpdate((prev) => prev + 1);
   };
+  useEffect(() => {
+    const data1 = data.map(item => item.list)
+    const allTypes = data1.flatMap(innerArray => innerArray.map(obj => obj.type));
+    const allId = data1.flatMap(innerArray => innerArray.map(obj => obj.id));
+    const allTypesFromSecond = allTypes.slice(1);
+    const allIdFromSecond = allId.slice(1);
+    dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }))
+  }, [data])
 
+  // console.log("háhcvas:", allTypesFromSecond,allIdFromSecond)
   return (
     <div className="w-full h-screen bg-body relative flex flex-col items-stretch">
       <div>
         <Header />
       </div>
       {/* <div> */}
-        <div
-          className="w-full"
-        // style={{ height: "100vh", backgroundColor: "#ececec" }}
+      <div
+        className="w-full"
+      // style={{ height: "100vh", backgroundColor: "#ececec" }}
+      >
+        <Droppable
+          types={["components"]} // <= allowed drop types
+          onDrop={onDrop}
         >
-          <Droppable
-            types={["components"]} // <= allowed drop types
-            onDrop={onDrop}
-          >
-            <Whitespace
-              data={data}
-              setData={setData}
-              update={update}
-              updateElement={updateElement}
-            />
-          </Droppable>
-        </div>
+          <Whitespace
+            data={data}
+            setData={setData}
+            update={update}
+            updateElement={updateElement}
+          />
+        </Droppable>
+      </div>
       {/* </div> */}
       <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
         <Navbar
           data={data}
           addElement={addElement}
           setDefaultPosition={setDefaultPosition}
-          // isOpenInputText={isOpenInputText}
-          // isOpenInputURL={isOpenInputURL}
-          // isOpenInputAudio={isOpenInputAudio}
-          // isOpenInputVide={isOpenInputVideo}
-          // isOpenInputImage={isOpenInputImage}
-          // isOpenInputRecord={isOpenInputRecord}
-          // setIsOpenInputText={setIsOpenInputText}
-          // setIsOpenInputURL={setIsOpenInputURL}
-          // setIsOpenInputAudio={setIsOpenInputAudio}
-          // setIsOpenInputVideo={setIsOpenInputVideo}
-          // setIsOpenInputImage={setIsOpenInputImage}
-          // setIsOpenInputRecor={setIsOpenInputRecor}
+        // isOpenInputText={isOpenInputText}
+        // isOpenInputURL={isOpenInputURL}
+        // isOpenInputAudio={isOpenInputAudio}
+        // isOpenInputVide={isOpenInputVideo}
+        // isOpenInputImage={isOpenInputImage}
+        // isOpenInputRecord={isOpenInputRecord}
+        // setIsOpenInputText={setIsOpenInputText}
+        // setIsOpenInputURL={setIsOpenInputURL}
+        // setIsOpenInputAudio={setIsOpenInputAudio}
+        // setIsOpenInputVideo={setIsOpenInputVideo}
+        // setIsOpenInputImage={setIsOpenInputImage}
+        // setIsOpenInputRecor={setIsOpenInputRecor}
         />
       </div>
     </div>

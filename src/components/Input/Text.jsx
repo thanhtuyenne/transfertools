@@ -9,10 +9,11 @@ import {
 import Notify from "../Notify/Notify";
 import { useDispatch } from "react-redux";
 import {
+  setInputValueText,
   dontClickInputText,
   onClickInputText,
 } from "../../redux/clickTextSlice";
-import { dontClickInputUrl, onClickInputUrl } from "../../redux/clickURLSlice";
+import { dontClickInputUrl, onClickInputUrl, setInputValueUrl } from "../../redux/clickURLSlice";
 import InputOption from "../Navbar/InputOption";
 import Popup from "reactjs-popup";
 
@@ -34,11 +35,21 @@ export const TextInput = () => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
 
+  // const handleInputChange1 = (event) => {
+  //   const inputValue = event.target.value;
+  //   dispatch(setInputValueText(inputValue));
+  // };
+
+  const handleInputBlur1 = () => {
+    dispatch(onClickInputText());
+  };
+
   const handleChangeInput = (value) => {
     setInputValue(value);
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
-      dispatch(onClickInputText());
+      dispatch(setInputValueText(value));
+      
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputText());
@@ -57,14 +68,6 @@ export const TextInput = () => {
   return (
     <div className="bg-white w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
       <TextT size={25} className="text-blue bg-transparent mr-2" />
-      {/* <input
-                value={inputValue}
-                onChange={(e) =>
-                    handleChangeInput(e.target.value)
-                }
-                type="text"
-                placeholder="Enter your text ..."
-                className="outline-none border-0 border-none focus:ring-0 bg-transparent " /> */}
       <TextareaAutosize
         onKeyDown={(e) => {
           e.stopPropagation();
@@ -74,6 +77,7 @@ export const TextInput = () => {
           validate(e.target.value);
           handleChangeInput(e.target.value);
         }}
+        onBlur={handleInputBlur1}
         className="h-full resize-none text-black outline-none border-0 border-none focus:ring-0 bg-transparent flex-grow p-0 mr-5 overflow-y-scroll no-scrollbar"
         placeholder="Enter your text ..."
         minRows={1}
@@ -108,12 +112,17 @@ export const URLInput = () => {
     }
     setMess("");
   };
+
+  const handleInputBlur2 = () => {
+    dispatch(onClickInputUrl());
+  };
   // lưu trạng thái
   const handleChangeLink = (value) => {
     setLinkValue(value);
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
-      dispatch(onClickInputUrl());
+
+      dispatch(setInputValueUrl(value));
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputUrl());
@@ -129,6 +138,8 @@ export const URLInput = () => {
           validateURL(e.target.value);
           handleChangeLink(e.target.value);
         }}
+        onBlur={handleInputBlur2}
+
         onKeyDown={(e) => {
           e.stopPropagation();
         }}

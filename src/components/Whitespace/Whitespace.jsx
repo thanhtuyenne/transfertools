@@ -14,9 +14,10 @@ import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
 import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 import { dontClickDelete } from "../../redux/clickDeletefile";
+import { onClickSelectData } from "../../redux/clickSelectData";
 
 function Whitespace(props) {
-  const deleteInput  = useSelector(state => state.clickDelete.value)
+  const deleteInput = useSelector(state => state.clickDelete.value)
   const dispatch = useDispatch();
   const [onDelete, setOnDelete] = useState(true);
   const [update2, setUpdate2] = useState(0);
@@ -125,7 +126,7 @@ function Whitespace(props) {
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
           <RightClickMenu
-            // setOnDelete={setOnDelete}
+          // setOnDelete={setOnDelete}
           >
             <Element
               type={element.type}
@@ -195,6 +196,42 @@ function Whitespace(props) {
       }
     }
   }, [onDelete])
+
+  const [i, setI] = useState({})
+
+  useEffect(() => {
+    props.data?.map((typeBlock, idx1) => {
+      typeBlock.list?.map((item, idx2) => {
+        if (item.isSelected) {
+          const { id, type } = item;
+          // setIsOpenCustomize(false);
+          // // console.log("check:", item,idx1,idx2)
+          // removeElement(idx1, idx2);
+          // setOnDelete(true)
+          dispatch(onClickSelectData({ id, type }))
+          setI(item)
+          // setSelect(item.isSelected)
+        }
+      });
+    });
+    return () => {
+      props.data?.map((typeBlock, idx1) => {
+        typeBlock.list?.map((item, idx2) => {
+          if (item.isSelected) {
+            const { id, type } = item;
+            // setIsOpenCustomize(false);
+            // // console.log("check:", item,idx1,idx2)
+            // removeElement(idx1, idx2);
+            // setOnDelete(true)
+            dispatch(onClickSelectData({ id, type }))
+            setI(item)
+            // setSelect(item.isSelected)
+          }
+        });
+      });
+    }
+  }, [props.data])
+
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Backspace") {
@@ -256,7 +293,7 @@ function Whitespace(props) {
           <Customize
             title={DataOpenCustomize.title}
             tools={DataOpenCustomize.tools}
-            // isOpen={setIsOpenCustomize}
+          // isOpen={setIsOpenCustomize}
           />
         )}
         {renderedElements}

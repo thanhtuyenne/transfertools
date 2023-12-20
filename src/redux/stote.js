@@ -7,6 +7,8 @@ import clickRecordSlice from './clickRecordSlice'
 import clickAudioSlice from './clickAudioSlice'
 import typeModelSlice from './typeModelSlice'
 import clickDeleteSlice from './clickDeletefile'
+import clickDataIdTypeSlice from './clickDataIdType'
+import clickSelectData from './clickSelectData'
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +20,7 @@ export const store = configureStore({
     clickAudio: clickAudioSlice,
     typeModel: typeModelSlice,
     clickDelete: clickDeleteSlice,
+    clickIdType: clickDataIdTypeSlice,
+    clickSelect: clickSelectData,
   }
 })

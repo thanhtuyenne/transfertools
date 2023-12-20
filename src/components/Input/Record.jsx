@@ -23,7 +23,7 @@ function Record() {
 
   const addAudioElement = (blob) => {
     const url = URL.createObjectURL(blob);
-    dispatch(onClickRecord());
+    dispatch(onClickRecord(blob));
     setRecordValue(url);
   };
   function format(time) {

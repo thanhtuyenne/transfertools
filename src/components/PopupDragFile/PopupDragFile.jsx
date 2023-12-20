@@ -16,11 +16,11 @@ function PopupDragFile({ toggle, accepts, callback }) {
   const handleChangeFile = (file) => {
     if (file) {
       callback({ source: URL.createObjectURL(file), filetype: file.type });
-      console.log("geted file", file);
-      dispatch(onClickImage());
+      // console.log("geted file", file);
+      // dispatch(onClickImage());
       toggle(false);
     } else {
-      dispatch(dontClickImage());
+      // dispatch(dontClickImage());
     }
   };
 

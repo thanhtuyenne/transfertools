@@ -3,6 +3,8 @@ import PopupDragFile from "../PopupDragFile/PopupDragFile";
 import { Eraser, Trash } from "@phosphor-icons/react";
 import { useEffect } from "react";
 import ContextMenu from "./ContextMenu";
+import { useDispatch } from "react-redux";
+import { onClickImage } from "../../redux/clickImageSlice";
 
 function MediaBase({ IconComp, placeholder, accept, callback }) {
   const [popup, setShowPopup] = useState(false);
@@ -16,6 +18,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
   };
   const [file, setFile] = useState(null);
   const [rightClick, setRightClick] = useState(false);
+  // console.log(file)
 
   let removeRef = useRef();
   const mediaRef = useRef();
