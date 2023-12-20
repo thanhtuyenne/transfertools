@@ -7,6 +7,8 @@ import clickRecordSlice from "./clickRecordSlice";
 import clickAudioSlice from "./clickAudioSlice";
 import typeModelSlice from "./typeModelSlice";
 import clickDeleteSlice from "./clickDeletefile";
+import clickDataIdTypeSlice from "./clickDataIdType";
+import clickSelectData from "./clickSelectData";
 import activeToolbox from "./activeToolboxSlice";
 import activeCustomize from "./activeCustomizeSlice";
 import activeTools from "./activeToolsSlice";
@@ -24,5 +26,7 @@ export const store = configureStore({
     toolbox: activeToolbox,
     customize: activeCustomize,
     tools: activeTools,
+    clickIdType: clickDataIdTypeSlice,
+    clickSelect: clickSelectData,
   },
 });

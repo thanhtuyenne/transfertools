@@ -2,26 +2,28 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   value: false,
+  data:[]
 }
 
 export const clickImageSlice = createSlice({
   name: 'clickImage',
   initialState,
   reducers: {
-    onClickImage: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value = true
+    onClickImage: (state, action) => {
+      state.value = true;
+      state.data.push(action.payload)
+      // state.data = action.payload;
+      
+      // console.log("check redux:",action.payload)
+
     },
-    dontClickImage: (state) =>{
-      state.value= false;
+    dontClickImage: (state) => {
+      state.value = false;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { onClickImage,dontClickImage } = clickImageSlice.actions
+export const { onClickImage, dontClickImage } = clickImageSlice.actions
 
 export default clickImageSlice.reducer

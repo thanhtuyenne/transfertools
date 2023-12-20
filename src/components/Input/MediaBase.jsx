@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import ContextMenu from "./ContextMenu";
 import { Popup } from "reactjs-popup";
 import InputOption from "../Navbar/InputOption";
+import { useDispatch } from "react-redux";
+import { onClickImage } from "../../redux/clickImageSlice";
 
 function MediaBase({ IconComp, placeholder, accept, callback }) {
   const [popup, setShowPopup] = useState(false);
@@ -18,6 +20,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
   };
   const [file, setFile] = useState(null);
   const [rightClick, setRightClick] = useState(false);
+  // console.log(file)
 
   let removeRef = useRef();
   const mediaRef = useRef();

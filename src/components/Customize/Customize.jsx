@@ -3,20 +3,21 @@ import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
 import { useSelector } from "react-redux";
 import "./Customize.css";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Minus,
-  Swap,
-  XCircle,
-} from "@phosphor-icons/react";
+import { Minus, Swap } from "@phosphor-icons/react";
 import Draggable from "react-draggable";
 
 function Customize({ title, tools = [] }) {
+  const [dataSample, setDataSample] = useState([]);
   // const [toolsSelected, setToolsSelected] = useState(0);
   // const handleToolSelected = (value) => {
   //   setToolsSelected(value);
   // };
+
+  const importData = (id, type, value) => {
+    const newDataSample = [...dataSample, { id: id, type: type, value: value }];
+    setDataSample(newDataSample);
+  };
+
   const [indexTool, setIndexTool] = useState(0);
   const [currentTool, setCurrentTool] = useState(tools[indexTool].comp);
   const displayToolSelected = useCallback(
@@ -33,13 +34,97 @@ function Customize({ title, tools = [] }) {
     displayToolSelected(0);
   }, [displayToolSelected, tools]);
 
+  // Dữ liệu gồm id, type của mỗi input được kéo lên screen
+  const idType = useSelector((state) => state.clickIdType.data);
+
+  // Thao tác nhấn nút transfer
   const transfer = useSelector((state) => state.typeModel.value);
+
+  // Dữ liệu inputText Chưa sử lý
   const inputText = useSelector((state) => state.clickText.value);
+  const dataInputText = useSelector((state) => state.clickText.data);
+
+  // Dữ liệu inputUrl Chưa sử lý
   const inputUrl = useSelector((state) => state.clickUrl.value);
+  const dataInputUrl = useSelector((state) => state.clickUrl.data);
+
+  // Dữ liệu Video Chưa sử lý
   const inputVideo = useSelector((state) => state.clickVideo.value);
+  const dataInputVideo = useSelector((state) => state.clickVideo.data);
+
+  // Dữ liệu Audio Chưa sử lý
   const inputAudio = useSelector((state) => state.clickAudio.value);
+  const dataInputAudio = useSelector((state) => state.clickAudio.data);
+
+  // Dữ liệu Record Chưa sử lý
   const inputRecord = useSelector((state) => state.clickRecord.value);
+  const dataInputRecord = useSelector((state) => state.clickRecord.data);
+
+  // Dữ liệu Image Chưa sử lý
   const inputImage = useSelector((state) => state.clickImage.value);
+  const dataInputImage = useSelector((state) => state.clickImage.data);
+
+  // DỮ liệu select
+  const selectData = useSelector((state) => state.clickSelect.data);
+  // Thao tác lọc dữ liệu
+  const handleData = () => {
+    switch (selectData.type) {
+      case "Text":
+        const dataText = dataInputText.find((item, index) => {
+          return selectData.id === index + 1;
+        });
+        console.log("checkInputText:", dataText);
+        break;
+      case "Image":
+        const dataImage = dataInputImage.find((item, index) => {
+          return selectData.id === index + 1;
+        });
+        console.log("checkDataImage:", dataImage);
+
+        break;
+      case "Video":
+        const dataVideo = dataInputVideo.find((item, index) => {
+          return selectData.id === index + 1;
+        });
+        console.log("checkInputVideo:", dataVideo);
+
+        break;
+      case "Audio":
+        const dataAudio = dataInputAudio.find((item, index) => {
+          return selectData.id === index + 1;
+        });
+        console.log("checkInputAudio:", dataAudio);
+
+        break;
+      case "URL":
+        const dataUrl = dataInputUrl.find((item, index) => {
+          return selectData.id === index + 1;
+        });
+        console.log("checkInputUrl:", dataUrl);
+
+        break;
+      case "Record":
+        const dataRecord = dataInputRecord.find((item, index) => {
+          return selectData.id === index + 1;
+        });
+        console.log("checkInputRecord:", dataRecord);
+
+        break;
+      default:
+        break;
+    }
+  };
+  useEffect(() => {
+    handleData();
+  }, [
+    idType,
+    dataInputText,
+    dataInputImage,
+    dataInputVideo,
+    dataInputAudio,
+    dataInputUrl,
+    dataInputRecord,
+  ]);
 
   const [preview, setPreview] = useState(tools[indexTool].preview);
   const [clicked, setClick] = useState(false);

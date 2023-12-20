@@ -14,6 +14,7 @@ import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
 import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 import { dontClickDelete } from "../../redux/clickDeletefile";
+import { onClickSelectData } from "../../redux/clickSelectData";
 import Tools from "../Customize/Tools";
 
 function Whitespace(props) {
@@ -197,6 +198,42 @@ function Whitespace(props) {
       };
     }
   }, [onDelete]);
+
+  const [i, setI] = useState({});
+
+  useEffect(() => {
+    props.data?.map((typeBlock, idx1) => {
+      typeBlock.list?.map((item, idx2) => {
+        if (item.isSelected) {
+          const { id, type } = item;
+          // setIsOpenCustomize(false);
+          // // console.log("check:", item,idx1,idx2)
+          // removeElement(idx1, idx2);
+          // setOnDelete(true)
+          dispatch(onClickSelectData({ id, type }));
+          setI(item);
+          // setSelect(item.isSelected)
+        }
+      });
+    });
+    return () => {
+      props.data?.map((typeBlock, idx1) => {
+        typeBlock.list?.map((item, idx2) => {
+          if (item.isSelected) {
+            const { id, type } = item;
+            // setIsOpenCustomize(false);
+            // // console.log("check:", item,idx1,idx2)
+            // removeElement(idx1, idx2);
+            // setOnDelete(true)
+            dispatch(onClickSelectData({ id, type }));
+            setI(item);
+            // setSelect(item.isSelected)
+          }
+        });
+      });
+    };
+  }, [props.data]);
+
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Backspace") {
