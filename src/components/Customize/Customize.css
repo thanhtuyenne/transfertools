@@ -9,9 +9,11 @@
 
     .container_customize {
         position: absolute;
-        top: 50%;
+        /* top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%); */
+        top: 10rem;
+        left: 8%;
         border-radius: 8px;
     }
 }
@@ -24,10 +26,12 @@
     }
 
     .container_customize {
-        position: absolute;
-        top: 50%;
+        position: fixed;
+        /* top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%); */
+        top: 10rem;
+        left: 8%;
         border-radius: 8px;
     }
 }

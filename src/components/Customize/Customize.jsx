@@ -153,11 +153,11 @@ function Customize({ title, tools = [] }) {
     <>
       {screen ? (
         <div
-          className="absolute z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
+          className="absolute left-0 top-0 z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
           ref={parentRef}
         >
           <Draggable onDrag={(e) => e.stopPropagation()} disabled={!customize}>
-            <div className="z-100 max-h-[65%] w-[90%] container_customize scrollar-cus lg:min-h-[350px] lg:max-h-[450px] md:min-h-[350px] md:max-h-[450px] overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed top-[20%] md:right-0 lg:right-0">
+            <div className="z-100 max-h-[65%] w-[350px] container_customize scrollar-cus lg:min-h-[350px] md:min-h-[350px] overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed lg:top-[20%] md:top-[20%] md:right-0 lg:right-0">
               <div className="bpx-2 w-full">
                 <div className="flex items-center justify-between text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
                   {title}
@@ -166,6 +166,7 @@ function Customize({ title, tools = [] }) {
                       size={20}
                       className="lg:hidden md:hidden cursor-pointer"
                       onClick={() => handleClosePopup()}
+                      onTouchStart={() => handleClosePopup()}
                     />
                   )}
                 </div>
@@ -206,6 +207,7 @@ function Customize({ title, tools = [] }) {
           <div
             className="md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
             onClick={() => setScreen(true)}
+            onTouchStart={() => setScreen(true)}
           >
             <Swap size={32} className="" color="#3498DB" />
           </div>
