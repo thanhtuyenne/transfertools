@@ -37,7 +37,7 @@ import Tools from "../Customize/Tools";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { NotActiveTools } from "../../redux/activeToolsSlice";
 import {
-  IsActiveCustomize,
+  ActiveCustomize,
   NotActiveCustomize,
 } from "../../redux/activeCustomizeSlice";
 function Whitespace(props) {
@@ -45,6 +45,7 @@ function Whitespace(props) {
   const dispatch = useDispatch();
   const [onDelete, setOnDelete] = useState(true);
   const [update2, setUpdate2] = useState(0);
+  const [isOpenCustomize, setIsOpenCustomize] = useState(false);
   const [DataOpenCustomize, setDataOpenCustomize] = useState({
     tools: [],
     title: "",
@@ -57,8 +58,7 @@ function Whitespace(props) {
     if (focusElement === element) return;
     dispatch(onTypeModel(typeModel));
     setFocusElement(element);
-    // setIsOpenCustomize(true);
-    dispatch(IsActiveCustomize());
+    setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
       data.title = typeModel;
       switch (typeModel) {
@@ -174,8 +174,7 @@ function Whitespace(props) {
       props.data?.map((typeBlock, idx1) => {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
-            dispatch(NotActiveCustomize());
-
+            setIsOpenCustomize(false);
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
             dispatch(dontClickDelete());
@@ -202,8 +201,7 @@ function Whitespace(props) {
       props.data?.map((typeBlock, idx1) => {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
-            dispatch(NotActiveCustomize());
-
+            setIsOpenCustomize(false);
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
             setOnDelete(true);
@@ -286,6 +284,7 @@ function Whitespace(props) {
       typeBlock.list?.map((item, idx2) => {
         if (item.isSelected) {
           const { id, type } = item;
+          // setIsOpenCustomize(false);
           // // console.log("check:", item,idx1,idx2)
           // removeElement(idx1, idx2);
           // setOnDelete(true)
@@ -301,6 +300,7 @@ function Whitespace(props) {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
             const { id, type } = item;
+            // setIsOpenCustomize(false);
             // // console.log("check:", item,idx1,idx2)
             // removeElement(idx1, idx2);
             // setOnDelete(true)
@@ -321,8 +321,7 @@ function Whitespace(props) {
         props.data?.map((typeBlock, idx1) => {
           typeBlock.list?.map((item, idx2) => {
             if (item.isSelected) {
-              dispatch(NotActiveCustomize());
-
+              setIsOpenCustomize(false);
               // console.log("check:", item,idx1,idx2)
               removeElement(idx1, idx2);
               dispatch(dontClickInputText());
@@ -480,7 +479,7 @@ function Whitespace(props) {
       </div>
       {/* </TransformComponent>
       </TransformWrapper> */}
-      {customize && (
+      {isOpenCustomize && (
         <Customize
           title={DataOpenCustomize.title}
           tools={DataOpenCustomize.tools}
