@@ -71,7 +71,6 @@ function Customize({ title, tools = [], isOpen }) {
   // Dữ liệu Image Chưa sử lý
   const inputImage = useSelector((state) => state.clickImage.value);
   const dataInputImage = useSelector((state) => state.clickImage.data);
-
   // DỮ liệu select 
   const selectData = useSelector((state) => state.clickSelect.data)
 
@@ -90,7 +89,7 @@ function Customize({ title, tools = [], isOpen }) {
         break;
       case "Image":
         const dataImage = dataInputImage.find((item, index) => {
-          return selectData.id === index +1
+          return selectData.id === index + 1
         })
         console.log("checkDataImage:", dataImage)
 

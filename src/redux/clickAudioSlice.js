@@ -19,11 +19,15 @@ export const clickAudioSlice = createSlice({
     },
     dontClickAudio: (state) =>{
       state.value= false;
+    },
+    deleteDataByIdAudio: (state, action) => {
+      const idToDelete = action.payload;
+      state.data = state.data.filter((item,index) => index +1 !== idToDelete);
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { onClickAudio,dontClickAudio } = clickAudioSlice.actions
+export const { onClickAudio,dontClickAudio,deleteDataByIdAudio } = clickAudioSlice.actions
 
 export default clickAudioSlice.reducer

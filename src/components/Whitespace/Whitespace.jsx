@@ -1,15 +1,15 @@
 // import { Repeat } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { dontClickInputText } from "../../redux/clickTextSlice";
-import { dontClickImage } from "../../redux/clickImageSlice";
+import { deleteDataByIdText, dontClickInputText } from "../../redux/clickTextSlice";
+import { deleteDataByIdImage, dontClickImage } from "../../redux/clickImageSlice";
 import Element from "./Element";
 import Customize from "../Customize/Customize";
 import ToSpeech from "../Customize/ToSpeech";
-import { dontClickInputUrl } from "../../redux/clickURLSlice";
-import { dontClickRecord } from "../../redux/clickRecordSlice";
-import { dontClickVideo } from "../../redux/clickVideoSlice";
-import { dontClickAudio } from "../../redux/clickAudioSlice";
+import { deleteDataByIdUrl, dontClickInputUrl } from "../../redux/clickURLSlice";
+import { deleteDataByIdRecord, dontClickRecord } from "../../redux/clickRecordSlice";
+import { deleteDataByIdVideo, dontClickVideo } from "../../redux/clickVideoSlice";
+import { deleteDataByIdAudio, dontClickAudio } from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
 import RightClickMenu from "../PopupDragFile/PopupContextMenu";
@@ -179,6 +179,33 @@ function Whitespace(props) {
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
             setOnDelete(true)
+            switch (item.type) {
+              case "Text":
+                dispatch(deleteDataByIdText(item.id))
+                break;
+              case "Image":
+                dispatch(deleteDataByIdImage(item.id))
+                
+                break;
+              case "Video":
+                dispatch(deleteDataByIdVideo(item.id))
+                
+                break;
+              case "Audio":
+                dispatch(deleteDataByIdAudio(item.id))
+                
+                break;
+              case "URL":
+                dispatch(deleteDataByIdUrl(item.id))
+                
+                break;
+              case "Record":
+                dispatch(deleteDataByIdRecord(item.id))
+                
+                break;
+              default:
+                break;
+            }
           }
         });
       });
@@ -189,6 +216,33 @@ function Whitespace(props) {
               if (item.isSelected) {
                 removeElement(idx1, idx2);
                 setOnDelete(true)
+                switch (item.type) {
+                  case "Text":
+                    dispatch(deleteDataByIdText(item.id))
+                    break;
+                  case "Image":
+                    dispatch(deleteDataByIdImage(item.id))
+                    
+                    break;
+                  case "Video":
+                    dispatch(deleteDataByIdVideo(item.id))
+                    
+                    break;
+                  case "Audio":
+                    dispatch(deleteDataByIdAudio(item.id))
+                    
+                    break;
+                  case "URL":
+                    dispatch(deleteDataByIdUrl(item.id))
+                    
+                    break;
+                  case "Record":
+                    dispatch(deleteDataByIdRecord(item.id))
+                    
+                    break;
+                  default:
+                    break;
+                }
               }
             });
           });
@@ -247,6 +301,33 @@ function Whitespace(props) {
               dispatch(dontClickRecord());
               dispatch(dontClickVideo());
               dispatch(dontClickAudio());
+              switch (item.type) {
+                case "Text":
+                  dispatch(deleteDataByIdText(item.id))
+                  break;
+                case "Image":
+                  dispatch(deleteDataByIdImage(item.id))
+                  
+                  break;
+                case "Video":
+                  dispatch(deleteDataByIdVideo(item.id))
+                  
+                  break;
+                case "Audio":
+                  dispatch(deleteDataByIdAudio(item.id))
+                  
+                  break;
+                case "URL":
+                  dispatch(deleteDataByIdUrl(item.id))
+                  
+                  break;
+                case "Record":
+                  dispatch(deleteDataByIdRecord(item.id))
+                  
+                  break;
+                default:
+                  break;
+              }
             }
           });
         });
@@ -266,6 +347,33 @@ function Whitespace(props) {
                 dispatch(dontClickRecord());
                 dispatch(dontClickVideo());
                 dispatch(dontClickAudio());
+                switch (item.type) {
+                  case "Text":
+                    dispatch(deleteDataByIdText(item.id))
+                    break;
+                  case "Image":
+                    dispatch(deleteDataByIdImage(item.id))
+                    
+                    break;
+                  case "Video":
+                    dispatch(deleteDataByIdVideo(item.id))
+                    
+                    break;
+                  case "Audio":
+                    dispatch(deleteDataByIdAudio(item.id))
+                    
+                    break;
+                  case "URL":
+                    dispatch(deleteDataByIdUrl(item.id))
+                    
+                    break;
+                  case "Record":
+                    dispatch(deleteDataByIdRecord(item.id))
+                    
+                    break;
+                  default:
+                    break;
+                }
               }
             });
           });

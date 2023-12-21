@@ -19,11 +19,15 @@ export const clickImageSlice = createSlice({
     },
     dontClickImage: (state) => {
       state.value = false;
+    },
+    deleteDataByIdImage: (state, action) => {
+      const idToDelete = action.payload;
+      state.data = state.data.filter((item,index) => index +1 !== idToDelete);
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { onClickImage, dontClickImage } = clickImageSlice.actions
+export const { onClickImage, dontClickImage,deleteDataByIdImage } = clickImageSlice.actions
 
 export default clickImageSlice.reducer
