@@ -86,7 +86,7 @@ function App() {
         mw: defaultSize.w,
         mh: defaultSize.h,
         isSelected: false,
-        z: 2,
+        z: 0,
         children: (
           <>
             {nameType.map((item) => {
@@ -98,21 +98,27 @@ function App() {
         ),
       };
       // const newData = [...prevData];
-
+      // console.log(data.length);
       let typeFound = prev.find((type) => type.typeName === typeName);
       // Not found type
       if (!typeFound) {
         typeFound = {
           typeId: data.length + 1,
           typeName,
-          list: [{ ...newEl, id: 1 }],
+          list: [{ ...newEl, id: 1, z: data.length + 1 }],
         };
         prev.push(typeFound);
         return prev;
       }
       // Found type
       else {
-        typeFound.list.push({ ...newEl, id: typeFound.list.length + 1 });
+        // return prev;
+        typeFound.list.push({
+          ...newEl,
+          id: typeFound.list.length + 1,
+          z: data.length + 1,
+        });
+        prev.push(typeFound);
         return prev;
       }
     });
