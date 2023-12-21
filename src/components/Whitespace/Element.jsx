@@ -107,6 +107,7 @@ function Box(props) {
       );
       props.openCustomize(props.type, props.coor.children);
       document.removeEventListener("mouseup", handleMouseUp);
+      console.log(props.coor.isSelected);
     };
 
     const handleTouchEnd = (e) => {
@@ -145,6 +146,7 @@ function Box(props) {
       ref.current.classList.add("box-selected");
       startMouseX = e.clientX;
       startMouseY = e.clientY;
+      
       // Attach event listeners
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);

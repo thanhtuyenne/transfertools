@@ -34,25 +34,31 @@ import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 import { dontClickDelete } from "../../redux/clickDeletefile";
 import { onClickSelectData } from "../../redux/clickSelectData";
 import Tools from "../Customize/Tools";
-
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { NotActiveTools } from "../../redux/activeToolsSlice";
+import {
+  IsActiveCustomize,
+  NotActiveCustomize,
+} from "../../redux/activeCustomizeSlice";
 function Whitespace(props) {
   const deleteInput = useSelector((state) => state.clickDelete.value);
   const dispatch = useDispatch();
   const [onDelete, setOnDelete] = useState(true);
   const [update2, setUpdate2] = useState(0);
-  const [isOpenCustomize, setIsOpenCustomize] = useState(false);
   const [DataOpenCustomize, setDataOpenCustomize] = useState({
     tools: [],
     title: "",
   });
   const [focusElement, setFocusElement] = useState(null);
   const tools = useSelector((tool) => tool.tools.value);
+  const customize = useSelector((cus) => cus.customize.value);
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
     dispatch(onTypeModel(typeModel));
     setFocusElement(element);
-    setIsOpenCustomize(true);
+    // setIsOpenCustomize(true);
+    dispatch(IsActiveCustomize());
     setDataOpenCustomize((data) => {
       data.title = typeModel;
       switch (typeModel) {
@@ -168,7 +174,8 @@ function Whitespace(props) {
       props.data?.map((typeBlock, idx1) => {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
-            setIsOpenCustomize(false);
+            dispatch(NotActiveCustomize());
+
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
             dispatch(dontClickDelete());
@@ -195,7 +202,8 @@ function Whitespace(props) {
       props.data?.map((typeBlock, idx1) => {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
-            setIsOpenCustomize(false);
+            dispatch(NotActiveCustomize());
+
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
             setOnDelete(true);
@@ -278,11 +286,11 @@ function Whitespace(props) {
       typeBlock.list?.map((item, idx2) => {
         if (item.isSelected) {
           const { id, type } = item;
-          // setIsOpenCustomize(false);
           // // console.log("check:", item,idx1,idx2)
           // removeElement(idx1, idx2);
           // setOnDelete(true)
           dispatch(onClickSelectData({ id, type }));
+          dispatch(NotActiveTools());
           setI(item);
           // setSelect(item.isSelected)
         }
@@ -293,11 +301,12 @@ function Whitespace(props) {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
             const { id, type } = item;
-            // setIsOpenCustomize(false);
             // // console.log("check:", item,idx1,idx2)
             // removeElement(idx1, idx2);
             // setOnDelete(true)
             dispatch(onClickSelectData({ id, type }));
+            dispatch(NotActiveTools());
+
             setI(item);
             // setSelect(item.isSelected)
           }
@@ -312,7 +321,8 @@ function Whitespace(props) {
         props.data?.map((typeBlock, idx1) => {
           typeBlock.list?.map((item, idx2) => {
             if (item.isSelected) {
-              setIsOpenCustomize(false);
+              dispatch(NotActiveCustomize());
+
               // console.log("check:", item,idx1,idx2)
               removeElement(idx1, idx2);
               dispatch(dontClickInputText());
@@ -444,6 +454,15 @@ function Whitespace(props) {
 
   return (
     <>
+      {/* <TransformWrapper
+        minScale={0.6}
+        maxScale={1}
+        centerZoomedOut
+        centerOnInit
+        smooth
+        
+      >
+        <TransformComponent> */}
       <div
         className="w-[10000px] h-[10000px] bg-repeat whitespace"
         id="boxDrop"
@@ -459,7 +478,9 @@ function Whitespace(props) {
           {tools && <Tools />}
         </div>
       </div>
-      {isOpenCustomize && (
+      {/* </TransformComponent>
+      </TransformWrapper> */}
+      {customize && (
         <Customize
           title={DataOpenCustomize.title}
           tools={DataOpenCustomize.tools}

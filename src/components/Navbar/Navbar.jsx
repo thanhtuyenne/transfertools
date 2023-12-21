@@ -20,6 +20,10 @@ import {
 } from "@phosphor-icons/react";
 import MobileOption from "./MobileOption";
 import { IsActiveTools, NotActiveTools } from "../../redux/activeToolsSlice";
+import {
+  IsActiveCustomize,
+  NotActiveCustomize,
+} from "../../redux/activeCustomizeSlice";
 
 const Navbar = (props) => {
   const { setDefaultPosition, addElement } = props;
@@ -73,10 +77,7 @@ const Navbar = (props) => {
       rect = workspace.getBoundingClientRect();
     }
     setDefaultPosition({
-      x:
-        wsContainer.scrollLeft +
-        window.innerWidth / 2 -
-        250 / 2 ,
+      x: wsContainer.scrollLeft + window.innerWidth / 2 - 250 / 2,
       y:
         rect.height -
         wsContainer.scrollTop -
@@ -99,6 +100,8 @@ const Navbar = (props) => {
     };
   }, []);
 
+  const [popupMobile, setPopupMobile] = useState(false);
+
   return (
     <>
       <div className="container1">
@@ -119,6 +122,14 @@ const Navbar = (props) => {
                 onMouseUp={(e) => {
                   e.stopPropagation();
                   addElement("Text");
+                }}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
+                  addElement("Text");
+                }}
+                onTouchStart={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
                 }}
               >
                 <TextT size={32} />
@@ -143,6 +154,14 @@ const Navbar = (props) => {
                   e.stopPropagation();
                   addElement("Image");
                 }}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
+                  addElement("Image");
+                }}
+                onTouchStart={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
+                }}
               >
                 <Image size={32} />
                 <span className="lg:hidden md:hidden">IMAGE</span>
@@ -166,6 +185,14 @@ const Navbar = (props) => {
                   e.stopPropagation();
                   addElement("Video");
                 }}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
+                  addElement("Video");
+                }}
+                onTouchStart={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
+                }}
               >
                 <VideoCamera size={32} />
                 <span className="lg:hidden md:hidden">VIDEO</span>
@@ -173,24 +200,48 @@ const Navbar = (props) => {
             </abbr>
           </Draggable>
           {screen ? (
-            <Popup
-              trigger={
-                <div className="flex flex-col lg:hidden md:hidden items-center">
-                  <button className="relative mobileOption">
-                    <DotsThreeOutline size={32} color="white" />
-                  </button>
-                  <span className="font-bold text-white">MORE</span>
-                </div>
-              }
-              arrow={false}
-            >
-              {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
-              <MobileOption
-                addElement={addElement}
-                setCenterDefaultPosition={setCenterDefaultrPositionBox}
-              />
-            </Popup>
+            <>
+              <div
+                className="flex flex-col lg:hidden md:hidden items-center relative"
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  setPopupMobile(!popupMobile);
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPopupMobile(!popupMobile);
+                }}
+              >
+                <button className="relative mobileOption">
+                  <DotsThreeOutline size={32} color="white" />
+                </button>
+                <span className="font-bold text-white">MORE</span>
+              </div>
+              {popupMobile && (
+                <MobileOption
+                  addElement={addElement}
+                  setCenterDefaultPosition={setCenterDefaultrPositionBox}
+                />
+              )}
+            </>
           ) : (
+            // <Popup
+            //   trigger={
+            //     <div className="flex flex-col lg:hidden md:hidden items-center" >
+            //       <button className="relative mobileOption">
+            //         <DotsThreeOutline size={32} color="white" />
+            //       </button>
+            //       <span className="font-bold text-white">MORE</span>
+            //     </div>
+            //   }
+            //   arrow={false}
+            // >
+            //   {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
+            //   <MobileOption
+            //     addElement={addElement}
+            //     setCenterDefaultPosition={setCenterDefaultrPositionBox}
+            //   />
+            // </Popup>
             <>
               <Draggable
                 className=" cursor-pointer"
@@ -260,15 +311,16 @@ const Navbar = (props) => {
               </Draggable>
               <abbr title="Tools">
                 <div
-                  className={`md:flex lg:flex box_1 hover:bg-[#7ed6df] ${
-                    activeSetting ? "active-setting" : ""
+                  className={`md:flex lg:flex box_1 hover:bg-[#7ed6df] z-[10] ${
+                    tools ? "active-setting" : ""
                   }`}
                   id="setting"
                   onClick={() => {
                     tools
                       ? dispatch(NotActiveTools())
                       : dispatch(IsActiveTools());
-                    setActiveSetting(!activeSetting);
+                    setActiveSetting(!tools);
+                    dispatch(NotActiveCustomize());
                   }}
                 >
                   <Hammer size={32} />
