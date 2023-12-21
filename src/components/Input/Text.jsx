@@ -119,7 +119,7 @@ export const URLInput = () => {
 
   return (
     <div className="touch-none h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
-      <LinkSimple size={20} className="text-blue" />
+      <LinkSimple size={25} className="text-blue" />
       <input
         value={linkValue}
         onChange={(e) => {
