@@ -1,15 +1,33 @@
 // import { Repeat } from "@phosphor-icons/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDataByIdText, dontClickInputText } from "../../redux/clickTextSlice";
-import { deleteDataByIdImage, dontClickImage } from "../../redux/clickImageSlice";
+import {
+  deleteDataByIdText,
+  dontClickInputText,
+} from "../../redux/clickTextSlice";
+import {
+  deleteDataByIdImage,
+  dontClickImage,
+} from "../../redux/clickImageSlice";
 import Element from "./Element";
 import Customize from "../Customize/Customize";
 import ToSpeech from "../Customize/ToSpeech";
-import { deleteDataByIdUrl, dontClickInputUrl } from "../../redux/clickURLSlice";
-import { deleteDataByIdRecord, dontClickRecord } from "../../redux/clickRecordSlice";
-import { deleteDataByIdVideo, dontClickVideo } from "../../redux/clickVideoSlice";
-import { deleteDataByIdAudio, dontClickAudio } from "../../redux/clickAudioSlice";
+import {
+  deleteDataByIdUrl,
+  dontClickInputUrl,
+} from "../../redux/clickURLSlice";
+import {
+  deleteDataByIdRecord,
+  dontClickRecord,
+} from "../../redux/clickRecordSlice";
+import {
+  deleteDataByIdVideo,
+  dontClickVideo,
+} from "../../redux/clickVideoSlice";
+import {
+  deleteDataByIdAudio,
+  dontClickAudio,
+} from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
 import RightClickMenu from "../PopupDragFile/PopupContextMenu";
@@ -127,17 +145,17 @@ function Whitespace(props) {
     <>
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
-          <RightClickMenu
-          // setOnDelete={setOnDelete}
-          >
-            <Element
-              type={element.type}
-              key={index}
-              coor={element}
-              updateCoors={props.updateElement}
-              openCustomize={handleOpenCustomize}
-            />
-          </RightClickMenu>
+          // <RightClickMenu
+          // // setOnDelete={setOnDelete}
+          // >
+          <Element
+            type={element.type}
+            key={index}
+            coor={element}
+            updateCoors={props.updateElement}
+            openCustomize={handleOpenCustomize}
+          />
+          // </RightClickMenu>
         ))}
     </>
   ));
@@ -180,30 +198,30 @@ function Whitespace(props) {
             setIsOpenCustomize(false);
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
-            setOnDelete(true)
+            setOnDelete(true);
             switch (item.type) {
               case "Text":
-                dispatch(deleteDataByIdText(item.id))
+                dispatch(deleteDataByIdText(item.id));
                 break;
               case "Image":
-                dispatch(deleteDataByIdImage(item.id))
-                
+                dispatch(deleteDataByIdImage(item.id));
+
                 break;
               case "Video":
-                dispatch(deleteDataByIdVideo(item.id))
-                
+                dispatch(deleteDataByIdVideo(item.id));
+
                 break;
               case "Audio":
-                dispatch(deleteDataByIdAudio(item.id))
-                
+                dispatch(deleteDataByIdAudio(item.id));
+
                 break;
               case "URL":
-                dispatch(deleteDataByIdUrl(item.id))
-                
+                dispatch(deleteDataByIdUrl(item.id));
+
                 break;
               case "Record":
-                dispatch(deleteDataByIdRecord(item.id))
-                
+                dispatch(deleteDataByIdRecord(item.id));
+
                 break;
               default:
                 break;
@@ -217,30 +235,30 @@ function Whitespace(props) {
             typeBlock.list?.map((item, idx2) => {
               if (item.isSelected) {
                 removeElement(idx1, idx2);
-                setOnDelete(true)
+                setOnDelete(true);
                 switch (item.type) {
                   case "Text":
-                    dispatch(deleteDataByIdText(item.id))
+                    dispatch(deleteDataByIdText(item.id));
                     break;
                   case "Image":
-                    dispatch(deleteDataByIdImage(item.id))
-                    
+                    dispatch(deleteDataByIdImage(item.id));
+
                     break;
                   case "Video":
-                    dispatch(deleteDataByIdVideo(item.id))
-                    
+                    dispatch(deleteDataByIdVideo(item.id));
+
                     break;
                   case "Audio":
-                    dispatch(deleteDataByIdAudio(item.id))
-                    
+                    dispatch(deleteDataByIdAudio(item.id));
+
                     break;
                   case "URL":
-                    dispatch(deleteDataByIdUrl(item.id))
-                    
+                    dispatch(deleteDataByIdUrl(item.id));
+
                     break;
                   case "Record":
-                    dispatch(deleteDataByIdRecord(item.id))
-                    
+                    dispatch(deleteDataByIdRecord(item.id));
+
                     break;
                   default:
                     break;
@@ -305,27 +323,27 @@ function Whitespace(props) {
               dispatch(dontClickAudio());
               switch (item.type) {
                 case "Text":
-                  dispatch(deleteDataByIdText(item.id))
+                  dispatch(deleteDataByIdText(item.id));
                   break;
                 case "Image":
-                  dispatch(deleteDataByIdImage(item.id))
-                  
+                  dispatch(deleteDataByIdImage(item.id));
+
                   break;
                 case "Video":
-                  dispatch(deleteDataByIdVideo(item.id))
-                  
+                  dispatch(deleteDataByIdVideo(item.id));
+
                   break;
                 case "Audio":
-                  dispatch(deleteDataByIdAudio(item.id))
-                  
+                  dispatch(deleteDataByIdAudio(item.id));
+
                   break;
                 case "URL":
-                  dispatch(deleteDataByIdUrl(item.id))
-                  
+                  dispatch(deleteDataByIdUrl(item.id));
+
                   break;
                 case "Record":
-                  dispatch(deleteDataByIdRecord(item.id))
-                  
+                  dispatch(deleteDataByIdRecord(item.id));
+
                   break;
                 default:
                   break;
@@ -351,27 +369,27 @@ function Whitespace(props) {
                 dispatch(dontClickAudio());
                 switch (item.type) {
                   case "Text":
-                    dispatch(deleteDataByIdText(item.id))
+                    dispatch(deleteDataByIdText(item.id));
                     break;
                   case "Image":
-                    dispatch(deleteDataByIdImage(item.id))
-                    
+                    dispatch(deleteDataByIdImage(item.id));
+
                     break;
                   case "Video":
-                    dispatch(deleteDataByIdVideo(item.id))
-                    
+                    dispatch(deleteDataByIdVideo(item.id));
+
                     break;
                   case "Audio":
-                    dispatch(deleteDataByIdAudio(item.id))
-                    
+                    dispatch(deleteDataByIdAudio(item.id));
+
                     break;
                   case "URL":
-                    dispatch(deleteDataByIdUrl(item.id))
-                    
+                    dispatch(deleteDataByIdUrl(item.id));
+
                     break;
                   case "Record":
-                    dispatch(deleteDataByIdRecord(item.id))
-                    
+                    dispatch(deleteDataByIdRecord(item.id));
+
                     break;
                   default:
                     break;

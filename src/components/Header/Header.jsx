@@ -8,8 +8,8 @@ const Header = () => {
   const [botChat, setBotChat] = useState(false);
   return (
     <>
-      <div className="headerTrans lg:justify-between justify-end">
-        <div className="hidden lg:block">
+      <div className="headerTrans">
+        <div>
           <ToggleSwitch />
         </div>
         <div className="flex items-center">

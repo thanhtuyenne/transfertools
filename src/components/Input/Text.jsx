@@ -21,19 +21,6 @@ import {
 import InputOption from "../Navbar/InputOption";
 import Popup from "reactjs-popup";
 
-// export const Noti = (message) => {
-//   return (
-//     <span>
-//       <WarningCircle
-//         size={15}
-//         className="text-white bg-red-600 rounded-full absolute bottom-2 right-2"
-//       />
-//       <span className="absolute top-0 bg-red-300 border-black border-1 bottom-2 ">
-//         <nav>{message}</nav>
-//       </span>
-//     </span>
-//   );
-// };
 export const TextInput = () => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
@@ -86,7 +73,10 @@ export const TextInput = () => {
       />
       <Popup
         trigger={
-          <DotsThreeOutlineVertical size={32} className="lg:hidden text-blue" />
+          <DotsThreeOutlineVertical
+            size={32}
+            className="text-blue cursor-pointer"
+          />
         }
       >
         <InputOption />
@@ -145,9 +135,7 @@ export const URLInput = () => {
         className="w-full text-black outline-none border-0 border-none focus:ring-0 bg-transparent  "
       />
       <Popup
-        trigger={
-          <DotsThreeOutlineVertical size={32} className="lg:hidden text-blue" />
-        }
+        trigger={<DotsThreeOutlineVertical size={32} className="text-blue" />}
       >
         <InputOption />
       </Popup>

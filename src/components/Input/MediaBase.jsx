@@ -86,7 +86,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
           trigger={
             <DotsThreeOutlineVertical
               size={32}
-              className="lg:hidden text-blue"
+              className="cursor-pointer text-blue"
             />
           }
         >

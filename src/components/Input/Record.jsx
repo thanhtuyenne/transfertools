@@ -133,7 +133,7 @@ function Record() {
           trigger={
             <DotsThreeOutlineVertical
               size={32}
-              className="lg:hidden text-blue"
+              className="cursor-pointer text-blue"
             />
           }
         >

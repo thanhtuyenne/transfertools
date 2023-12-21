@@ -39,7 +39,7 @@ function PopupSetting() {
     <>
       <div className="w-[250px] absolute top-6 left-[-3rem] bg-white text-[#2f3542] shadow-md rounded-md px-3 py-3">
         <span className="font-bold text-lg">Lock / Unlock</span>
-        {screen && (
+        {/* {screen && ( */}
           <div
             onClick={() => {
               handleToggleToolbox();
@@ -50,7 +50,7 @@ function PopupSetting() {
             <Swap size={26} />
             <span className="text-[1.2rem]">Toolbox</span>
           </div>
-        )}
+        {/* )} */}
         <div
           onClick={() => handleToggleCustomize()}
           className={`my-2 flex items-center border-2 w-[100%] p-2 justify-around cursor-pointer transition-[0.25s]
