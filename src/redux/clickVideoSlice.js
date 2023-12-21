@@ -19,11 +19,16 @@ export const clickVideoSlice = createSlice({
     },
     dontClickVideo: (state) =>{
       state.value= false;
+    },
+    deleteDataByIdVideo: (state, action) => {
+      const idToDelete = action.payload;
+      state.data = state.data.filter((item,index) => index +1 !== idToDelete);
+
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { onClickVideo,dontClickVideo } = clickVideoSlice.actions
+export const { onClickVideo,dontClickVideo,deleteDataByIdVideo } = clickVideoSlice.actions
 
 export default clickVideoSlice.reducer

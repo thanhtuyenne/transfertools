@@ -26,11 +26,16 @@ export const clickURLSlice = createSlice({
     },
     dontClickInputUrl: (state) =>{
       state.value= false;
+    },
+    deleteDataByIdUrl: (state, action) => {
+      const idToDelete = action.payload;
+      state.data = state.data.filter((item,index) => index +1 !== idToDelete);
+
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setInputValueUrl,onClickInputUrl,dontClickInputUrl } = clickURLSlice.actions
+export const { setInputValueUrl,onClickInputUrl,dontClickInputUrl,deleteDataByIdUrl } = clickURLSlice.actions
 
 export default clickURLSlice.reducer

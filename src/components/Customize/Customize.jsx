@@ -63,9 +63,9 @@ function Customize({ title, tools = [] }) {
   // Dữ liệu Image Chưa sử lý
   const inputImage = useSelector((state) => state.clickImage.value);
   const dataInputImage = useSelector((state) => state.clickImage.data);
+  // DỮ liệu select 
+  const selectData = useSelector((state) => state.clickSelect.data)
 
-  // DỮ liệu select
-  const selectData = useSelector((state) => state.clickSelect.data);
   // Thao tác lọc dữ liệu
   const handleData = () => {
     switch (selectData.type) {
@@ -77,9 +77,9 @@ function Customize({ title, tools = [] }) {
         break;
       case "Image":
         const dataImage = dataInputImage.find((item, index) => {
-          return selectData.id === index + 1;
-        });
-        console.log("checkDataImage:", dataImage);
+          return selectData.id === index + 1
+        })
+        console.log("checkDataImage:", dataImage)
 
         break;
       case "Video":

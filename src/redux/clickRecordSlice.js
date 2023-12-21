@@ -21,9 +21,14 @@ export const clickRecordSlice = createSlice({
       state.value= false;
     }
   },
+  deleteDataByIdRecord: (state, action) => {
+    const idToDelete = action.payload;
+    state.data = state.data.filter((item,index) => index +1 !== idToDelete);
+
+  }
 })
 
 // Action creators are generated for each case reducer function
-export const { onClickRecord,dontClickRecord } = clickRecordSlice.actions
+export const { onClickRecord,dontClickRecord,deleteDataByIdRecord } = clickRecordSlice.actions
 
 export default clickRecordSlice.reducer

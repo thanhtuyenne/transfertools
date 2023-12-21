@@ -26,9 +26,14 @@ export const clickTextSlice = createSlice({
     dontClickInputText: (state) => {
       state.value = false;
     },
+    deleteDataByIdText: (state, action) => {
+      const idToDelete = action.payload;
+      state.data = state.data.filter((item,index) => index +1 !== idToDelete);
+
+    }
   },
 });
 
-export const { setInputValueText, onClickInputText, dontClickInputText } = clickTextSlice.actions;
+export const { setInputValueText, onClickInputText, dontClickInputText,deleteDataByIdText } = clickTextSlice.actions;
 
 export default clickTextSlice.reducer;
