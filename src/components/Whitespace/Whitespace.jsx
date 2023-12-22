@@ -147,6 +147,8 @@ function Whitespace(props) {
       return data;
     });
   };
+  const [scaleValue, setScaleValue] = useState();
+
   const renderedElements = props.data?.map((typeBlock) => (
     <>
       {typeBlock.list?.length > 0 &&
@@ -432,7 +434,7 @@ function Whitespace(props) {
     wsCon.addEventListener("mousemove", mouseMoveHandler);
     wsCon.addEventListener("mouseup", mouseUpHandler);
   };
-  if (wsCon) wsCon.addEventListener("mousedown", mouseDownHandler);
+  // if (wsCon) wsCon.addEventListener("mousedown", mouseDownHandler);
 
   const mouseMoveHandler = function (e) {
     // How far the mouse has been moved
@@ -451,34 +453,42 @@ function Whitespace(props) {
     wsCon.removeEventListener("mouseup", mouseUpHandler);
   };
 
+  const transformDefault = {
+    scale: 1,
+    positionX: 0,
+    positionY: 0,
+  };
+
   return (
     <>
-      {/* <TransformWrapper
-        minScale={0.6}
+      <TransformWrapper
+        onTransformed={(ref, state) => {
+          props.setTransform(state);
+          setScaleValue(state.scale);
+        }}
+        centerOnInit={true}
+        minScale={0.5}
         maxScale={1}
-        centerZoomedOut
-        centerOnInit
-        smooth
-        
+        initialScale={transformDefault.scale}
       >
-        <TransformComponent> */}
-      <div
-        className="w-[10000px] h-[10000px] bg-repeat whitespace"
-        id="boxDrop"
-        ref={wsRef}
-      >
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundColor: "rgba(255,255,255,.6)",
-          }}
-        >
-          {renderedElements}
-          {tools && <Tools />}
-        </div>
-      </div>
-      {/* </TransformComponent>
-      </TransformWrapper> */}
+        <TransformComponent wrapperStyle={{ width: "100vw", height: "100vh" }}>
+          <div
+            className="w-[10000px] h-[10000px] bg-repeat whitespace"
+            id="boxDrop"
+            ref={wsRef}
+          >
+            <div
+              className="w-full h-full"
+              style={{
+                backgroundColor: "rgba(255,255,255,.6)",
+              }}
+            >
+              {renderedElements}
+            </div>
+          </div>
+        </TransformComponent>
+      </TransformWrapper>
+      {tools && <Tools />}
       {isOpenCustomize && (
         <Customize
           title={DataOpenCustomize.title}

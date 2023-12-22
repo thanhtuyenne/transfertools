@@ -10,6 +10,7 @@ import Draggable from "react-draggable";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { onClickDataIdType } from "./redux/clickDataIdType";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 function App() {
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ function App() {
       input: <Record />,
     },
   ];
+  const [zDefault, setZDefault] = useState(0);
   const addElement = (typeName) => {
     setData((prev) => {
       const newEl = {
@@ -101,11 +103,13 @@ function App() {
       // console.log(data.length);
       let typeFound = prev.find((type) => type.typeName === typeName);
       // Not found type
+      console.log(typeFound);
       if (!typeFound) {
+        setZDefault(zDefault + 1);
         typeFound = {
           typeId: data.length + 1,
           typeName,
-          list: [{ ...newEl, id: 1, z: data.length + 1 }],
+          list: [{ ...newEl, id: 1, z: zDefault }],
         };
         prev.push(typeFound);
         return prev;
@@ -113,12 +117,13 @@ function App() {
       // Found type
       else {
         // return prev;
+        setZDefault(zDefault + 1);
+
         typeFound.list.push({
           ...newEl,
           id: typeFound.list.length + 1,
-          z: data.length + 1,
+          z: zDefault,
         });
-        prev.push(typeFound);
         return prev;
       }
     });
@@ -162,17 +167,33 @@ function App() {
   }, [data]);
 
   const toolbox = useSelector((state) => state.toolbox.value);
-
+  const [transform, setTransform] = useState({
+    scale: 1,
+    positionX: 0,
+    positionY: 0,
+  });
   return (
     <div
-      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto scrollar-cus
+      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto
       "
       id="ws-container"
     >
       <div>
         <Header />
       </div>
-      <div className="w-full">
+      {/* <TransformWrapper
+        onTransformed={(ref, state) => setTransform(state)}
+        centerOnInit={true}
+        minScale={0.5}
+        maxScale={1}
+        initialScale={transform.scale}
+        onWheel={(ref, e) => console.log(ref, e)}
+      > */}
+      <div
+        className={`w-full h-ful overflow-hidden cursor-grab ${
+          transform.scale !== 1 && ""
+        }`}
+      >
         <Droppable
           types={["components"]} // <= allowed drop types
           onDrop={onDrop}
@@ -182,19 +203,22 @@ function App() {
             setData={setData}
             update={update}
             updateElement={updateElement}
+            setTransform={setTransform}
           />
         </Droppable>
       </div>
-      {/* </div> */}
-      <Draggable disabled={!toolbox}>
-        <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
-          <Navbar
-            data={data}
-            addElement={addElement}
-            setDefaultPosition={setDefaultPosition}
-          />
-        </div>
-      </Draggable>
+      {transform.scale === 1 && (
+        <Draggable disabled={!toolbox}>
+          <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
+            <Navbar
+              data={data}
+              addElement={addElement}
+              setDefaultPosition={setDefaultPosition}
+              transform={transform}
+            />
+          </div>
+        </Draggable>
+      )}
     </div>
   );
 }

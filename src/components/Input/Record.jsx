@@ -4,21 +4,21 @@ import {
   Pause,
   Record as R,
   Stop,
-  DotsThreeOutlineVertical,
+  XCircle,
 } from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import { useDispatch } from "react-redux";
 import { onClickRecord } from "../../redux/clickRecordSlice";
-import Popup from "reactjs-popup";
-import InputOption from "../Navbar/InputOption";
-
+import { onClickDelete } from "../../redux/clickDeletefile";
 function Record() {
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const [recordValue, setRecordValue] = useState("");
   const reControl = useAudioRecorder();
-
+  const handleClickDelete = () => {
+    dispatch(onClickDelete());
+  };
   useEffect(() => {
     if (!reControl.recordingBlob) return;
     console.log(reControl.recordingBlob);
@@ -129,16 +129,15 @@ function Record() {
             </div>
           )}
         </div>
-        <Popup
-          trigger={
-            <DotsThreeOutlineVertical
-              size={32}
-              className="cursor-pointer text-blue"
-            />
-          }
-        >
-          <InputOption />
-        </Popup>
+        <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col bg-[#3498DB] rounded-bl-[15px] p-1 ">
+          <div
+            className="flex items-center justify-center cursor-pointer"
+            onClick={handleClickDelete}
+            onTouchStart={handleClickDelete}
+          >
+            <XCircle size={22} color="white" />
+          </div>
+        </div>
         {/* <ReactMic record={record} onData={onData} onStop={onStop} /> */}
       </div>
       {/* <button onClick={startRecord} type="button" className="text-black">

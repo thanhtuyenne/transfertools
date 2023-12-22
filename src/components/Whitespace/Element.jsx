@@ -146,7 +146,7 @@ function Box(props) {
       ref.current.classList.add("box-selected");
       startMouseX = e.clientX;
       startMouseY = e.clientY;
-      
+
       // Attach event listeners
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
@@ -219,6 +219,7 @@ function Box(props) {
       document.removeEventListener("mousemove", onMouseMoveRightResize);
       document.removeEventListener("mouseup", onMouseUpRightResize);
     };
+
     const onMouseDownRightResize = (event) => {
       event.stopPropagation();
       x = event.clientX; // set the mouse position at the time clicked
@@ -227,6 +228,31 @@ function Box(props) {
       document.addEventListener("mousemove", onMouseMoveRightResize);
       document.addEventListener("mouseup", onMouseUpRightResize);
     };
+
+    // touch right resize
+    const onTouchMoveRightResize = (event) => {
+      const dx = event.touches[0].pageX - x;
+      x = event.touches[0].pageX;
+      width += dx;
+      width = width > props.coor.mw ? width : props.coor.mw;
+      box.style.width = `${width}px`;
+    };
+    const onTouchUpRightResize = (event) => {
+      props.updateCoors(props.coor.type, props.coor.id, {
+        w: parseInt(box.style.width.slice(0, -2)),
+      });
+      document.removeEventListener("touchmove", onTouchMoveRightResize);
+      document.removeEventListener("touchend", onTouchUpRightResize);
+    };
+    const onTouchDownRightResize = (event) => {
+      event.stopPropagation();
+      x = event.touches[0].pageX; // set the mouse position at the time clicked
+      // box.style.left = props.coor.left;
+      // box.style.right = null;
+      document.addEventListener("touchmove", onTouchMoveRightResize);
+      document.addEventListener("touchend", onTouchUpRightResize);
+    };
+
     // Bottom resize
     const onMouseMoveBottomResize = (event) => {
       const dy = event.clientY - y;
@@ -253,6 +279,32 @@ function Box(props) {
       document.addEventListener("mousemove", onMouseMoveBottomResize);
       document.addEventListener("mouseup", onMouseUpBottomResize);
     };
+    //touch bottom resize
+    const onTouchMoveBottomResize = (event) => {
+      const dy = event.touches[0].pageY - y;
+      y = event.touches[0].pageY;
+      height += dy;
+      height = height > props.coor.mh ? height : props.coor.mh;
+
+      box.style.height = `${height}px`;
+    };
+    const onTouchUpBottomResize = (event) => {
+      const newY = props.coor.y - (height - props.coor.h);
+      props.updateCoors(props.coor.type, props.coor.id, {
+        h: parseInt(box.style.height.slice(0, -2)),
+        y: newY,
+      });
+      document.removeEventListener("touchmove", onTouchMoveBottomResize);
+      document.removeEventListener("touchend", onTouchUpBottomResize);
+    };
+    const onTouchDownBottomResize = (event) => {
+      event.stopPropagation();
+      y = event.touches[0].pageY; // set the mouse position at the time clicked
+      // box.style.left = props.coor.left;
+      // box.style.right = null;
+      document.addEventListener("touchmove", onTouchMoveBottomResize);
+      document.addEventListener("touchend", onTouchUpBottomResize);
+    };
     // Left resize
     const onMouseMoveLeftResize = (event) => {
       const dx = event.clientX - x;
@@ -277,6 +329,30 @@ function Box(props) {
       document.addEventListener("mousemove", onMouseMoveLeftResize);
       document.addEventListener("mouseup", onMouseUpLeftResize);
     };
+    //touch left resize
+    const onTouchMoveLeftResize = (event) => {
+      const dx = event.touches[0].pageX - x;
+      x = event.touches[0].pageX;
+      width -= dx;
+      width = width > props.coor.mw ? width : props.coor.mw;
+      box.style.width = `${width}px`;
+      box.style.setProperty("--left", `${getRef("--left") + dx}px`);
+    };
+    const onTouchUpLeftResize = (event) => {
+      let newXAbsolute = getRef("--left");
+      props.updateCoors(props.coor.type, props.coor.id, {
+        w: parseInt(box.style.width.slice(0, -2)),
+        x: coorRelative(newXAbsolute, props.coor.y).x,
+      });
+      document.removeEventListener("touchmove", onTouchMoveLeftResize);
+      document.removeEventListener("touchend", onTouchUpLeftResize);
+    };
+    const onTouchDownLeftResize = (event) => {
+      event.stopPropagation();
+      x = event.touches[0].pageX;
+      document.addEventListener("touchmove", onTouchMoveLeftResize);
+      document.addEventListener("touchend", onTouchUpLeftResize);
+    };
     // Top resize
     const onMouseMoveTopResize = (event) => {
       const dy = event.clientY - y;
@@ -299,11 +375,40 @@ function Box(props) {
       document.addEventListener("mousemove", onMouseMoveTopResize);
       document.addEventListener("mouseup", onMouseUpTopResize);
     };
+    //touch top resize
+    const onTouchMoveTopResize = (event) => {
+      const dy = event.touches[0].pageY - y;
+      y = event.touches[0].pageY;
+      height -= dy;
+      height = height > props.coor.mh ? height : props.coor.mh;
+      box.style.height = `${height}px`;
+      box.style.setProperty("--top", `${getRef("--top") + dy}px`);
+    };
+    const onTouchUpTopResize = (event) => {
+      props.updateCoors(props.coor.type, props.coor.id, {
+        h: parseInt(box.style.height.slice(0, -2)),
+      });
+      document.removeEventListener("touchmove", onTouchMoveTopResize);
+      document.removeEventListener("touchend", onTouchUpTopResize);
+    };
+    const onTouchDownTopResize = (event) => {
+      event.stopPropagation();
+      y = event.touches[0].pageY;
+      document.addEventListener("touchmove", onTouchMoveTopResize);
+      document.addEventListener("touchend", onTouchUpTopResize);
+    };
 
     right.addEventListener("mousedown", onMouseDownRightResize);
     bottom.addEventListener("mousedown", onMouseDownBottomResize);
     left.addEventListener("mousedown", onMouseDownLeftResize);
     top.addEventListener("mousedown", onMouseDownTopResize);
+
+    //touch
+    right.addEventListener("touchstart", onTouchDownRightResize);
+    bottom.addEventListener("touchstart", onTouchDownBottomResize);
+    left.addEventListener("touchstart", onTouchDownLeftResize);
+    top.addEventListener("touchstart", onTouchDownTopResize);
+
     // For rounded resizer
     topleft.addEventListener("mousedown", onMouseDownLeftResize);
     topleft.addEventListener("mousedown", onMouseDownTopResize);
@@ -313,6 +418,16 @@ function Box(props) {
     bottomleft.addEventListener("mousedown", onMouseDownBottomResize);
     bottomright.addEventListener("mousedown", onMouseDownRightResize);
     bottomright.addEventListener("mousedown", onMouseDownBottomResize);
+
+    // For rounded touch resize
+    topleft.addEventListener("touchstart", onTouchDownLeftResize);
+    topleft.addEventListener("touchstart", onTouchDownTopResize);
+    topright.addEventListener("touchstart", onTouchDownRightResize);
+    topright.addEventListener("touchstart", onTouchDownTopResize);
+    bottomleft.addEventListener("touchstart", onTouchDownLeftResize);
+    bottomleft.addEventListener("touchstart", onTouchDownBottomResize);
+    bottomright.addEventListener("touchstart", onTouchDownRightResize);
+    bottomright.addEventListener("touchstart", onTouchDownBottomResize);
 
     return () => {
       right.removeEventListener("mousedown", onMouseDownRightResize);
@@ -327,6 +442,20 @@ function Box(props) {
       bottomleft.removeEventListener("mousedown", onMouseDownBottomResize);
       bottomright.removeEventListener("mousedown", onMouseDownRightResize);
       bottomright.removeEventListener("mousedown", onMouseDownBottomResize);
+
+      //touch
+      right.removeEventListener("touchstart", onTouchDownRightResize);
+      bottom.removeEventListener("touchstart", onTouchDownBottomResize);
+      left.removeEventListener("touchstart", onTouchDownLeftResize);
+      top.removeEventListener("touchstart", onTouchDownTopResize);
+      topleft.removeEventListener("touchstart", onTouchDownLeftResize);
+      topleft.removeEventListener("touchstart", onTouchDownTopResize);
+      topright.removeEventListener("touchstart", onTouchDownRightResize);
+      topright.removeEventListener("touchstart", onTouchDownTopResize);
+      bottomleft.removeEventListener("touchstart", onTouchDownLeftResize);
+      bottomleft.removeEventListener("touchstart", onTouchDownBottomResize);
+      bottomright.removeEventListener("touchstart", onTouchDownRightResize);
+      bottomright.removeEventListener("touchstart", onTouchDownBottomResize);
     };
   }, [props.coor]);
 
