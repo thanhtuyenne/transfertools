@@ -467,7 +467,6 @@ function Whitespace(props) {
           setScaleValue(state.scale);
         }}
         centerOnInit={true}
-        centerZoomedOut={true}
         minScale={0.5}
         maxScale={1}
         initialScale={transformDefault.scale}
