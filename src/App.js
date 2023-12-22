@@ -177,38 +177,33 @@ function App() {
       <div>
         <Header />
       </div>
-      <TransformWrapper
+      {/* <TransformWrapper
         onTransformed={(ref, state) => setTransform(state)}
         centerOnInit={true}
         minScale={0.5}
         maxScale={1}
         initialScale={transform.scale}
         onWheel={(ref, e) => console.log(ref, e)}
+      > */}
+      <div
+        className={`w-full h-ful overflow-hidden cursor-grab ${
+          transform.scale !== 1 && ""
+        }`}
       >
-        <div
-          className={`w-full h-ful overflow-hidden cursor-grab ${
-            transform.scale !== 1 && ""
-          }`}
+        <Droppable
+          types={["components"]} // <= allowed drop types
+          onDrop={onDrop}
         >
-          <TransformComponent
-            wrapperStyle={{ width: "100vw", height: "100vh" }}
-          >
-            <Droppable
-              types={["components"]} // <= allowed drop types
-              onDrop={onDrop}
-            >
-              <Whitespace
-                data={data}
-                setData={setData}
-                update={update}
-                updateElement={updateElement}
-              />
-            </Droppable>
-          </TransformComponent>
-        </div>
-      </TransformWrapper>
-      {/* </div> */}
-      {transform.scale === 1 && (
+          <Whitespace
+            data={data}
+            setData={setData}
+            update={update}
+            updateElement={updateElement}
+            setTransform={setTransform}
+          />
+        </Droppable>
+      </div>
+      {/* {transform.scale === 1 && ( */}
         <Draggable disabled={!toolbox}>
           <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
             <Navbar
@@ -219,7 +214,7 @@ function App() {
             />
           </div>
         </Draggable>
-      )}
+      {/* )} */}
     </div>
   );
 }

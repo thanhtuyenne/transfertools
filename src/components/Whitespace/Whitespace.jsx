@@ -451,22 +451,39 @@ function Whitespace(props) {
     wsCon.removeEventListener("mouseup", mouseUpHandler);
   };
 
+  const transformDefault = {
+    scale: 1,
+    positionX: 0,
+    positionY: 0,
+  };
+
   return (
     <>
-      <div
-        className="w-[10000px] h-[10000px] bg-repeat whitespace"
-        id="boxDrop"
-        ref={wsRef}
+      <TransformWrapper
+        onTransformed={(ref, state) => props.setTransform(state)}
+        centerOnInit={true}
+        centerZoomedOut={true}
+        minScale={0.5}
+        maxScale={1}
+        initialScale={transformDefault.scale}
       >
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundColor: "rgba(255,255,255,.6)",
-          }}
-        >
-          {renderedElements}
-        </div>
-      </div>
+        <TransformComponent wrapperStyle={{ width: "100vw", height: "100vh" }}>
+          <div
+            className="w-[10000px] h-[10000px] bg-repeat whitespace"
+            id="boxDrop"
+            ref={wsRef}
+          >
+            <div
+              className="w-full h-full"
+              style={{
+                backgroundColor: "rgba(255,255,255,.6)",
+              }}
+            >
+              {renderedElements}
+            </div>
+          </div>
+        </TransformComponent>
+      </TransformWrapper>
       {tools && <Tools />}
       {isOpenCustomize && (
         <Customize
