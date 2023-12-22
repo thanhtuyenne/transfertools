@@ -432,7 +432,7 @@ function Whitespace(props) {
     wsCon.addEventListener("mousemove", mouseMoveHandler);
     wsCon.addEventListener("mouseup", mouseUpHandler);
   };
-  if (wsCon) wsCon.addEventListener("mousedown", mouseDownHandler);
+  // if (wsCon) wsCon.addEventListener("mousedown", mouseDownHandler);
 
   const mouseMoveHandler = function (e) {
     // How far the mouse has been moved
@@ -453,15 +453,6 @@ function Whitespace(props) {
 
   return (
     <>
-      {/* <TransformWrapper
-        minScale={0.6}
-        maxScale={1}
-        centerZoomedOut
-        centerOnInit
-        smooth
-        
-      >
-        <TransformComponent> */}
       <div
         className="w-[10000px] h-[10000px] bg-repeat whitespace"
         id="boxDrop"
@@ -474,11 +465,9 @@ function Whitespace(props) {
           }}
         >
           {renderedElements}
-          {tools && <Tools />}
         </div>
       </div>
-      {/* </TransformComponent>
-      </TransformWrapper> */}
+      {tools && <Tools />}
       {isOpenCustomize && (
         <Customize
           title={DataOpenCustomize.title}

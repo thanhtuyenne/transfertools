@@ -82,7 +82,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
             <span className="text-black w-full text-center">{placeholder}</span>
           )}
         </div>
-        <Popup
+        {/* <Popup
           trigger={
             <DotsThreeOutlineVertical
               size={32}
@@ -91,7 +91,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
           }
         >
           <InputOption />
-        </Popup>
+        </Popup> */}
       </div>
       {popup && file == null && (
         <div className="fixed top-0 left-0 w-full h-full">

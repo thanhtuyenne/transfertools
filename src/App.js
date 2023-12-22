@@ -10,6 +10,7 @@ import Draggable from "react-draggable";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { onClickDataIdType } from "./redux/clickDataIdType";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 function App() {
   const dispatch = useDispatch();
@@ -162,29 +163,46 @@ function App() {
   }, [data]);
 
   const toolbox = useSelector((state) => state.toolbox.value);
-
+  const [transform, setTransform] = useState({
+    scale: 1,
+    positionX: 0,
+    positionY: 0,
+  });
   return (
     <div
-      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto scrollar-cus
+      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto
       "
       id="ws-container"
     >
       <div>
         <Header />
       </div>
-      <div className="w-full">
-        <Droppable
-          types={["components"]} // <= allowed drop types
-          onDrop={onDrop}
-        >
-          <Whitespace
-            data={data}
-            setData={setData}
-            update={update}
-            updateElement={updateElement}
-          />
-        </Droppable>
-      </div>
+      <TransformWrapper
+        onTransformed={(ref, state) => setTransform(state)}
+        centerOnInit={true}
+        minScale={0.4}
+        maxScale={1}
+        initialScale={transform.scale}
+        onWheel={(ref, e) => console.log(ref, e)}
+      >
+        <div className="w-full h-ful overflow-hidden">
+          <TransformComponent
+            wrapperStyle={{ width: "100vw", height: "100vh" }}
+          >
+            <Droppable
+              types={["components"]} // <= allowed drop types
+              onDrop={onDrop}
+            >
+              <Whitespace
+                data={data}
+                setData={setData}
+                update={update}
+                updateElement={updateElement}
+              />
+            </Droppable>
+          </TransformComponent>
+        </div>
+      </TransformWrapper>
       {/* </div> */}
       <Draggable disabled={!toolbox}>
         <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
@@ -192,6 +210,7 @@ function App() {
             data={data}
             addElement={addElement}
             setDefaultPosition={setDefaultPosition}
+            transform={transform}
           />
         </div>
       </Draggable>

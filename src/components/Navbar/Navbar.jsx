@@ -26,7 +26,7 @@ import {
 } from "../../redux/activeCustomizeSlice";
 
 const Navbar = (props) => {
-  const { setDefaultPosition, addElement } = props;
+  const { setDefaultPosition, addElement, transform } = props;
   // const wsContainer = document.getElementById("ws-container");
   const showInfo = (e) => {
     e.stopPropagation();
@@ -38,15 +38,12 @@ const Navbar = (props) => {
       if (workspace) {
         rect = workspace.getBoundingClientRect();
       }
+      const dirX = e.clientX - 250 / 2 - transform.positionX;
+      const dirY = rect.height - 150 / 2 - e.clientY + transform.positionY;
+      // ( + e.clientY - transform.positionY) * transform.scale;
       setDefaultPosition({
-        // x: e.clientX - window.innerWidth * 0.13,
-        // y:
-        //   window.innerHeight -
-        //   e.clientY -
-        //   99.6 +
-        //   (e.target.parentNode.title ? -400 : 60),
-        x: e.clientX - 250 / 2 + wsContainer.scrollLeft,
-        y: rect.height - wsContainer.scrollTop - 150 / 2 - e.clientY,
+        x: dirX,
+        y: dirY,
       });
     }
   };
@@ -77,17 +74,16 @@ const Navbar = (props) => {
       rect = workspace.getBoundingClientRect();
     }
     setDefaultPosition({
-      x: wsContainer.scrollLeft + window.innerWidth / 2 - 250 / 2,
+      x: window.innerWidth / 2 - 250 / 2 - transform.positionX,
       y:
-        rect.height -
-        wsContainer.scrollTop -
+        rect.height +
+        transform.positionY -
         150 / 2 -
         window.innerHeight / 2 +
         Math.floor(Math.random() * (80 - 40 + 1)) +
         40,
     });
   };
-
   useEffect(() => {
     const handleResize = () => {
       setScreen(window.innerWidth <= 768);

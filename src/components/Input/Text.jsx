@@ -71,7 +71,9 @@ export const TextInput = () => {
         minRows={1}
         maxRows={10}
       />
-      <Popup
+      {/* <Popup
+        closeOnDocumentClick={true}
+        closeOnEscape={true}
         trigger={
           <DotsThreeOutlineVertical
             size={32}
@@ -80,7 +82,7 @@ export const TextInput = () => {
         }
       >
         <InputOption />
-      </Popup>
+      </Popup> */}
       {message.length > 0 && <Notify message={message} />}
     </div>
   );
@@ -134,11 +136,11 @@ export const URLInput = () => {
         placeholder="Enter your text ..."
         className="w-full text-black outline-none border-0 border-none focus:ring-0 bg-transparent  "
       />
-      <Popup
+      {/* <Popup
         trigger={<DotsThreeOutlineVertical size={32} className="text-blue" />}
       >
         <InputOption />
-      </Popup>
+      </Popup> */}
       {mess.length > 0 && <Notify message={mess} />}
     </div>
   );

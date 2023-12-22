@@ -129,7 +129,7 @@ function Record() {
             </div>
           )}
         </div>
-        <Popup
+        {/* <Popup
           trigger={
             <DotsThreeOutlineVertical
               size={32}
@@ -138,7 +138,7 @@ function Record() {
           }
         >
           <InputOption />
-        </Popup>
+        </Popup> */}
         {/* <ReactMic record={record} onData={onData} onStop={onStop} /> */}
       </div>
       {/* <button onClick={startRecord} type="button" className="text-black">
