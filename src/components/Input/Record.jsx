@@ -129,13 +129,13 @@ function Record() {
             </div>
           )}
         </div>
-        <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col ">
+        <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col bg-[#3498DB] rounded-bl-[15px] p-1 ">
           <div
-            className="flex items-center justify-center p-2 cursor-pointer"
+            className="flex items-center justify-center cursor-pointer"
             onClick={handleClickDelete}
             onTouchStart={handleClickDelete}
           >
-            <XCircle size={22} color="black" />
+            <XCircle size={22} color="white" />
           </div>
         </div>
         {/* <ReactMic record={record} onData={onData} onStop={onStop} /> */}

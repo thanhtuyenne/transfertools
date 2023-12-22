@@ -76,6 +76,7 @@ function App() {
       input: <Record />,
     },
   ];
+  const [zDefault, setZDefault] = useState(0);
   const addElement = (typeName) => {
     setData((prev) => {
       const newEl = {
@@ -102,11 +103,13 @@ function App() {
       // console.log(data.length);
       let typeFound = prev.find((type) => type.typeName === typeName);
       // Not found type
+      console.log(typeFound);
       if (!typeFound) {
+        setZDefault(zDefault + 1);
         typeFound = {
           typeId: data.length + 1,
           typeName,
-          list: [{ ...newEl, id: 1, z: data.length + 1 }],
+          list: [{ ...newEl, id: 1, z: zDefault }],
         };
         prev.push(typeFound);
         return prev;
@@ -114,12 +117,13 @@ function App() {
       // Found type
       else {
         // return prev;
+        setZDefault(zDefault + 1);
+
         typeFound.list.push({
           ...newEl,
           id: typeFound.list.length + 1,
-          z: data.length + 1,
+          z: zDefault,
         });
-        prev.push(typeFound);
         return prev;
       }
     });
@@ -203,7 +207,7 @@ function App() {
           />
         </Droppable>
       </div>
-      {/* {transform.scale === 1 && ( */}
+      {transform.scale === 1 && (
         <Draggable disabled={!toolbox}>
           <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
             <Navbar
@@ -214,7 +218,7 @@ function App() {
             />
           </div>
         </Draggable>
-      {/* )} */}
+      )}
     </div>
   );
 }

@@ -147,6 +147,8 @@ function Whitespace(props) {
       return data;
     });
   };
+  const [scaleValue, setScaleValue] = useState();
+
   const renderedElements = props.data?.map((typeBlock) => (
     <>
       {typeBlock.list?.length > 0 &&
@@ -460,7 +462,10 @@ function Whitespace(props) {
   return (
     <>
       <TransformWrapper
-        onTransformed={(ref, state) => props.setTransform(state)}
+        onTransformed={(ref, state) => {
+          props.setTransform(state);
+          setScaleValue(state.scale);
+        }}
         centerOnInit={true}
         centerZoomedOut={true}
         minScale={0.5}
