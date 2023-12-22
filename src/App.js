@@ -185,7 +185,11 @@ function App() {
         initialScale={transform.scale}
         onWheel={(ref, e) => console.log(ref, e)}
       >
-        <div className="w-full h-ful overflow-hidden">
+        <div
+          className={`w-full h-ful overflow-hidden cursor-grab ${
+            transform.scale !== 1 && ""
+          }`}
+        >
           <TransformComponent
             wrapperStyle={{ width: "100vw", height: "100vh" }}
           >
