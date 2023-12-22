@@ -180,7 +180,7 @@ function App() {
       <TransformWrapper
         onTransformed={(ref, state) => setTransform(state)}
         centerOnInit={true}
-        minScale={0.4}
+        minScale={0.5}
         maxScale={1}
         initialScale={transform.scale}
         onWheel={(ref, e) => console.log(ref, e)}
@@ -204,16 +204,18 @@ function App() {
         </div>
       </TransformWrapper>
       {/* </div> */}
-      <Draggable disabled={!toolbox}>
-        <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
-          <Navbar
-            data={data}
-            addElement={addElement}
-            setDefaultPosition={setDefaultPosition}
-            transform={transform}
-          />
-        </div>
-      </Draggable>
+      {transform.scale === 1 && (
+        <Draggable disabled={!toolbox}>
+          <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
+            <Navbar
+              data={data}
+              addElement={addElement}
+              setDefaultPosition={setDefaultPosition}
+              transform={transform}
+            />
+          </div>
+        </Draggable>
+      )}
     </div>
   );
 }
