@@ -1,12 +1,18 @@
 import React, { useState, useRef } from "react";
 import PopupDragFile from "../PopupDragFile/PopupDragFile";
-import { Eraser, Trash, DotsThreeOutlineVertical } from "@phosphor-icons/react";
+import {
+  Eraser,
+  Trash,
+  DotsThreeOutlineVertical,
+  XCircle,
+} from "@phosphor-icons/react";
 import { useEffect } from "react";
 import ContextMenu from "./ContextMenu";
 import { Popup } from "reactjs-popup";
 import InputOption from "../Navbar/InputOption";
 import { useDispatch } from "react-redux";
 import { onClickImage } from "../../redux/clickImageSlice";
+import { onClickDelete } from "../../redux/clickDeletefile";
 
 function MediaBase({ IconComp, placeholder, accept, callback }) {
   const [popup, setShowPopup] = useState(false);
@@ -44,7 +50,10 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
     setRightClick(false);
   };
   // document.addEventListener("mousedown", closeContext);
-
+  const dispatch = useDispatch();
+  const handleClickDelete = () => {
+    dispatch(onClickDelete());
+  };
   return (
     <>
       <div
@@ -81,6 +90,15 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
           ) : (
             <span className="text-black w-full text-center">{placeholder}</span>
           )}
+        </div>
+        <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col ">
+          <div
+            className="flex items-center justify-center p-2 cursor-pointer"
+            onClick={handleClickDelete}
+            onTouchStart={handleClickDelete}
+          >
+            <XCircle size={22} color="black" />
+          </div>
         </div>
         {/* <Popup
           trigger={
