@@ -5,14 +5,11 @@ import {
   Record as R,
   Stop,
   XCircle,
-  DotsThreeOutlineVertical,
 } from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import { useDispatch } from "react-redux";
 import { onClickRecord } from "../../redux/clickRecordSlice";
-import Popup from "reactjs-popup";
-import InputOption from "../Navbar/InputOption";
 import { onClickDelete } from "../../redux/clickDeletefile";
 function Record() {
   const dispatch = useDispatch();
