@@ -31,7 +31,7 @@ const Preview = forwardRef(function Preview({ type }, ref) {
           <div className="cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
             <Image size={25} className="text-blue mr-2 shrink-0 flex-0" />
             <div className="outline-none border-0 border-none focus:ring-0 h-full flex items-center justify-center flex-1">
-              <img src="" alt="Preview Image" />
+              <img src="" alt="Preview Image" ref={ref} />
             </div>
           </div>
         )}
@@ -52,6 +52,7 @@ const Preview = forwardRef(function Preview({ type }, ref) {
               onKeyDown={(e) => {
                 e.stopPropagation();
               }}
+              ref={ref}
               value="TEXT PREVIEW"
               readOnly
               className="h-full resize-none text-black outline-none border-0 border-none focus:ring-0 bg-transparent flex-grow p-0 mr-5 overflow-y-scroll no-scrollbar"

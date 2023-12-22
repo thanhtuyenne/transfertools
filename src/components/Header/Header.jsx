@@ -3,8 +3,6 @@ import "./header.css";
 import { useState } from "react";
 import BotChat from "../BotChat/BotChat";
 import ToggleSwitch from "../Button/ToggleSwitch";
-import Popup from "reactjs-popup";
-import Setting from "../PopupSetting/PopupSetting";
 
 const Header = () => {
   const [botChat, setBotChat] = useState(false);

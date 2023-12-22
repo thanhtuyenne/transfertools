@@ -4,11 +4,15 @@ import {
   Pause,
   Record as R,
   Stop,
+  DotsThreeOutlineVertical,
 } from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import { useDispatch } from "react-redux";
 import { onClickRecord } from "../../redux/clickRecordSlice";
+import Popup from "reactjs-popup";
+import InputOption from "../Navbar/InputOption";
+
 function Record() {
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
@@ -23,7 +27,7 @@ function Record() {
 
   const addAudioElement = (blob) => {
     const url = URL.createObjectURL(blob);
-    dispatch(onClickRecord());
+    dispatch(onClickRecord(blob));
     setRecordValue(url);
   };
   function format(time) {
@@ -46,9 +50,10 @@ function Record() {
   };
 
   const [isPause, setIsPause] = useState(false);
+
   return (
     <>
-      <div className="bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
+      <div className="touch-none bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
         <Microphone size={25} className="text-blue mr-2 flex-shrink-0" />
         <div className="outline-none border-0 border-none focus:ring-0 flex-1 text-center">
           {!click && (
@@ -124,6 +129,16 @@ function Record() {
             </div>
           )}
         </div>
+        <Popup
+          trigger={
+            <DotsThreeOutlineVertical
+              size={32}
+              className="cursor-pointer text-blue"
+            />
+          }
+        >
+          <InputOption />
+        </Popup>
         {/* <ReactMic record={record} onData={onData} onStop={onStop} /> */}
       </div>
       {/* <button onClick={startRecord} type="button" className="text-black">

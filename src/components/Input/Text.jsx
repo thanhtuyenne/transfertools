@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import {
   TextT,
@@ -9,37 +9,40 @@ import {
 import Notify from "../Notify/Notify";
 import { useDispatch } from "react-redux";
 import {
+  setInputValueText,
   dontClickInputText,
   onClickInputText,
 } from "../../redux/clickTextSlice";
-import { dontClickInputUrl, onClickInputUrl } from "../../redux/clickURLSlice";
+import {
+  dontClickInputUrl,
+  onClickInputUrl,
+  setInputValueUrl,
+} from "../../redux/clickURLSlice";
 import InputOption from "../Navbar/InputOption";
 import Popup from "reactjs-popup";
 
-// export const Noti = (message) => {
-//   return (
-//     <span>
-//       <WarningCircle
-//         size={15}
-//         className="text-white bg-red-600 rounded-full absolute bottom-2 right-2"
-//       />
-//       <span className="absolute top-0 bg-red-300 border-black border-1 bottom-2 ">
-//         <nav>{message}</nav>
-//       </span>
-//     </span>
-//   );
-// };
-export const TextInput = () => {
+export const TextInput = React.forwardRef(function MyInput(_, ref) {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
+  
+  useEffect(() => {
+    console.log(ref);
+  }, [ref]);
+  // const handleInputChange1 = (event) => {
+  //   const inputValue = event.target.value;
+  //   dispatch(setInputValueText(inputValue));
+  // };
+
+  const handleInputBlur1 = () => {
+    dispatch(onClickInputText());
+  };
 
   const handleChangeInput = (value) => {
     setInputValue(value);
-    localStorage.setItem('text', value);
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
-      dispatch(onClickInputText());
+      dispatch(setInputValueText(value));
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputText());
@@ -53,28 +56,20 @@ export const TextInput = () => {
     setMessage("");
   };
 
-  const [inputOption, setInputOption] = useState(false);
-
   return (
-    <div className="bg-white w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
+    <div className="touch-none bg-white w-full h-full max-h-full border-blue border-2 rounded-md inline-flex justify-center items-center p-[11px]  overflow-y-scroll no-scrollbar">
       <TextT size={25} className="text-blue bg-transparent mr-2" />
-      {/* <input
-                value={inputValue}
-                onChange={(e) =>
-                    handleChangeInput(e.target.value)
-                }
-                type="text"
-                placeholder="Enter your text ..."
-                className="outline-none border-0 border-none focus:ring-0 bg-transparent " /> */}
       <TextareaAutosize
         onKeyDown={(e) => {
           e.stopPropagation();
         }}
+        ref={ref}
         value={inputValue}
         onChange={(e) => {
           validate(e.target.value);
           handleChangeInput(e.target.value);
         }}
+        onBlur={handleInputBlur1}
         className="h-full resize-none text-black outline-none border-0 border-none focus:ring-0 bg-transparent flex-grow p-0 mr-5 overflow-y-scroll no-scrollbar"
         placeholder="Enter your text ..."
         minRows={1}
@@ -84,20 +79,15 @@ export const TextInput = () => {
         trigger={
           <DotsThreeOutlineVertical
             size={32}
-            className="lg:hidden text-blue"
-            onClick={(e) => {
-              setInputOption(!inputOption);
-              e.stopPropagation();
-            }}
+            className="text-blue cursor-pointer"
           />
-        }
-      >
+        }>
         <InputOption />
       </Popup>
       {message.length > 0 && <Notify message={message} />}
     </div>
   );
-};
+});
 
 export const URLInput = () => {
   const [linkValue, setLinkValue] = useState("");
@@ -113,28 +103,33 @@ export const URLInput = () => {
     }
     setMess("");
   };
+
+  const handleInputBlur2 = () => {
+    dispatch(onClickInputUrl());
+  };
   // lưu trạng thái
   const handleChangeLink = (value) => {
     setLinkValue(value);
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
-      dispatch(onClickInputUrl());
+
+      dispatch(setInputValueUrl(value));
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputUrl());
     }
   };
-  const [inputOption, setInputOption] = useState(false);
 
   return (
-    <div className="h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
-      <LinkSimple size={20} className="text-blue" />
+    <div className="touch-none h-full w-full bg-white relative border-blue border-2 rounded-md inline-flex items-center p-[11px]">
+      <LinkSimple size={25} className="text-blue" />
       <input
         value={linkValue}
         onChange={(e) => {
           validateURL(e.target.value);
           handleChangeLink(e.target.value);
         }}
+        onBlur={handleInputBlur2}
         onKeyDown={(e) => {
           e.stopPropagation();
         }}
@@ -143,17 +138,7 @@ export const URLInput = () => {
         className="w-full text-black outline-none border-0 border-none focus:ring-0 bg-transparent  "
       />
       <Popup
-        trigger={
-          <DotsThreeOutlineVertical
-            size={32}
-            className="lg:hidden text-blue"
-            onClick={(e) => {
-              setInputOption(!inputOption);
-              e.stopPropagation();
-            }}
-          />
-        }
-      >
+        trigger={<DotsThreeOutlineVertical size={32} className="text-blue" />}>
         <InputOption />
       </Popup>
       {mess.length > 0 && <Notify message={mess} />}

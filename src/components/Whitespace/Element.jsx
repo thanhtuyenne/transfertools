@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 // import { useSelector } from "react-redux";
 function Box(props) {
   // const dispatch = useDispatch()
@@ -70,6 +69,19 @@ function Box(props) {
       // Update element position
       ref.current.style.setProperty("--left", `${dx}px`);
       ref.current.style.setProperty("--top", `${dy}px`);
+      console.log("mouse");
+    };
+
+    const handleTouchMove = (e) => {
+      e.stopPropagation();
+      let dx, dy;
+      // New position of element
+      dx = e.touches[0].pageX - startMouseX + startX;
+      dy = e.touches[0].pageY - startMouseY + startY;
+      // Update element position
+      ref.current.style.setProperty("--left", `${dx}px`);
+      ref.current.style.setProperty("--top", `${dy}px`);
+      console.log("touch");
     };
     // When user loosen the pointer
     const handleMouseUp = (e) => {
@@ -97,24 +109,73 @@ function Box(props) {
       document.removeEventListener("mouseup", handleMouseUp);
     };
 
+    const handleTouchEnd = (e) => {
+      // Clean up event listeners
+      e.stopPropagation();
+      ref.current.classList.remove("box-selected");
+      document.removeEventListener("touchmove", handleTouchMove);
+      // ref.current.firstChild.classList.remove("touch-none");
+
+      // Update state
+      const newXY = coorRelative(
+        getRef("--left"),
+        getRef("--top"),
+        props.coor.h
+      );
+      props.updateCoors(
+        props.coor.type,
+        props.coor.id,
+        {
+          x: newXY.x,
+          y: newXY.y,
+          isSelected: true,
+        },
+        { isSelected: false }
+      );
+      props.openCustomize(props.type, props.coor.children);
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
       e.stopPropagation();
+      props.setBoxSelected(props.coor);
       if (!ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");
       ref.current.classList.add("box-selected");
       startMouseX = e.clientX;
       startMouseY = e.clientY;
+
       // Attach event listeners
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     };
 
+    const handleTouchStart = (e) => {
+      // if (e.target !== e.currentTarget) return;
+      e.stopPropagation();
+      if (!ref.current.contains(e.target)) return;
+      startX = getRef("--left");
+      startY = getRef("--top");
+      ref.current.classList.add("box-selected");
+      // ref.current.firstChild.classList.add("touch-none");
+
+      startMouseX = e.touches[0].pageX;
+      startMouseY = e.touches[0].pageY;
+
+      // Attach event listeners
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+    };
+
     ref.current.addEventListener("mousedown", handleMouseDown);
+    ref.current.addEventListener("touchstart", handleTouchStart);
     return () => {
-      if (ref.current)
+      if (ref.current) {
         ref.current.removeEventListener("mousedown", handleMouseDown);
+        ref.current.removeEventListener("touchstart", handleTouchStart);
+      }
     };
   }, [props.coor]);
 
@@ -275,8 +336,7 @@ function Box(props) {
       className={` bg-white border-[1px] border-black box ${
         props.coor.isSelected && "box-selected"
       }`}
-      style={style}
-    >
+      style={style}>
       {/* Children here */}
       {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
       {props.coor.children}
@@ -294,20 +354,16 @@ function Box(props) {
           {/* Round resizer */}
           <div
             ref={topleftResize}
-            className="resizer resizer-topleft round-resizer"
-          ></div>
+            className="resizer resizer-topleft round-resizer"></div>
           <div
             ref={toprightResize}
-            className="resizer resizer-topright round-resizer"
-          ></div>
+            className="resizer resizer-topright round-resizer"></div>
           <div
             ref={bottomleftResize}
-            className="resizer resizer-bottomleft round-resizer"
-          ></div>
+            className="resizer resizer-bottomleft round-resizer"></div>
           <div
             ref={bottomrightResize}
-            className="resizer resizer-bottomright round-resizer"
-          ></div>
+            className="resizer resizer-bottomright round-resizer"></div>
         </>
       )}
     </div>

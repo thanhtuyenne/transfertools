@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { Audio, Video, Image } from "./components/Input/Media";
 import { TextInput, URLInput } from "./components/Input/Text";
@@ -6,22 +6,14 @@ import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
 import { Droppable } from "react-drag-and-drop";
-import Tools from "./components/Customize/Tools";
-import RightClickMenu from "./components/PopupDragFile/PopupContextMenu";
 import Draggable from "react-draggable";
 import { useSelector } from "react-redux";
-
-// import BotChat from "./components/BotChat/BotChat";
-// import Customize from "./components/Customize/Customize";
-// import Drag from "./components/drag/Drag";
+import { useDispatch } from "react-redux";
+import { onClickDataIdType } from "./redux/clickDataIdType";
+import { switchCase } from "@babel/types";
 
 function App() {
-  const [isOpenInputText, setIsOpenInputText] = useState(false);
-  const [isOpenInputURL, setIsOpenInputURL] = useState(false);
-  const [isOpenInputAudio, setIsOpenInputAudio] = useState(false);
-  const [isOpenInputVideo, setIsOpenInputVideo] = useState(false);
-  const [isOpenInputImage, setIsOpenInputImage] = useState(false);
-  const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
+  const dispatch = useDispatch();
 
   const [defaultPosition, setDefaultPosition] = useState({
     x: 0,
@@ -54,7 +46,6 @@ function App() {
 
   const onDrop = (value, e) => {
     e.stopPropagation();
-    // console.log("drop ", value);
     addElement(value.components);
   };
   const [update, setUpdate] = useState(0);
@@ -84,7 +75,38 @@ function App() {
       input: <Record />,
     },
   ];
+  const arrRef = [];
+  const getchild = (type) => {
+    let input;
+    const refBox = React.createRef();
+    arrRef.push(refBox);
+    switch (type) {
+      case "Text":
+        input = <TextInput ref={refBox} />;
+        break;
+      case "URL":
+        input = <URLInput />;
+        break;
+      case "Audio":
+        input = <Audio />;
+        break;
+      case "Video":
+        input = <Video />;
+        break;
+      case "Image":
+        input = <Image />;
+        break;
+      case "Record":
+        input = <Record />;
+        break;
+      default:
+        input = null; // or any other default value
+    }
+    return input;
+  };
+
   const addElement = (typeName) => {
+    console.log("add");
     setData((prev) => {
       const newEl = {
         type: typeName,
@@ -95,34 +117,42 @@ function App() {
         mw: defaultSize.w,
         mh: defaultSize.h,
         isSelected: false,
-        z: 2,
-        children: (
-          <>
-            {nameType.map((item) => {
-              if (item.name === typeName) {
-                return <>{item.input}</>;
-              }
-            })}
-          </>
-        ),
+        z: 0,
+        // children: (
+        //   <>
+        //     {nameType.map((item) => {
+        //       if (item.name === typeName) {
+        //         return <>{item.input}</>;
+        //       }
+        //     })}
+        //   </>
+        // ),
+        children: getchild(typeName),
       };
+      // const newData = [...prevData];
       let typeFound = prev.find((type) => type.typeName === typeName);
       // Not found type
       if (!typeFound) {
         typeFound = {
           typeId: data.length + 1,
           typeName,
-          list: [{ ...newEl, id: 1 }],
+          list: [{ ...newEl, id: 1, z: data.length + 1 }],
         };
         prev.push(typeFound);
         return prev;
       }
       // Found type
       else {
-        typeFound.list.push({ ...newEl, id: typeFound.list.length + 1 });
+        // return prev;
+        typeFound.list.push({
+          ...newEl,
+          id: typeFound.list.length + 1,
+          z: data.length + 1,
+        });
         return prev;
       }
     });
+
     setUpdate((prev) => prev + 1);
   };
 
@@ -149,23 +179,33 @@ function App() {
     );
     setUpdate((prev) => prev + 1);
   };
+  useEffect(() => {
+    const data1 = data.map((item) => item.list);
+    const allTypes = data1.flatMap((innerArray) =>
+      innerArray.map((obj) => obj.type)
+    );
+    const allId = data1.flatMap((innerArray) =>
+      innerArray.map((obj) => obj.id)
+    );
+    const allTypesFromSecond = allTypes.slice(1);
+    const allIdFromSecond = allId.slice(1);
+    dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }));
+  }, [data]);
 
   const toolbox = useSelector((state) => state.toolbox.value);
 
   return (
     <div
-      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto
+      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto scrollar-cus
       "
-      id="ws-container"
-    >
+      id="ws-container">
       <div>
         <Header />
       </div>
       <div className="w-full">
         <Droppable
           types={["components"]} // <= allowed drop types
-          onDrop={onDrop}
-        >
+          onDrop={onDrop}>
           <Whitespace
             data={data}
             setData={setData}

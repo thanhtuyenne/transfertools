@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import ContextMenu from "./ContextMenu";
 import { Popup } from "reactjs-popup";
 import InputOption from "../Navbar/InputOption";
+import { useDispatch } from "react-redux";
+import { onClickImage } from "../../redux/clickImageSlice";
 
 function MediaBase({ IconComp, placeholder, accept, callback }) {
   const [popup, setShowPopup] = useState(false);
@@ -18,6 +20,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
   };
   const [file, setFile] = useState(null);
   const [rightClick, setRightClick] = useState(false);
+  // console.log(file)
 
   let removeRef = useRef();
   const mediaRef = useRef();
@@ -41,12 +44,11 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
     setRightClick(false);
   };
   // document.addEventListener("mousedown", closeContext);
-  const [inputOption, setInputOption] = useState(false);
 
   return (
     <>
       <div
-        className="cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
+        className="touch-none cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
         onDoubleClick={openPopup}
         ref={mediaRef}
       >
@@ -84,11 +86,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
           trigger={
             <DotsThreeOutlineVertical
               size={32}
-              className="lg:hidden text-blue"
-              onClick={(e) => {
-                setInputOption(!inputOption);
-                e.stopPropagation();
-              }}
+              className="cursor-pointer text-blue"
             />
           }
         >

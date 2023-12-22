@@ -7,7 +7,6 @@ export default function ContextMenu({
 }) {
   function handleClickOutside(event) {
     if (event.target.contains(contextMenuRef?.current)) {
-      console.log("click outside");
       callback();
     }
     // if (
@@ -15,7 +14,6 @@ export default function ContextMenu({
     //   // &&
     //   //   !contextMenuRef?.current?.contains(event.target)
     // ) {
-    //   console.log("click outside");
     //   callback();
     // }
   }

@@ -8,9 +8,9 @@ function ToggleSwitch() {
     <div>
       <Popup
         trigger={
-          <div className="relative flex items-center font-bold bg-[#3498DB] text-white w-[110px] cursor-pointer p-2 rounded-md justify-between">
-            <span className="text-lg">Setting</span>
-            <GearSix size={26} />
+          <div className="relative flex items-center font-bold bg-[#3498DB] text-white w-[110px] cursor-pointer lg:p-2 py-[4px] px-[8px] rounded-md justify-center lg:justify-between">
+            <span className="text-[16px] uppercase">Setting</span>
+            <GearSix size={26} className="hidden lg:block" />
           </div>
         }
         closeOnDocumentClick={false}

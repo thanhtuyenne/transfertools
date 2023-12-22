@@ -1,20 +1,45 @@
 // import { Repeat } from "@phosphor-icons/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { dontClickInputText } from "../../redux/clickTextSlice";
-import { dontClickImage } from "../../redux/clickImageSlice";
+import {
+  deleteDataByIdText,
+  dontClickInputText,
+} from "../../redux/clickTextSlice";
+import {
+  deleteDataByIdImage,
+  dontClickImage,
+} from "../../redux/clickImageSlice";
 import Element from "./Element";
 import Customize from "../Customize/Customize";
 import ToSpeech from "../Customize/ToSpeech";
-import { dontClickInputUrl } from "../../redux/clickURLSlice";
-import { dontClickRecord } from "../../redux/clickRecordSlice";
-import { dontClickVideo } from "../../redux/clickVideoSlice";
-import { dontClickAudio } from "../../redux/clickAudioSlice";
+import {
+  deleteDataByIdUrl,
+  dontClickInputUrl,
+} from "../../redux/clickURLSlice";
+import {
+  deleteDataByIdRecord,
+  dontClickRecord,
+} from "../../redux/clickRecordSlice";
+import {
+  deleteDataByIdVideo,
+  dontClickVideo,
+} from "../../redux/clickVideoSlice";
+import {
+  deleteDataByIdAudio,
+  dontClickAudio,
+} from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
 import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 import { dontClickDelete } from "../../redux/clickDeletefile";
-
+import { onClickSelectData } from "../../redux/clickSelectData";
+import Tools from "../Customize/Tools";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { NotActiveTools } from "../../redux/activeToolsSlice";
+import {
+  ActiveCustomize,
+  NotActiveCustomize,
+} from "../../redux/activeCustomizeSlice";
 function Whitespace(props) {
   const deleteInput = useSelector((state) => state.clickDelete.value);
   const dispatch = useDispatch();
@@ -26,6 +51,9 @@ function Whitespace(props) {
     title: "",
   });
   const [focusElement, setFocusElement] = useState(null);
+  const tools = useSelector((tool) => tool.tools.value);
+  const customize = useSelector((cus) => cus.customize.value);
+  const [boxSelected, setBoxSelected] = useState(null);
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
@@ -34,7 +62,6 @@ function Whitespace(props) {
     setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
       data.title = typeModel;
-      const ref = React.createRef();
 
       switch (typeModel) {
         case "Text":
@@ -42,13 +69,13 @@ function Whitespace(props) {
             {
               title: "Text to speech",
               comp: <ToSpeech />,
-              preview: <Preview type="Speech" ref={ref}/>,
+              preview: <Preview type="Speech" ref={React.createRef()} />,
             },
             {
               title: "Text to image",
               comp: <></>,
-              preview: <Preview type="Image" />,
-            },
+              preview: <Preview type="Image" ref={React.createRef()}/>,
+            }
           ];
           break;
         case "Image":
@@ -126,17 +153,18 @@ function Whitespace(props) {
     <>
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
-          <RightClickMenu
-          // setOnDelete={setOnDelete}
-          >
-            <Element
-              type={element.type}
-              key={index}
-              coor={element}
-              updateCoors={props.updateElement}
-              openCustomize={handleOpenCustomize}
-            />
-          </RightClickMenu>
+          // <RightClickMenu
+          // // setOnDelete={setOnDelete}
+          // >
+          <Element
+            type={element.type}
+            key={index}
+            coor={element}
+            updateCoors={props.updateElement}
+            openCustomize={handleOpenCustomize}
+            setBoxSelected={setBoxSelected}
+          />
+          // </RightClickMenu>
         ))}
     </>
   ));
@@ -180,6 +208,33 @@ function Whitespace(props) {
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
             setOnDelete(true);
+            switch (item.type) {
+              case "Text":
+                // dispatch(deleteDataByIdText(item.id));
+                break;
+              case "Image":
+                dispatch(deleteDataByIdImage(item.id));
+
+                break;
+              case "Video":
+                dispatch(deleteDataByIdVideo(item.id));
+
+                break;
+              case "Audio":
+                dispatch(deleteDataByIdAudio(item.id));
+
+                break;
+              case "URL":
+                dispatch(deleteDataByIdUrl(item.id));
+
+                break;
+              case "Record":
+                dispatch(deleteDataByIdRecord(item.id));
+
+                break;
+              default:
+                break;
+            }
           }
         });
       });
@@ -190,6 +245,33 @@ function Whitespace(props) {
               if (item.isSelected) {
                 removeElement(idx1, idx2);
                 setOnDelete(true);
+                switch (item.type) {
+                  case "Text":
+                    // dispatch(deleteDataByIdText(item.id));
+                    break;
+                  case "Image":
+                    dispatch(deleteDataByIdImage(item.id));
+
+                    break;
+                  case "Video":
+                    dispatch(deleteDataByIdVideo(item.id));
+
+                    break;
+                  case "Audio":
+                    dispatch(deleteDataByIdAudio(item.id));
+
+                    break;
+                  case "URL":
+                    dispatch(deleteDataByIdUrl(item.id));
+
+                    break;
+                  case "Record":
+                    dispatch(deleteDataByIdRecord(item.id));
+
+                    break;
+                  default:
+                    break;
+                }
               }
             });
           });
@@ -197,21 +279,88 @@ function Whitespace(props) {
       };
     }
   }, [onDelete]);
+
+  const [i, setI] = useState({});
+
+  useEffect(() => {
+    props.data?.map((typeBlock, idx1) => {
+      typeBlock.list?.map((item, idx2) => {
+        if (item.isSelected) {
+          const { id, type } = item;
+          // setIsOpenCustomize(false);
+          // // console.log("check:", item,idx1,idx2)
+          // removeElement(idx1, idx2);
+          // setOnDelete(true)
+          dispatch(onClickSelectData({ id, type }));
+          dispatch(NotActiveTools());
+          setI(item);
+          // setSelect(item.isSelected)
+        }
+      });
+    });
+    return () => {
+      props.data?.map((typeBlock, idx1) => {
+        typeBlock.list?.map((item, idx2) => {
+          if (item.isSelected) {
+            const { id, type } = item;
+            // setIsOpenCustomize(false);
+            // // console.log("check:", item,idx1,idx2)
+            // removeElement(idx1, idx2);
+            // setOnDelete(true)
+            dispatch(onClickSelectData({ id, type }));
+            dispatch(NotActiveTools());
+
+            setI(item);
+            // setSelect(item.isSelected)
+          }
+        });
+      });
+    };
+  }, [props.data]);
+
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Backspace") {
         props.data?.map((typeBlock, idx1) => {
+          
           typeBlock.list?.map((item, idx2) => {
             if (item.isSelected) {
               setIsOpenCustomize(false);
               // console.log("check:", item,idx1,idx2)
               removeElement(idx1, idx2);
-              dispatch(dontClickInputText());
+              // dispatch(dontClickInputText());
               dispatch(dontClickImage());
               dispatch(dontClickInputUrl());
               dispatch(dontClickRecord());
               dispatch(dontClickVideo());
               dispatch(dontClickAudio());
+              switch (item.type) {
+                case "Text":
+                  // dispatch(deleteDataByIdText(item.id));
+                  break;
+                case "Image":
+                  dispatch(deleteDataByIdImage(item.id));
+
+                  break;
+                case "Video":
+                  dispatch(deleteDataByIdVideo(item.id));
+
+                  break;
+                case "Audio":
+                  dispatch(deleteDataByIdAudio(item.id));
+
+                  break;
+                case "URL":
+                  dispatch(deleteDataByIdUrl(item.id));
+
+                  break;
+                case "Record":
+                  dispatch(deleteDataByIdRecord(item.id));
+
+                  break;
+                default:
+                  break;
+              }
             }
           });
         });
@@ -231,6 +380,33 @@ function Whitespace(props) {
                 dispatch(dontClickRecord());
                 dispatch(dontClickVideo());
                 dispatch(dontClickAudio());
+                switch (item.type) {
+                  case "Text":
+                    // dispatch(deleteDataByIdText(item.id));
+                    break;
+                  case "Image":
+                    dispatch(deleteDataByIdImage(item.id));
+
+                    break;
+                  case "Video":
+                    dispatch(deleteDataByIdVideo(item.id));
+
+                    break;
+                  case "Audio":
+                    dispatch(deleteDataByIdAudio(item.id));
+
+                    break;
+                  case "URL":
+                    dispatch(deleteDataByIdUrl(item.id));
+
+                    break;
+                  case "Record":
+                    dispatch(deleteDataByIdRecord(item.id));
+
+                    break;
+                  default:
+                    break;
+                }
               }
             });
           });
@@ -280,25 +456,40 @@ function Whitespace(props) {
   };
 
   return (
-    <div
-      className="w-[1000vw] h-[1000vh] bg-repeat whitespace"
-      id="boxDrop"
-      ref={wsRef}>
+    <>
+      {/* <TransformWrapper
+        minScale={0.6}
+        maxScale={1}
+        centerZoomedOut
+        centerOnInit
+        smooth
+        
+      >
+        <TransformComponent> */}
       <div
-        className="w-full h-full"
-        style={{
-          backgroundColor: "rgba(255,255,255,.6)",
-        }}>
-        {isOpenCustomize && (
-          <Customize
-            title={DataOpenCustomize.title}
-            tools={DataOpenCustomize.tools}
-            // isOpen={setIsOpenCustomize}
-          />
-        )}
-        {renderedElements}
+        className="w-[10000px] h-[10000px] bg-repeat whitespace"
+        id="boxDrop"
+        ref={wsRef}>
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundColor: "rgba(255,255,255,.6)",
+          }}>
+          {renderedElements}
+          {tools && <Tools />}
+        </div>
       </div>
-    </div>
+      {/* </TransformComponent>
+      </TransformWrapper> */}
+      {isOpenCustomize && (
+        <Customize
+          title={DataOpenCustomize.title}
+          tools={DataOpenCustomize.tools}
+          boxSelected={boxSelected}
+          // isOpen={setIsOpenCustomize}
+        />
+      )}
+    </>
   );
 }
 
