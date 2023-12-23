@@ -5,12 +5,10 @@ import { TextInput, URLInput } from "./components/Input/Text";
 import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
-import { Droppable } from "react-drag-and-drop";
 import Draggable from "react-draggable";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { onClickDataIdType } from "./redux/clickDataIdType";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,11 +42,7 @@ function App() {
     },
   ]);
 
-  const onDrop = (value, e) => {
-    e.stopPropagation();
-    // console.log("drop ", value);
-    addElement(value.components);
-  };
+  
   const [update, setUpdate] = useState(0);
   const nameType = [
     {
@@ -103,7 +97,6 @@ function App() {
       // console.log(data.length);
       let typeFound = prev.find((type) => type.typeName === typeName);
       // Not found type
-      console.log(typeFound);
       if (!typeFound) {
         setZDefault(zDefault + 1);
         typeFound = {
@@ -194,31 +187,27 @@ function App() {
           transform.scale !== 1 && ""
         }`}
       >
-        <Droppable
-          types={["components"]} // <= allowed drop types
-          onDrop={onDrop}
-        >
-          <Whitespace
-            data={data}
-            setData={setData}
-            update={update}
-            updateElement={updateElement}
-            setTransform={setTransform}
-          />
-        </Droppable>
+        <Whitespace
+          data={data}
+          setData={setData}
+          update={update}
+          updateElement={updateElement}
+          setTransform={setTransform}
+          addElement={addElement}
+        />
       </div>
-      {transform.scale === 1 && (
-        <Draggable disabled={!toolbox}>
-          <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
-            <Navbar
-              data={data}
-              addElement={addElement}
-              setDefaultPosition={setDefaultPosition}
-              transform={transform}
-            />
-          </div>
-        </Draggable>
-      )}
+      {/* {transform.scale === 1 && ( */}
+      <Draggable disabled={!toolbox}>
+        <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
+          <Navbar
+            data={data}
+            addElement={addElement}
+            setDefaultPosition={setDefaultPosition}
+            transform={transform}
+          />
+        </div>
+      </Draggable>
+      {/* )} */}
     </div>
   );
 }

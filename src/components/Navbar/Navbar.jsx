@@ -17,6 +17,7 @@ import {
   DotsThreeOutline,
   DotsThreeOutlineVertical,
   DotsThreeVertical,
+  WindowsLogo,
 } from "@phosphor-icons/react";
 import MobileOption from "./MobileOption";
 import { IsActiveTools, NotActiveTools } from "../../redux/activeToolsSlice";
@@ -38,8 +39,12 @@ const Navbar = (props) => {
       if (workspace) {
         rect = workspace.getBoundingClientRect();
       }
-      const dirX = e.clientX - 250 / 2 - transform.positionX;
-      const dirY = rect.height - 150 / 2 - e.clientY + transform.positionY;
+
+      const dirX =
+        (e.clientX - transform.positionX) / transform.scale - 250 / 2;
+      const dirY =
+        (rect.height - e.clientY + transform.positionY) / transform.scale -
+        150 / 2;
       // ( + e.clientY - transform.positionY) * transform.scale;
       setDefaultPosition({
         x: dirX,
@@ -68,16 +73,15 @@ const Navbar = (props) => {
   const setCenterDefaultrPositionBox = () => {
     const wsContainer = document.getElementById("ws-container");
     const workspace = document.querySelector(".whitespace");
-
     let rect;
     if (workspace) {
       rect = workspace.getBoundingClientRect();
     }
     setDefaultPosition({
-      x: window.innerWidth / 2 - 250 / 2 - transform.positionX,
+      x:
+        window.innerWidth / 2 - 250 / 2 - transform.positionX / transform.scale,
       y:
-        rect.height +
-        transform.positionY -
+        (rect.height + transform.positionY) / transform.scale -
         150 / 2 -
         window.innerHeight / 2 +
         Math.floor(Math.random() * (80 - 40 + 1)) +

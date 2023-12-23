@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import { useSelector } from "react-redux";
 function Box(props) {
   // const dispatch = useDispatch()
@@ -17,6 +17,7 @@ function Box(props) {
   const toprightResize = useRef(null);
   const bottomleftResize = useRef(null);
   const bottomrightResize = useRef(null);
+
   // FUNCTIONS
   const wsSize = () => {
     const workspace = document.querySelector(".whitespace");
@@ -31,17 +32,22 @@ function Box(props) {
   const coorAbsolute = () => {
     if (wsSize().w && wsSize().h) {
       const xAbsolute = props.coor.x;
-      const yAbsolute = wsSize().h - props.coor.h - props.coor.y;
+      // const yAbsolute = wsSize().h - props.coor.h - props.coor.y;
+      const yAbsolute =
+        wsSize().h / props.wsScale - props.coor.h - props.coor.y;
       return { x: xAbsolute, y: yAbsolute };
     }
     return { x: 0, y: 0 };
   };
   // Turn the new absolute pos into saved relative pos
   const coorRelative = (x, y, h) => {
+    console.log(x, y, h);
     // x, y is the absolute x,y passed in
     if (wsSize().w && wsSize().h) {
       const xRelative = x;
-      const yRelative = wsSize().h - h - y;
+      // const yRelative = wsSize().h - h - y;
+      const yRelative = wsSize().h / props.wsScale - h - y;
+
       return { x: xRelative, y: yRelative };
     }
     return { x: 0, y: 0 };
@@ -64,20 +70,19 @@ function Box(props) {
       e.stopPropagation();
       let dx, dy;
       // New position of element
-      dx = e.clientX - startMouseX + startX;
-      dy = e.clientY - startMouseY + startY;
+      dx = (e.clientX - startMouseX) / props.wsScale + startX;
+      dy = (e.clientY - startMouseY) / props.wsScale + startY;
       // Update element position
       ref.current.style.setProperty("--left", `${dx}px`);
       ref.current.style.setProperty("--top", `${dy}px`);
-      console.log("mouse");
     };
 
     const handleTouchMove = (e) => {
       e.stopPropagation();
       let dx, dy;
       // New position of element
-      dx = e.touches[0].pageX - startMouseX + startX;
-      dy = e.touches[0].pageY - startMouseY + startY;
+      dx = (e.touches[0].pageX - startMouseX) / props.wsScale + startX;
+      dy = (e.touches[0].pageY - startMouseY) / props.wsScale + startY;
       // Update element position
       ref.current.style.setProperty("--left", `${dx}px`);
       ref.current.style.setProperty("--top", `${dy}px`);
@@ -95,6 +100,7 @@ function Box(props) {
         getRef("--top"),
         props.coor.h
       );
+      console.log(newXY);
       props.updateCoors(
         props.coor.type,
         props.coor.id,
@@ -107,7 +113,6 @@ function Box(props) {
       );
       props.openCustomize(props.type, props.coor.children);
       document.removeEventListener("mouseup", handleMouseUp);
-      console.log(props.coor.isSelected);
     };
 
     const handleTouchEnd = (e) => {
@@ -159,8 +164,6 @@ function Box(props) {
       startX = getRef("--left");
       startY = getRef("--top");
       ref.current.classList.add("box-selected");
-      // ref.current.firstChild.classList.add("touch-none");
-
       startMouseX = e.touches[0].pageX;
       startMouseY = e.touches[0].pageY;
 
@@ -177,7 +180,7 @@ function Box(props) {
         ref.current.removeEventListener("touchstart", handleTouchStart);
       }
     };
-  }, [props.coor]);
+  }, [props.coor, props.wsScale]);
 
   useEffect(() => {
     ref.current.style.setProperty("--left", `${coorAbsolute().x}px`);

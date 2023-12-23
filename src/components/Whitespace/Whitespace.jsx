@@ -40,6 +40,8 @@ import {
   ActiveCustomize,
   NotActiveCustomize,
 } from "../../redux/activeCustomizeSlice";
+import { Droppable } from "react-drag-and-drop";
+
 function Whitespace(props) {
   const deleteInput = useSelector((state) => state.clickDelete.value);
   const dispatch = useDispatch();
@@ -54,6 +56,10 @@ function Whitespace(props) {
   const tools = useSelector((tool) => tool.tools.value);
   const customize = useSelector((cus) => cus.customize.value);
   // const [selected, setSelected] = useState();
+  const onDrop = (value, e) => {
+    e.stopPropagation();
+    props.addElement(value.components);
+  };
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
     dispatch(onTypeModel(typeModel));
@@ -147,7 +153,7 @@ function Whitespace(props) {
       return data;
     });
   };
-  const [scaleValue, setScaleValue] = useState();
+  const [scaleValue, setScaleValue] = useState(1);
 
   const renderedElements = props.data?.map((typeBlock) => (
     <>
@@ -162,6 +168,7 @@ function Whitespace(props) {
             coor={element}
             updateCoors={props.updateElement}
             openCustomize={handleOpenCustomize}
+            wsScale={scaleValue}
           />
           // </RightClickMenu>
         ))}
@@ -467,25 +474,32 @@ function Whitespace(props) {
           setScaleValue(state.scale);
         }}
         centerOnInit={true}
-        minScale={0.5}
-        maxScale={1}
+        minScale={0.1}
+        maxScale={10}
         initialScale={transformDefault.scale}
+        centerZoomedOutside={true}
       >
         <TransformComponent wrapperStyle={{ width: "100vw", height: "100vh" }}>
-          <div
-            className="w-[10000px] h-[10000px] bg-repeat whitespace"
-            id="boxDrop"
-            ref={wsRef}
+          <Droppable
+            types={["components"]} // <= allowed drop types
+            onDrop={onDrop}
+            id="droppable"
           >
             <div
-              className="w-full h-full"
-              style={{
-                backgroundColor: "rgba(255,255,255,.6)",
-              }}
+              className="w-[10000px] h-[10000px] bg-repeat whitespace"
+              id="boxDrop"
+              ref={wsRef}
             >
-              {renderedElements}
+              <div
+                className="w-full h-full"
+                style={{
+                  backgroundColor: "rgba(255,255,255,.6)",
+                }}
+              >
+                {renderedElements}
+              </div>
             </div>
-          </div>
+          </Droppable>
         </TransformComponent>
       </TransformWrapper>
       {tools && <Tools />}
