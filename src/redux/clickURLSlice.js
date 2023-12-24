@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+let nextId = 1; // Biến để lưu trữ ID tiếp theo, bắt đầu từ 1
 
 const initialState = {
   value: false,
@@ -15,27 +16,33 @@ export const clickURLSlice = createSlice({
       state.value = true;
     },
     onClickInputUrl: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
       if (state.currentInputValue.trim() !== '') {
-        state.data = [...state.data, state.currentInputValue];
+        state.data = [
+          ...state.data,
+          {
+            id: nextId++, // Sử dụng nextId và sau đó tăng giá trị cho ID tiếp theo
+            value: state.currentInputValue,
+          },
+        ];
         state.currentInputValue = ''; // Reset dữ liệu tạm thời của ô input 1
       }
+      state.value = false;
     },
     dontClickInputUrl: (state) =>{
       state.value= false;
     },
     deleteDataByIdUrl: (state, action) => {
       const idToDelete = action.payload;
-      state.data = state.data.filter((item,index) => index +1 !== idToDelete);
+      state.data = state.data.filter((item,index) => item.id !== idToDelete);
 
-    }
+    },
+    dataUndefinedUrl:(state, action) => {
+      nextId = 1 
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setInputValueUrl,onClickInputUrl,dontClickInputUrl,deleteDataByIdUrl } = clickURLSlice.actions
+export const { setInputValueUrl,onClickInputUrl,dontClickInputUrl,deleteDataByIdUrl,dataUndefinedUrl } = clickURLSlice.actions
 
 export default clickURLSlice.reducer

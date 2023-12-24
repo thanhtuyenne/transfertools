@@ -85,6 +85,51 @@ function App() {
       input: <Record />,
     },
   ];
+  // const addElement = (typeName) => {
+  //   setData((prev) => {
+  //     const newEl = {
+  //       type: typeName,
+  //       x: defaultPosition.x,
+  //       y: defaultPosition.y,
+  //       w: defaultSize.w,
+  //       h: defaultSize.h,
+  //       mw: defaultSize.w,
+  //       mh: defaultSize.h,
+  //       isSelected: false,
+  //       z: 2,
+  //       children: (
+  //         <>
+  //           {nameType.map((item) => {
+  //             if (item.name === typeName) {
+  //               return <>
+  //                 {item.input}
+  //               </>;
+  //             }
+  //           })}
+  //         </>
+  //       ),
+  //     };
+  //     // const newData = [...prevData];
+
+  //     let typeFound = prev.find((type) => type.typeName === typeName);
+  //     // Not found type
+  //     if (!typeFound) {
+  //       typeFound = {
+  //         typeId: data.length + 1,
+  //         typeName,
+  //         list: [{ ...newEl, id: 1 }],
+  //       };
+  //       prev.push(typeFound);
+  //       return prev;
+  //     }
+  //     // Found type
+  //     else {
+  //       typeFound.list.push({ ...newEl, id: typeFound.list.length + 1 });
+  //       return prev;
+  //     }
+  //   });
+  //   setUpdate((prev) => prev + 1);
+  // };
   const addElement = (typeName) => {
     setData((prev) => {
       const newEl = {
@@ -101,36 +146,42 @@ function App() {
           <>
             {nameType.map((item) => {
               if (item.name === typeName) {
-                return <>
-                  {item.input}
-                </>;
+                return <>{item.input}</>;
               }
             })}
           </>
         ),
       };
-      // const newData = [...prevData];
-
+  
+      let maxId = 0;
+  
+      prev.forEach((type) => {
+        const maxInType = Math.max(...type.list.map((el) => el.id));
+        maxId = Math.max(maxId, maxInType);
+      });
+  
       let typeFound = prev.find((type) => type.typeName === typeName);
+  
       // Not found type
       if (!typeFound) {
+        const typeId = prev.length + 1;
         typeFound = {
-          typeId: data.length + 1,
+          typeId,
           typeName,
-          list: [{ ...newEl, id: 1 }],
+          list: [{ ...newEl, id: maxId + 1 }],
         };
         prev.push(typeFound);
         return prev;
       }
       // Found type
       else {
-        typeFound.list.push({ ...newEl, id: typeFound.list.length + 1 });
+        typeFound.list.push({ ...newEl, id: maxId + 1 });
         return prev;
       }
     });
     setUpdate((prev) => prev + 1);
   };
-
+  
   const updateElement = (type, id, values, syncValues) => {
     setData((prev) =>
       prev.map((typeBlock) => {

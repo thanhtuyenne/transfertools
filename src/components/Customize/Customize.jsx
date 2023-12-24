@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./Customize.css";
 import {
   ArrowLeft,
@@ -10,8 +10,15 @@ import {
   Swap,
   XCircle,
 } from "@phosphor-icons/react";
+import { dataUndefinedText } from "../../redux/clickTextSlice";
+import { dataUndefinedUrl } from "../../redux/clickURLSlice";
+import { dataUndefinedImage } from "../../redux/clickImageSlice";
+import { dataUndefinedVideo } from "../../redux/clickVideoSlice";
+import { dataUndefinedRecord } from "../../redux/clickRecordSlice";
+import { dataUndefinedAudio } from "../../redux/clickAudioSlice";
 
 function Customize({ title, tools = [], isOpen }) {
+  const dispatch = useDispatch();
 
   const [dataSample, setDataSample] = useState([])
   // const [toolsSelected, setToolsSelected] = useState(0);
@@ -42,6 +49,7 @@ function Customize({ title, tools = [], isOpen }) {
 
   // Dữ liệu gồm id, type của mỗi input được kéo lên screen
   const idType = useSelector(state => state.clickIdType.data)
+  // console.log("check idtype:",idType )
 
   // Thao tác nhấn nút transfer
   const transfer = useSelector((state) => state.typeModel.value);
@@ -49,10 +57,12 @@ function Customize({ title, tools = [], isOpen }) {
   // Dữ liệu inputText Chưa sử lý
   const inputText = useSelector((state) => state.clickText.value);
   const dataInputText = useSelector((state) => state.clickText.data);
-
+  console.log("check data:", dataInputText)
   // Dữ liệu inputUrl Chưa sử lý
   const inputUrl = useSelector((state) => state.clickUrl.value);
   const dataInputUrl = useSelector((state) => state.clickUrl.data);
+  // console.log("check data url:", dataInputUrl)
+
 
   // Dữ liệu Video Chưa sử lý
   const inputVideo = useSelector((state) => state.clickVideo.value);
@@ -70,9 +80,12 @@ function Customize({ title, tools = [], isOpen }) {
 
   // Dữ liệu Image Chưa sử lý
   const inputImage = useSelector((state) => state.clickImage.value);
+
   const dataInputImage = useSelector((state) => state.clickImage.data);
+  // console.log("check data:", dataInputImage)
   // DỮ liệu select 
   const selectData = useSelector((state) => state.clickSelect.data)
+  console.log("check id select:", selectData)
 
 
 
@@ -83,42 +96,70 @@ function Customize({ title, tools = [], isOpen }) {
     switch (selectData.type) {
       case "Text":
         const dataText = dataInputText.find((item, index) => {
-          return selectData.id === index + 1
+          return selectData.id === item.id
         })
+        if (dataInputText.length === 0) {
+          dispatch(dataUndefinedText())
+          // console.log("checkInputTextNone:")
+
+        }
         console.log("checkInputText:", dataText)
         break;
+
       case "Image":
         const dataImage = dataInputImage.find((item, index) => {
-          return selectData.id === index + 1
+          return selectData.id === item.id
         })
+        if (dataInputImage.length === 0) {
+          dispatch(dataUndefinedImage())
+        }
+
         console.log("checkDataImage:", dataImage)
 
         break;
+
       case "Video":
         const dataVideo = dataInputVideo.find((item, index) => {
-          return selectData.id === index + 1
+          return selectData.id === item.id
         })
+        if (dataInputVideo.length === 0) {
+          dispatch(dataUndefinedVideo())
+        }
         console.log("checkInputVideo:", dataVideo)
 
         break;
+
       case "Audio":
         const dataAudio = dataInputAudio.find((item, index) => {
-          return selectData.id === index + 1
+          return selectData.id === item.id
         })
+        if (dataInputAudio.length === 0) {
+          dispatch(dataUndefinedAudio())
+        }
         console.log("checkInputAudio:", dataAudio)
 
         break;
+
       case "URL":
         const dataUrl = dataInputUrl.find((item, index) => {
-          return selectData.id === index + 1
+          return selectData.id === item.id
         })
+        if (dataInputUrl.length === 0) {
+          dispatch(dataUndefinedUrl())
+
+        }
         console.log("checkInputUrl:", dataUrl)
 
         break;
+        
       case "Record":
         const dataRecord = dataInputRecord.find((item, index) => {
-          return selectData.id === index + 1
+          return selectData.id === item.id
         })
+        if (dataInputRecord.length === 0) {
+          dispatch(dataUndefinedRecord())
+
+        }
         console.log("checkInputRecord:", dataRecord)
 
         break;

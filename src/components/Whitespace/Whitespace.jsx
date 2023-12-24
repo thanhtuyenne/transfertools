@@ -175,9 +175,9 @@ function Whitespace(props) {
       props.data?.map((typeBlock, idx1) => {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
-            setIsOpenCustomize(false);
-            // console.log("check:", item,idx1,idx2)
-            removeElement(idx1, idx2);
+            // setIsOpenCustomize(false);
+            // // console.log("check:", item,idx1,idx2)
+            // removeElement(idx1, idx2);
             setOnDelete(true)
             switch (item.type) {
               case "Text":
@@ -185,27 +185,30 @@ function Whitespace(props) {
                 break;
               case "Image":
                 dispatch(deleteDataByIdImage(item.id))
-                
+
                 break;
               case "Video":
                 dispatch(deleteDataByIdVideo(item.id))
-                
+
                 break;
               case "Audio":
                 dispatch(deleteDataByIdAudio(item.id))
-                
+
                 break;
               case "URL":
                 dispatch(deleteDataByIdUrl(item.id))
-                
+
                 break;
               case "Record":
                 dispatch(deleteDataByIdRecord(item.id))
-                
+
                 break;
               default:
                 break;
             }
+            setIsOpenCustomize(false);
+            // console.log("check:", item,idx1,idx2)
+            removeElement(idx1, idx2);
           }
         });
       });
@@ -214,35 +217,37 @@ function Whitespace(props) {
           props.data?.map((typeBlock, idx1) => {
             typeBlock.list?.map((item, idx2) => {
               if (item.isSelected) {
-                removeElement(idx1, idx2);
-                setOnDelete(true)
+                // removeElement(idx1, idx2);
+                // setOnDelete(true)
                 switch (item.type) {
                   case "Text":
                     dispatch(deleteDataByIdText(item.id))
                     break;
                   case "Image":
                     dispatch(deleteDataByIdImage(item.id))
-                    
+
                     break;
                   case "Video":
                     dispatch(deleteDataByIdVideo(item.id))
-                    
+
                     break;
                   case "Audio":
                     dispatch(deleteDataByIdAudio(item.id))
-                    
+
                     break;
                   case "URL":
                     dispatch(deleteDataByIdUrl(item.id))
-                    
+
                     break;
                   case "Record":
                     dispatch(deleteDataByIdRecord(item.id))
-                    
+
                     break;
                   default:
                     break;
                 }
+                removeElement(idx1, idx2);
+                setOnDelete(true)
               }
             });
           });
@@ -294,6 +299,40 @@ function Whitespace(props) {
             if (item.isSelected) {
               setIsOpenCustomize(false);
               // console.log("check:", item,idx1,idx2)
+              // removeElement(idx1, idx2);
+              // dispatch(dontClickInputText());
+              // dispatch(dontClickImage());
+              // dispatch(dontClickInputUrl());
+              // dispatch(dontClickRecord());
+              // dispatch(dontClickVideo());
+              // dispatch(dontClickAudio());
+              switch (item.type) {
+                case "Text":
+                  dispatch(deleteDataByIdText(item.id))
+                  break;
+                case "Image":
+                  dispatch(deleteDataByIdImage(item.id))
+
+                  break;
+                case "Video":
+                  dispatch(deleteDataByIdVideo(item.id))
+
+                  break;
+                case "Audio":
+                  dispatch(deleteDataByIdAudio(item.id))
+
+                  break;
+                case "URL":
+                  dispatch(deleteDataByIdUrl(item.id))
+
+                  break;
+                case "Record":
+                  dispatch(deleteDataByIdRecord(item.id))
+
+                  break;
+                default:
+                  break;
+              }
               removeElement(idx1, idx2);
               dispatch(dontClickInputText());
               dispatch(dontClickImage());
@@ -301,33 +340,6 @@ function Whitespace(props) {
               dispatch(dontClickRecord());
               dispatch(dontClickVideo());
               dispatch(dontClickAudio());
-              switch (item.type) {
-                case "Text":
-                  dispatch(deleteDataByIdText(item.id))
-                  break;
-                case "Image":
-                  dispatch(deleteDataByIdImage(item.id))
-                  
-                  break;
-                case "Video":
-                  dispatch(deleteDataByIdVideo(item.id))
-                  
-                  break;
-                case "Audio":
-                  dispatch(deleteDataByIdAudio(item.id))
-                  
-                  break;
-                case "URL":
-                  dispatch(deleteDataByIdUrl(item.id))
-                  
-                  break;
-                case "Record":
-                  dispatch(deleteDataByIdRecord(item.id))
-                  
-                  break;
-                default:
-                  break;
-              }
             }
           });
         });
@@ -340,6 +352,40 @@ function Whitespace(props) {
           props.data?.map((typeBlock, idx1) => {
             typeBlock.list?.map((item, idx2) => {
               if (item.isSelected) {
+                // removeElement(idx1, idx2);
+                // dispatch(dontClickInputText());
+                // dispatch(dontClickImage());
+                // dispatch(dontClickInputUrl());
+                // dispatch(dontClickRecord());
+                // dispatch(dontClickVideo());
+                // dispatch(dontClickAudio());
+                switch (item.type) {
+                  case "Text":
+                    dispatch(deleteDataByIdText(item.id))
+                    break;
+                  case "Image":
+                    dispatch(deleteDataByIdImage(item.id))
+
+                    break;
+                  case "Video":
+                    dispatch(deleteDataByIdVideo(item.id))
+
+                    break;
+                  case "Audio":
+                    dispatch(deleteDataByIdAudio(item.id))
+
+                    break;
+                  case "URL":
+                    dispatch(deleteDataByIdUrl(item.id))
+
+                    break;
+                  case "Record":
+                    dispatch(deleteDataByIdRecord(item.id))
+
+                    break;
+                  default:
+                    break;
+                }
                 removeElement(idx1, idx2);
                 dispatch(dontClickInputText());
                 dispatch(dontClickImage());
@@ -347,33 +393,6 @@ function Whitespace(props) {
                 dispatch(dontClickRecord());
                 dispatch(dontClickVideo());
                 dispatch(dontClickAudio());
-                switch (item.type) {
-                  case "Text":
-                    dispatch(deleteDataByIdText(item.id))
-                    break;
-                  case "Image":
-                    dispatch(deleteDataByIdImage(item.id))
-                    
-                    break;
-                  case "Video":
-                    dispatch(deleteDataByIdVideo(item.id))
-                    
-                    break;
-                  case "Audio":
-                    dispatch(deleteDataByIdAudio(item.id))
-                    
-                    break;
-                  case "URL":
-                    dispatch(deleteDataByIdUrl(item.id))
-                    
-                    break;
-                  case "Record":
-                    dispatch(deleteDataByIdRecord(item.id))
-                    
-                    break;
-                  default:
-                    break;
-                }
               }
             });
           });
