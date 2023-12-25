@@ -8,10 +8,12 @@ import {
 } from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { onClickRecord } from "../../redux/clickRecordSlice";
 import { onClickDelete } from "../../redux/clickDeletefile";
 function Record() {
+  const selectDataRecord = useSelector((state) => state.clickSelect.data)
+  const selectDataIdRecord =  selectDataRecord.id
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const [recordValue, setRecordValue] = useState("");
@@ -27,7 +29,7 @@ function Record() {
 
   const addAudioElement = (blob) => {
     const url = URL.createObjectURL(blob);
-    dispatch(onClickRecord(blob));
+    dispatch(onClickRecord({id:selectDataIdRecord,source:blob}));
     setRecordValue(url);
   };
   function format(time) {

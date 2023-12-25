@@ -65,6 +65,7 @@ function Customize({ title, tools = [] }) {
   // Dữ liệu Video Chưa sử lý
   const inputVideo = useSelector((state) => state.clickVideo.value);
   const dataInputVideo = useSelector((state) => state.clickVideo.data);
+  // console.log("check video: ", dataInputVideo)
 
   // Dữ liệu Audio Chưa sử lý
   const inputAudio = useSelector((state) => state.clickAudio.value);
@@ -76,9 +77,8 @@ function Customize({ title, tools = [] }) {
 
   // Dữ liệu Image Chưa sử lý
   const inputImage = useSelector((state) => state.clickImage.value);
-
   const dataInputImage = useSelector((state) => state.clickImage.data);
-  // console.log("check data:", dataInputImage)
+  // console.log("check image:", dataInputImage)
   // DỮ liệu select 
   const selectData = useSelector((state) => state.clickSelect.data)
   // console.log("check id select:", selectData)
@@ -94,11 +94,11 @@ function Customize({ title, tools = [] }) {
         const dataText = dataInputText.find((item, index) => {
           return selectData.id === item.id
         })
-        if (dataInputText.length === 0) {
-          dispatch(dataUndefinedText())
-          // console.log("checkInputTextNone:")
+        // if (dataInputText.length === 0) {
+        //   dispatch(dataUndefinedText())
+        //   // console.log("checkInputTextNone:")
 
-        }
+        // }
         console.log("checkInputText:", dataText)
         break;
 
@@ -106,9 +106,9 @@ function Customize({ title, tools = [] }) {
         const dataImage = dataInputImage.find((item, index) => {
           return selectData.id === item.id
         })
-        if (dataInputImage.length === 0) {
-          dispatch(dataUndefinedImage())
-        }
+        // if (dataInputImage.length === 0) {
+        //   dispatch(dataUndefinedImage())
+        // }
 
         console.log("checkDataImage:", dataImage)
 
@@ -118,9 +118,9 @@ function Customize({ title, tools = [] }) {
         const dataVideo = dataInputVideo.find((item, index) => {
           return selectData.id === item.id
         })
-        if (dataInputVideo.length === 0) {
-          dispatch(dataUndefinedVideo())
-        }
+        // if (dataInputVideo.length === 0) {
+        //   dispatch(dataUndefinedVideo())
+        // }
         console.log("checkInputVideo:", dataVideo)
 
         break;
@@ -129,9 +129,9 @@ function Customize({ title, tools = [] }) {
         const dataAudio = dataInputAudio.find((item, index) => {
           return selectData.id === item.id
         })
-        if (dataInputAudio.length === 0) {
-          dispatch(dataUndefinedAudio())
-        }
+        // if (dataInputAudio.length === 0) {
+        //   dispatch(dataUndefinedAudio())
+        // }
         console.log("checkInputAudio:", dataAudio)
 
         break;
@@ -140,10 +140,10 @@ function Customize({ title, tools = [] }) {
         const dataUrl = dataInputUrl.find((item, index) => {
           return selectData.id === item.id
         })
-        if (dataInputUrl.length === 0) {
-          dispatch(dataUndefinedUrl())
+        // if (dataInputUrl.length === 0) {
+        //   dispatch(dataUndefinedUrl())
 
-        }
+        // }
         console.log("checkInputUrl:", dataUrl)
 
         break;
@@ -152,10 +152,10 @@ function Customize({ title, tools = [] }) {
         const dataRecord = dataInputRecord.find((item, index) => {
           return selectData.id === item.id
         })
-        if (dataInputRecord.length === 0) {
-          dispatch(dataUndefinedRecord())
+        // if (dataInputRecord.length === 0) {
+        //   dispatch(dataUndefinedRecord())
 
-        }
+        // }
         console.log("checkInputRecord:", dataRecord)
 
         break;

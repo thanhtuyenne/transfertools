@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-let nextId = 1; // Biến để lưu trữ ID tiếp theo, bắt đầu từ 1
+// let nextId = 1; // Biến để lưu trữ ID tiếp theo, bắt đầu từ 1
 
 const initialState = {
   value: false,
@@ -17,16 +17,15 @@ export const clickTextSlice = createSlice({
       state.value = true;
     },
     onClickInputText: (state) => {
-      if (state.currentInputValue.trim() !== '') {
+      
         state.data = [
           ...state.data,
           {
-            id: nextId++, // Sử dụng nextId và sau đó tăng giá trị cho ID tiếp theo
-            value: state.currentInputValue,
+            id: state.currentInputValue.selectDataTextId, // Sử dụng nextId và sau đó tăng giá trị cho ID tiếp theo
+            value: state.currentInputValue.value,
           },
         ];
         state.currentInputValue = ''; // Reset dữ liệu tạm thời của ô input 1
-      }
       state.value = false;
     },
     dontClickInputText: (state) => {
@@ -38,7 +37,7 @@ export const clickTextSlice = createSlice({
     },
 
     dataUndefinedText:(state, action) => {
-      nextId = 1 
+      // nextId = 1 
     },
   },
 });

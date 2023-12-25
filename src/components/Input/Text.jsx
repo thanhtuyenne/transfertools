@@ -44,10 +44,12 @@ export const TextInput = () => {
   };
 
   // const reduxData = useSelector(state => state.clickText.data);
+  const selectDataText = useSelector((state) => state.clickSelect.data)
+  const selectDataTextId =  selectDataText.id
 
   const handleChangeInput = (value) => {
     if (value.trim() !== "") {
-      dispatch(setInputValueText(value));
+      dispatch(setInputValueText({selectDataTextId,value}));
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputText());
@@ -97,6 +99,8 @@ export const TextInput = () => {
 };
 
 export const URLInput = () => {
+  const selectDataUrl = useSelector((state) => state.clickSelect.data)
+  const selectDataUrlId =  selectDataUrl.id
   const [linkValue, setLinkValue] = useState("");
   const [mess, setMess] = useState("");
   const dispatch = useDispatch();
@@ -123,7 +127,7 @@ export const URLInput = () => {
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
 
-      dispatch(setInputValueUrl(value));
+      dispatch(setInputValueUrl({selectDataUrlId,value}));
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputUrl());
