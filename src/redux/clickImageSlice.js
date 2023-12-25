@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
+let nextId = 1; // Biến để lưu trữ ID tiếp theo, bắt đầu từ 1
 const initialState = {
   value: false,
-  data:[]
-}
+  data: []
+};
 
 export const clickImageSlice = createSlice({
   name: 'clickImage',
@@ -11,23 +12,22 @@ export const clickImageSlice = createSlice({
   reducers: {
     onClickImage: (state, action) => {
       state.value = true;
-      state.data.push(action.payload)
-      // state.data = action.payload;
-      
-      // console.log("check redux:",action.payload)
-
+      const newItem = { id: nextId++, ...action.payload }; // Thêm id và payload vào newItem
+      state.data.push(newItem);
     },
     dontClickImage: (state) => {
       state.value = false;
     },
     deleteDataByIdImage: (state, action) => {
       const idToDelete = action.payload;
-      state.data = state.data.filter((item,index) => index +1 !== idToDelete);
-    }
+      state.data = state.data.filter((item) => item.id !== idToDelete);
+    },
+    dataUndefinedImage:(state, action) => {
+      nextId = 1 
+    },
   },
-})
+});
 
-// Action creators are generated for each case reducer function
-export const { onClickImage, dontClickImage,deleteDataByIdImage } = clickImageSlice.actions
+export const { onClickImage, dontClickImage, deleteDataByIdImage,dataUndefinedImage } = clickImageSlice.actions;
 
-export default clickImageSlice.reducer
+export default clickImageSlice.reducer;

@@ -93,28 +93,38 @@ function App() {
           </>
         ),
       };
-      // const newData = [...prevData];
-      // console.log(data.length);
+  
+      let maxId = 0;
+  
+      prev.forEach((type) => {
+        const maxInType = Math.max(...type.list.map((el) => el.id));
+        maxId = Math.max(maxId, maxInType);
+      });
+  
       let typeFound = prev.find((type) => type.typeName === typeName);
+  
       // Not found type
       if (!typeFound) {
+        const typeId = prev.length + 1;
         setZDefault(zDefault + 1);
         typeFound = {
-          typeId: data.length + 1,
+          typeId,
           typeName,
-          list: [{ ...newEl, id: 1, z: zDefault }],
+          // list: [{ ...newEl, id: maxId + 1 }],
+          list: [{ ...newEl,id: maxId + 1, z: zDefault }],
         };
         prev.push(typeFound);
         return prev;
       }
       // Found type
       else {
+        // typeFound.list.push({ ...newEl, id: maxId + 1 });
         // return prev;
         setZDefault(zDefault + 1);
 
         typeFound.list.push({
           ...newEl,
-          id: typeFound.list.length + 1,
+          id: maxId + 1,
           z: zDefault,
         });
         return prev;
@@ -122,7 +132,7 @@ function App() {
     });
     setUpdate((prev) => prev + 1);
   };
-
+  
   const updateElement = (type, id, values, syncValues) => {
     setData((prev) =>
       prev.map((typeBlock) => {

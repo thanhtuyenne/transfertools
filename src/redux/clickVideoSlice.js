@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+let nextId = 1; // Biến để lưu trữ ID tiếp theo, bắt đầu từ 1
 
 const initialState = {
   value: false,
@@ -10,25 +11,25 @@ export const clickVideoSlice = createSlice({
   initialState,
   reducers: {
     onClickVideo: (state,action) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value = true
-      state.data.push(action.payload)
+      state.value = true;
+      const newItem = { id: nextId++, ...action.payload }; // Thêm id và payload vào newItem
+      state.data.push(newItem);
     },
     dontClickVideo: (state) =>{
       state.value= false;
     },
     deleteDataByIdVideo: (state, action) => {
       const idToDelete = action.payload;
-      state.data = state.data.filter((item,index) => index +1 !== idToDelete);
+      state.data = state.data.filter((item,index) => item.id !== idToDelete);
 
-    }
+    },
+    dataUndefinedVideo:(state, action) => {
+      nextId = 1 
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { onClickVideo,dontClickVideo,deleteDataByIdVideo } = clickVideoSlice.actions
+export const { onClickVideo,dontClickVideo,deleteDataByIdVideo,dataUndefinedVideo } = clickVideoSlice.actions
 
 export default clickVideoSlice.reducer

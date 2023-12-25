@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import {
   TextT,
@@ -9,7 +9,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import Notify from "../Notify/Notify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setInputValueText,
   dontClickInputText,
@@ -25,6 +25,9 @@ import Popup from "reactjs-popup";
 import { onClickDelete } from "../../redux/clickDeletefile";
 
 export const TextInput = () => {
+  // const reduxData = useSelector(state => state.clickText.data);
+  // console.log("check redux data:", reduxData)
+  // const [textId, setTextId] = useState(1)
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
@@ -40,15 +43,16 @@ export const TextInput = () => {
     dispatch(onClickInputText());
   };
 
+  // const reduxData = useSelector(state => state.clickText.data);
+
   const handleChangeInput = (value) => {
-    setInputValue(value);
     if (value.trim() !== "") {
-      // Đã có dữ liệu trong input
       dispatch(setInputValueText(value));
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputText());
     }
+    setInputValue(value)
   };
   const validate = (text) => {
     if (text.length === 0) {
