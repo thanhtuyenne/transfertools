@@ -42,7 +42,6 @@ function App() {
     },
   ]);
 
-  
   const [update, setUpdate] = useState(0);
   const nameType = [
     {
@@ -70,30 +69,58 @@ function App() {
       input: <Record />,
     },
   ];
+
+  const transferResult = (type) => {
+    let input;
+    const refBox = React.createRef();
+    switch (type) {
+      case "Text":
+        input = <TextInput ref={refBox} />;
+        break;
+      case "URL":
+        input = <URLInput />;
+        break;
+      case "Audio":
+        input = <Audio />;
+        break;
+      case "Video":
+        input = <Video />;
+        break;
+      case "Image":
+        input = <Image ref={refBox} />;
+        break;
+      case "Record":
+        input = <Record />;
+        break;
+      default:
+        input = null; // or any other default value
+    }
+    return input;
+  }
   const [zDefault, setZDefault] = useState(0);
   const addElement = (typeName) => {
+    const newEl = {
+      type: typeName,
+      x: defaultPosition.x,
+      y: defaultPosition.y,
+      w: defaultBoxSize.width,
+      h: defaultBoxSize.height,
+      mw: defaultBoxSize.width,
+      mh: defaultBoxSize.height,
+      isSelected: false,
+      z: 0,
+      // children: (
+      //   <>
+      //     {nameType.map((item) => {
+      //       if (item.name === typeName) {
+      //         return <>{item.input}</>;
+      //       }
+      //     })}
+      //   </>
+      // ),
+      children: transferResult(typeName)
+    };
     setData((prev) => {
-      const newEl = {
-        type: typeName,
-        x: defaultPosition.x,
-        y: defaultPosition.y,
-        w: defaultBoxSize.width,
-        h: defaultBoxSize.height,
-        mw: defaultBoxSize.width,
-        mh: defaultBoxSize.height,
-        isSelected: false,
-        z: 0,
-        children: (
-          <>
-            {nameType.map((item) => {
-              if (item.name === typeName) {
-                return <>{item.input}</>;
-              }
-            })}
-          </>
-        ),
-      };
-  
       let maxId = 0;
   
       prev.forEach((type) => {
@@ -131,6 +158,7 @@ function App() {
       }
     });
     setUpdate((prev) => prev + 1);
+    return newEl;
   };
   
   const updateElement = (type, id, values, syncValues) => {
@@ -196,6 +224,7 @@ function App() {
           updateElement={updateElement}
           setTransform={setTransform}
           addElement={addElement}
+          setDefaultPosition={setDefaultPosition}
         />
       </div>
       <Draggable disabled={!toolbox}>

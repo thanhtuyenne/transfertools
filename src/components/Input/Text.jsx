@@ -24,7 +24,7 @@ import InputOption from "../Navbar/InputOption";
 import Popup from "reactjs-popup";
 import { onClickDelete } from "../../redux/clickDeletefile";
 
-export const TextInput = () => {
+export const TextInput = React.forwardRef(function TextResult(_, ref) {
   // const reduxData = useSelector(state => state.clickText.data);
   // console.log("check redux data:", reduxData)
   // const [textId, setTextId] = useState(1)
@@ -52,7 +52,7 @@ export const TextInput = () => {
       // Không có dữ liệu trong input
       dispatch(dontClickInputText());
     }
-    setInputValue(value)
+    setInputValue(value);
   };
   const validate = (text) => {
     if (text.length === 0) {
@@ -71,6 +71,7 @@ export const TextInput = () => {
             e.stopPropagation();
           }}
           value={inputValue}
+          ref={ref}
           onChange={(e) => {
             validate(e.target.value);
             handleChangeInput(e.target.value);
@@ -94,9 +95,9 @@ export const TextInput = () => {
       </div>
     </>
   );
-};
+});
 
-export const URLInput = () => {
+export const URLInput = React.forwardRef(function URLResult(_, ref) {
   const [linkValue, setLinkValue] = useState("");
   const [mess, setMess] = useState("");
   const dispatch = useDispatch();
@@ -140,6 +141,7 @@ export const URLInput = () => {
             validateURL(e.target.value);
             handleChangeLink(e.target.value);
           }}
+          ref={ref}
           onBlur={handleInputBlur2}
           onKeyDown={(e) => {
             e.stopPropagation();
@@ -161,18 +163,4 @@ export const URLInput = () => {
       </div>
     </>
   );
-};
-
-// export const Record = () => {
-//     return (
-//         <div className="h-[40px] border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
-//             <Microphone size={20} className="text-blue" />
-//             <input
-//                 type=""
-//                 className="outline-none border-0 border-none focus:ring-0 bg-transparent "
-//             />
-//         </div>
-//     );
-// };
-
-// export default Text;
+});

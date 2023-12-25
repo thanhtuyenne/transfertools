@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { onClickAudio } from "../../redux/clickAudioSlice";
 import { onClickImage } from "../../redux/clickImageSlice";
 import { onClickVideo } from "../../redux/clickVideoSlice";
+import React from "react";
 
-export const Audio = () => {
+export const Audio = React.forwardRef(function AudioResult(_, ref) {
   const dispatch = useDispatch();
   const acceptType = ["audio/mp3", "audio/raw", "audio/wav"];
 
@@ -18,7 +19,7 @@ export const Audio = () => {
       const base64data = await blobToBase64(source);
       dispatch(onClickAudio({ source: base64data, filetype: filetype }));
     } catch (error) {
-      console.error('Error converting Blob to base64:', error);
+      console.error("Error converting Blob to base64:", error);
       // Xử lý lỗi nếu có
     }
   };
@@ -47,15 +48,19 @@ export const Audio = () => {
         return (
           <audio controls className="w-full">
             {/* Sử dụng source trực tiếp */}
-            <source src={URL.createObjectURL(source)} type={filetype} />
+            <source
+              src={URL.createObjectURL(source)}
+              type={filetype}
+              ref={ref}
+            />
           </audio>
         );
       }}
     />
   );
-};
+});
 
-export const Image = () => {
+export const Image = React.forwardRef(function ImageResult(_, ref) {
   const dispatch = useDispatch();
   const acceptType = ["jpg", "png", "jpeg"];
   return (
@@ -67,14 +72,19 @@ export const Image = () => {
         dispatch(onClickImage({ source: source, filetype: filetype }));
         // dispatch(onClickImage())
         return (
-          <img src={source} type={filetype} className="pointer-events-none" />
+          <img
+            src={source}
+            type={filetype}
+            className="pointer-events-none"
+            ref={ref}
+          />
         );
       }}
     />
   );
-};
+});
 
-export const Video = () => {
+export const Video = React.forwardRef(function VideoResult(_, ref) {
   const acceptType = ["mp4", "wav", "mov", "webm"];
   const dispatch = useDispatch();
   return (
@@ -86,10 +96,10 @@ export const Video = () => {
         dispatch(onClickVideo({ source: source, filetype: filetype }));
         return (
           <video width="400" height="400" controls autoPlay>
-            <source src={source} type={filetype} />
+            <source src={source} type={filetype} ref={ref} />
           </video>
         );
       }}
     />
   );
-};
+});

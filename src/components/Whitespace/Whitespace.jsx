@@ -74,11 +74,13 @@ function Whitespace(props) {
               title: "Text to speech",
               comp: <ToSpeech />,
               preview: <Preview type="Speech" />,
+              result: "Speech",
             },
             {
               title: "Text to image",
               comp: <></>,
               preview: <Preview type="Image" />,
+              result: "Image",
             },
           ];
           break;
@@ -88,16 +90,19 @@ function Whitespace(props) {
               title: "Image to text",
               comp: <></>,
               preview: <Preview type="Text" />,
+              result: "Text",
             },
             {
               title: "Image to video",
               comp: <></>,
               preview: <Preview type="Video" />,
+              result: "Video",
             },
             {
               title: "Image to audio",
               comp: <></>,
               preview: <Preview type="Speech" />,
+              result: "Audio",
             },
           ];
           break;
@@ -107,6 +112,7 @@ function Whitespace(props) {
               title: "Video to text",
               comp: <></>,
               preview: <Preview type="Text" />,
+              result: "Text",
             },
           ];
           break;
@@ -116,11 +122,13 @@ function Whitespace(props) {
               title: "Speech to text",
               comp: <></>,
               preview: <Preview type="Text" />,
+              result: "Text",
             },
             {
               title: "Speech to image",
               comp: <></>,
               preview: <Preview type="Image" />,
+              result: "Image",
             },
           ];
           break;
@@ -130,6 +138,7 @@ function Whitespace(props) {
               title: "URL to ...",
               comp: <></>,
               preview: <></>,
+              result: "",
             },
           ];
           break;
@@ -139,11 +148,13 @@ function Whitespace(props) {
               title: "Record to text",
               comp: <></>,
               preview: <Preview type="Text" />,
+              result: "Text",
             },
             {
               title: "Record to video",
               comp: <></>,
               preview: <Preview type="Video" />,
+              result: "Video",
             },
           ];
           break;
@@ -219,23 +230,23 @@ function Whitespace(props) {
                 dispatch(deleteDataByIdText(item.id));
                 break;
               case "Image":
-                dispatch(deleteDataByIdImage(item.id))
+                dispatch(deleteDataByIdImage(item.id));
 
                 break;
               case "Video":
-                dispatch(deleteDataByIdVideo(item.id))
+                dispatch(deleteDataByIdVideo(item.id));
 
                 break;
               case "Audio":
-                dispatch(deleteDataByIdAudio(item.id))
+                dispatch(deleteDataByIdAudio(item.id));
 
                 break;
               case "URL":
-                dispatch(deleteDataByIdUrl(item.id))
+                dispatch(deleteDataByIdUrl(item.id));
 
                 break;
               case "Record":
-                dispatch(deleteDataByIdRecord(item.id))
+                dispatch(deleteDataByIdRecord(item.id));
 
                 break;
               default:
@@ -259,30 +270,30 @@ function Whitespace(props) {
                     dispatch(deleteDataByIdText(item.id));
                     break;
                   case "Image":
-                    dispatch(deleteDataByIdImage(item.id))
+                    dispatch(deleteDataByIdImage(item.id));
 
                     break;
                   case "Video":
-                    dispatch(deleteDataByIdVideo(item.id))
+                    dispatch(deleteDataByIdVideo(item.id));
 
                     break;
                   case "Audio":
-                    dispatch(deleteDataByIdAudio(item.id))
+                    dispatch(deleteDataByIdAudio(item.id));
 
                     break;
                   case "URL":
-                    dispatch(deleteDataByIdUrl(item.id))
+                    dispatch(deleteDataByIdUrl(item.id));
 
                     break;
                   case "Record":
-                    dispatch(deleteDataByIdRecord(item.id))
+                    dispatch(deleteDataByIdRecord(item.id));
 
                     break;
                   default:
                     break;
                 }
                 removeElement(idx1, idx2);
-                setOnDelete(true)
+                setOnDelete(true);
               }
             });
           });
@@ -346,26 +357,26 @@ function Whitespace(props) {
               // dispatch(dontClickAudio());
               switch (item.type) {
                 case "Text":
-                  dispatch(deleteDataByIdText(item.id))
+                  dispatch(deleteDataByIdText(item.id));
                   break;
                 case "Image":
-                  dispatch(deleteDataByIdImage(item.id))
+                  dispatch(deleteDataByIdImage(item.id));
 
                   break;
                 case "Video":
-                  dispatch(deleteDataByIdVideo(item.id))
+                  dispatch(deleteDataByIdVideo(item.id));
 
                   break;
                 case "Audio":
-                  dispatch(deleteDataByIdAudio(item.id))
+                  dispatch(deleteDataByIdAudio(item.id));
 
                   break;
                 case "URL":
-                  dispatch(deleteDataByIdUrl(item.id))
+                  dispatch(deleteDataByIdUrl(item.id));
 
                   break;
                 case "Record":
-                  dispatch(deleteDataByIdRecord(item.id))
+                  dispatch(deleteDataByIdRecord(item.id));
 
                   break;
                 default:
@@ -426,26 +437,26 @@ function Whitespace(props) {
                 // dispatch(dontClickAudio());
                 switch (item.type) {
                   case "Text":
-                    dispatch(deleteDataByIdText(item.id))
+                    dispatch(deleteDataByIdText(item.id));
                     break;
                   case "Image":
-                    dispatch(deleteDataByIdImage(item.id))
+                    dispatch(deleteDataByIdImage(item.id));
 
                     break;
                   case "Video":
-                    dispatch(deleteDataByIdVideo(item.id))
+                    dispatch(deleteDataByIdVideo(item.id));
 
                     break;
                   case "Audio":
-                    dispatch(deleteDataByIdAudio(item.id))
+                    dispatch(deleteDataByIdAudio(item.id));
 
                     break;
                   case "URL":
-                    dispatch(deleteDataByIdUrl(item.id))
+                    dispatch(deleteDataByIdUrl(item.id));
 
                     break;
                   case "Record":
-                    dispatch(deleteDataByIdRecord(item.id))
+                    dispatch(deleteDataByIdRecord(item.id));
 
                     break;
                   default:
@@ -558,20 +569,20 @@ function Whitespace(props) {
             onDrop={onDrop}
             id="droppable"
           >
+            <div
+              className="w-[10000px] h-[10000px] bg-repeat whitespace"
+              id="boxDrop"
+              ref={wsRef}
+            >
               <div
-                className="w-[10000px] h-[10000px] bg-repeat whitespace"
-                id="boxDrop"
-                ref={wsRef}
+                className="w-full h-full"
+                style={{
+                  backgroundColor: "rgba(255,255,255,.6)",
+                }}
               >
-                <div
-                  className="w-full h-full"
-                  style={{
-                    backgroundColor: "rgba(255,255,255,.6)",
-                  }}
-                >
-                  {renderedElements}
-                </div>
+                {renderedElements}
               </div>
+            </div>
           </Droppable>
         </TransformComponent>
       </TransformWrapper>
@@ -579,6 +590,9 @@ function Whitespace(props) {
         <Customize
           title={DataOpenCustomize.title}
           tools={DataOpenCustomize.tools}
+          addElement={props.addElement}
+          setDefaultPosition={props.setDefaultPosition}
+          transform={props.setTransform}
         />
       )}
       {tools && <Tools />}
