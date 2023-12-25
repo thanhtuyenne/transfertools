@@ -1,6 +1,6 @@
 .headerTrans {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     z-index: 100;
     width: 100%;
@@ -8,6 +8,7 @@
     background-color: #2f3640;
     position: fixed;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding: 0 12px;
 }
 
 .btn-save {
@@ -20,7 +21,7 @@
     /* height: 34px; */
     padding: 8px 16px;
     color: #fff;
-    background-color: #1090e5;
+    background-color: #3498DB;
     margin: 15px 20px;
     /* margin:0 auto; */
     border-radius: 12px;
@@ -31,8 +32,8 @@
 
 .btn-save:hover {
     background-color: transparent;
-    color: #1090e5;
-    border: 1px solid #1090e5;
+    color: #3498DB;
+    border: 1px solid #3498DB;
 }
 
 .btn-botAI {
@@ -40,7 +41,7 @@
     align-items: center;
     justify-content: center;
     color: #fff;
-    background-color: #1090e5;
+    background-color: #3498DB;
     /* margin: 40px 20px; */
     border-radius: 50px;
     transition: .25s;

@@ -1,10 +1,18 @@
 import React, { useState, useRef } from "react";
 import PopupDragFile from "../PopupDragFile/PopupDragFile";
-import { Eraser, Trash } from "@phosphor-icons/react";
+import {
+  Eraser,
+  Trash,
+  DotsThreeOutlineVertical,
+  XCircle,
+} from "@phosphor-icons/react";
 import { useEffect } from "react";
 import ContextMenu from "./ContextMenu";
+import { Popup } from "reactjs-popup";
+import InputOption from "../Navbar/InputOption";
 import { useDispatch } from "react-redux";
 import { onClickImage } from "../../redux/clickImageSlice";
+import { onClickDelete } from "../../redux/clickDeletefile";
 
 function MediaBase({ IconComp, placeholder, accept, callback }) {
   const [popup, setShowPopup] = useState(false);
@@ -42,11 +50,14 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
     setRightClick(false);
   };
   // document.addEventListener("mousedown", closeContext);
-
+  const dispatch = useDispatch();
+  const handleClickDelete = () => {
+    dispatch(onClickDelete());
+  };
   return (
     <>
       <div
-        className="cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
+        className="touch-none cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
         onDoubleClick={openPopup}
         ref={mediaRef}
       >
@@ -80,6 +91,25 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
             <span className="text-black w-full text-center">{placeholder}</span>
           )}
         </div>
+        <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col bg-[#3498DB] rounded-bl-[15px] p-1 ">
+          <div
+            className="flex items-center justify-center cursor-pointer"
+            onClick={handleClickDelete}
+            onTouchStart={handleClickDelete}
+          >
+            <XCircle size={22} color="white" />
+          </div>
+        </div>
+        {/* <Popup
+          trigger={
+            <DotsThreeOutlineVertical
+              size={32}
+              className="cursor-pointer text-blue"
+            />
+          }
+        >
+          <InputOption />
+        </Popup> */}
       </div>
       {popup && file == null && (
         <div className="fixed top-0 left-0 w-full h-full">

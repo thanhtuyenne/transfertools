@@ -159,3 +159,11 @@ code {
 .scrollar-cus::-webkit-scrollbar-thumb {
   background: transparent;
 }
+
+.scrollar-cus::-webkit-scrollbar:horizontal {
+  width: 8px;
+}
+
+.scrollar-cus::-webkit-scrollbar-thumb:horizontal {
+  background: transparent;
+}

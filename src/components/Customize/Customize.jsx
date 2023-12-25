@@ -16,6 +16,7 @@ import { dataUndefinedImage } from "../../redux/clickImageSlice";
 import { dataUndefinedVideo } from "../../redux/clickVideoSlice";
 import { dataUndefinedRecord } from "../../redux/clickRecordSlice";
 import { dataUndefinedAudio } from "../../redux/clickAudioSlice";
+import { Draggable } from "react-drag-and-drop";
 
 function Customize({ title, tools = [], isOpen }) {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function Customize({ title, tools = [], isOpen }) {
   const importData = (id, type, value) => {
     const newDataSample = [...dataSample, { id: id, type: type, value: value }];
     setDataSample(newDataSample);
-  }
+  };
 
   const [indexTool, setIndexTool] = useState(0);
   const [currentTool, setCurrentTool] = useState(tools[indexTool].comp);
@@ -57,7 +58,7 @@ function Customize({ title, tools = [], isOpen }) {
   // Dữ liệu inputText Chưa sử lý
   const inputText = useSelector((state) => state.clickText.value);
   const dataInputText = useSelector((state) => state.clickText.data);
-  console.log("check data:", dataInputText)
+  // console.log("check data:", dataInputText)
   // Dữ liệu inputUrl Chưa sử lý
   const inputUrl = useSelector((state) => state.clickUrl.value);
   const dataInputUrl = useSelector((state) => state.clickUrl.data);
@@ -72,11 +73,9 @@ function Customize({ title, tools = [], isOpen }) {
   const inputAudio = useSelector((state) => state.clickAudio.value);
   const dataInputAudio = useSelector((state) => state.clickAudio.data);
 
-
   // Dữ liệu Record Chưa sử lý
   const inputRecord = useSelector((state) => state.clickRecord.value);
   const dataInputRecord = useSelector((state) => state.clickRecord.data);
-
 
   // Dữ liệu Image Chưa sử lý
   const inputImage = useSelector((state) => state.clickImage.value);
@@ -85,7 +84,7 @@ function Customize({ title, tools = [], isOpen }) {
   // console.log("check data:", dataInputImage)
   // DỮ liệu select 
   const selectData = useSelector((state) => state.clickSelect.data)
-  console.log("check id select:", selectData)
+  // console.log("check id select:", selectData)
 
 
 
@@ -166,13 +165,18 @@ function Customize({ title, tools = [], isOpen }) {
       default:
         break;
     }
-  }
+  };
   useEffect(() => {
     handleData();
-  }, [idType, dataInputText, dataInputImage, dataInputVideo, dataInputAudio, dataInputUrl, dataInputRecord])
-
-
-
+  }, [
+    idType,
+    dataInputText,
+    dataInputImage,
+    dataInputVideo,
+    dataInputAudio,
+    dataInputUrl,
+    dataInputRecord,
+  ]);
 
   const [preview, setPreview] = useState(tools[indexTool].preview);
   const [clicked, setClick] = useState(false);
@@ -180,11 +184,7 @@ function Customize({ title, tools = [], isOpen }) {
   const parentRef = useRef();
   const [screen, setScreen] = useState(window.innerWidth >= 768);
 
-
-
-
-
-  const handleSlideRight = () => {
+  const handleClosePopup = () => {
     setScreen(false);
   };
   useEffect(() => {
@@ -192,80 +192,78 @@ function Customize({ title, tools = [], isOpen }) {
       setScreen(window.innerWidth >= 768);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-  // console.log("data text input:", idType)
+
+  const customize = useSelector((state) => state.customize.value);
+
   return (
     <>
       {screen ? (
         <div
-          className="absolute z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
+          className="fixed left-0 top-0 z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
           ref={parentRef}
         >
-          <div
-            // ref={parentRef}
-            className="z-100 max-h-[65%] w-[90%] container_customize scrollar-cus lg:min-h-[350px] lg:max-h-[450px] md:min-h-[350px] md:max-h-[450px] overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed top-[20%] md:right-0 lg:right-0"
-          >
-            <div className="bpx-2 w-full">
-              <div className="flex items-center justify-between text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
-                {/* {isHide && (
-                  <ArrowLeft
-                    size={20}
-                    className="cursor-pointer lg:hidden md:hidden"
-                    onClick={() => handleSlideLeft()}
-                  />
-                )} */}
-                {title}
-                {screen && (
-                  <Minus
-                    size={20}
-                    className="lg:hidden md:hidden cursor-pointer"
-                    onClick={() => handleSlideRight()}
-                  />
-                )}
+          <Draggable onDrag={(e) => e.stopPropagation()} disabled={!customize}>
+            <div className="z-100 max-h-[65%] w-[350px] container_customize scrollar-cus lg:min-h-[350px] md:min-h-[350px] overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed lg:top-[20%] md:top-[20%] md:right-0 lg:right-0">
+              <div className="bpx-2 w-full">
+                <div className="flex items-center justify-between text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
+                  {title}
+                  {screen && (
+                    <XCircle
+                      size={28}
+                      className="lg:hidden md:hidden cursor-pointer font-bold"
+                      onClick={() => handleClosePopup()}
+                      onTouchStart={() => handleClosePopup()}
+                    />
+                  )}
+                </div>
+                <Dropdownlist
+                  title="Tools"
+                  options={tools.map((v) => {
+                    return v.title;
+                  })}
+                  callback={displayToolSelected}
+                  selected={indexTool}
+                />
+                {currentTool}
               </div>
-              <Dropdownlist
-                title="Tools"
-                options={tools.map((v) => {
-                  return v.title;
-                })}
-                callback={displayToolSelected}
-                selected={indexTool}
-              />
-              {currentTool}
-            </div>
-            <div className="flex justify-end my-2">
-              {(transfer === "Text" && inputText === true) ||
+              <div className="flex justify-end my-2">
+                {(transfer === "Text" && inputText === true) ||
                 (transfer === "Image" && inputImage === true) ||
                 (transfer === "Video" && inputVideo === true) ||
                 (transfer === "Audio" && inputAudio === true) ||
                 (transfer === "Record" && inputRecord === true) ||
                 (transfer === "URL" && inputUrl === true) ? (
-                <Button
-                  title="Transfer"
-                  onClick={() => {
-                    setClick(true);
-                  }}
-                />
-              ) : (
-                <></>
-              )}
+                  <Button
+                    title="Transfer"
+                    onClick={() => {
+                      setClick(true);
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+              {/* PREVIEW */}
+              {clicked && preview}
             </div>
-            {/* PREVIEW */}
-            {clicked && preview}
-          </div>
+          </Draggable>
         </div>
       ) : (
-        <div
-          className="md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
-          onClick={() => setScreen(true)}
-        >
-          <Swap size={32} className="" color="#3498DB" />
-        </div>
+        <Draggable>
+          <div
+            className="z-[100] md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
+            onClick={() => setScreen(true)}
+            onTouchStart={() => setScreen(true)}
+          >
+            <Swap size={32} className="" color="#3498DB" />
+          </div>
+        </Draggable>
       )}
     </>
   );

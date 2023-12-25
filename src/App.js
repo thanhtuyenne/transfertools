@@ -6,28 +6,18 @@ import Record from "./components/Input/Record";
 import Header from "./components/Header/Header";
 import Whitespace from "./components/Whitespace/Whitespace";
 import { Droppable } from "react-drag-and-drop";
-import Tools from "./components/Customize/Tools";
-import RightClickMenu from "./components/PopupDragFile/PopupContextMenu";
+import Draggable from "react-draggable";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { onClickDataIdType } from "./redux/clickDataIdType";
-
-// import BotChat from "./components/BotChat/BotChat";
-// import Customize from "./components/Customize/Customize";
-// import Drag from "./components/drag/Drag";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 function App() {
-
   const dispatch = useDispatch();
-  const [isOpenInputText, setIsOpenInputText] = useState(false);
-  const [isOpenInputURL, setIsOpenInputURL] = useState(false);
-  const [isOpenInputAudio, setIsOpenInputAudio] = useState(false);
-  const [isOpenInputVideo, setIsOpenInputVideo] = useState(false);
-  const [isOpenInputImage, setIsOpenInputImage] = useState(false);
-  const [isOpenInputRecord, setIsOpenInputRecor] = useState(false);
 
   const [defaultPosition, setDefaultPosition] = useState({
-    x: 100,
-    y: 500,
+    x: 0,
+    y: 0,
   });
   const [defaultSize, setDefaultSize] = useState({
     w: 250,
@@ -54,7 +44,8 @@ function App() {
     },
   ]);
 
-  const onDrop = (value) => {
+  const onDrop = (value, e) => {
+    e.stopPropagation();
     // console.log("drop ", value);
     addElement(value.components);
   };
@@ -85,51 +76,7 @@ function App() {
       input: <Record />,
     },
   ];
-  // const addElement = (typeName) => {
-  //   setData((prev) => {
-  //     const newEl = {
-  //       type: typeName,
-  //       x: defaultPosition.x,
-  //       y: defaultPosition.y,
-  //       w: defaultSize.w,
-  //       h: defaultSize.h,
-  //       mw: defaultSize.w,
-  //       mh: defaultSize.h,
-  //       isSelected: false,
-  //       z: 2,
-  //       children: (
-  //         <>
-  //           {nameType.map((item) => {
-  //             if (item.name === typeName) {
-  //               return <>
-  //                 {item.input}
-  //               </>;
-  //             }
-  //           })}
-  //         </>
-  //       ),
-  //     };
-  //     // const newData = [...prevData];
-
-  //     let typeFound = prev.find((type) => type.typeName === typeName);
-  //     // Not found type
-  //     if (!typeFound) {
-  //       typeFound = {
-  //         typeId: data.length + 1,
-  //         typeName,
-  //         list: [{ ...newEl, id: 1 }],
-  //       };
-  //       prev.push(typeFound);
-  //       return prev;
-  //     }
-  //     // Found type
-  //     else {
-  //       typeFound.list.push({ ...newEl, id: typeFound.list.length + 1 });
-  //       return prev;
-  //     }
-  //   });
-  //   setUpdate((prev) => prev + 1);
-  // };
+  const [zDefault, setZDefault] = useState(0);
   const addElement = (typeName) => {
     setData((prev) => {
       const newEl = {
@@ -141,7 +88,7 @@ function App() {
         mw: defaultSize.w,
         mh: defaultSize.h,
         isSelected: false,
-        z: 2,
+        z: 0,
         children: (
           <>
             {nameType.map((item) => {
@@ -163,19 +110,30 @@ function App() {
       let typeFound = prev.find((type) => type.typeName === typeName);
   
       // Not found type
+      console.log(typeFound);
       if (!typeFound) {
         const typeId = prev.length + 1;
+        setZDefault(zDefault + 1);
         typeFound = {
           typeId,
           typeName,
-          list: [{ ...newEl, id: maxId + 1 }],
+          // list: [{ ...newEl, id: maxId + 1 }],
+          list: [{ ...newEl,id: maxId + 1, z: zDefault }],
         };
         prev.push(typeFound);
         return prev;
       }
       // Found type
       else {
-        typeFound.list.push({ ...newEl, id: maxId + 1 });
+        // typeFound.list.push({ ...newEl, id: maxId + 1 });
+        // return prev;
+        setZDefault(zDefault + 1);
+
+        typeFound.list.push({
+          ...newEl,
+          id: maxId + 1,
+          z: zDefault,
+        });
         return prev;
       }
     });
@@ -206,24 +164,45 @@ function App() {
     setUpdate((prev) => prev + 1);
   };
   useEffect(() => {
-    const data1 = data.map(item => item.list)
-    const allTypes = data1.flatMap(innerArray => innerArray.map(obj => obj.type));
-    const allId = data1.flatMap(innerArray => innerArray.map(obj => obj.id));
+    const data1 = data.map((item) => item.list);
+    const allTypes = data1.flatMap((innerArray) =>
+      innerArray.map((obj) => obj.type)
+    );
+    const allId = data1.flatMap((innerArray) =>
+      innerArray.map((obj) => obj.id)
+    );
     const allTypesFromSecond = allTypes.slice(1);
     const allIdFromSecond = allId.slice(1);
-    dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }))
-  }, [data])
+    dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }));
+  }, [data]);
 
-  // console.log("háhcvas:", allTypesFromSecond,allIdFromSecond)
+  const toolbox = useSelector((state) => state.toolbox.value);
+  const [transform, setTransform] = useState({
+    scale: 1,
+    positionX: 0,
+    positionY: 0,
+  });
   return (
-    <div className="w-full h-screen bg-body relative flex flex-col items-stretch">
+    <div
+      className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto
+      "
+      id="ws-container"
+    >
       <div>
         <Header />
       </div>
-      {/* <div> */}
+      {/* <TransformWrapper
+        onTransformed={(ref, state) => setTransform(state)}
+        centerOnInit={true}
+        minScale={0.5}
+        maxScale={1}
+        initialScale={transform.scale}
+        onWheel={(ref, e) => console.log(ref, e)}
+      > */}
       <div
-        className="w-full"
-      // style={{ height: "100vh", backgroundColor: "#ececec" }}
+        className={`w-full h-ful overflow-hidden cursor-grab ${
+          transform.scale !== 1 && ""
+        }`}
       >
         <Droppable
           types={["components"]} // <= allowed drop types
@@ -234,29 +213,22 @@ function App() {
             setData={setData}
             update={update}
             updateElement={updateElement}
+            setTransform={setTransform}
           />
         </Droppable>
       </div>
-      {/* </div> */}
-      <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
-        <Navbar
-          data={data}
-          addElement={addElement}
-          setDefaultPosition={setDefaultPosition}
-        // isOpenInputText={isOpenInputText}
-        // isOpenInputURL={isOpenInputURL}
-        // isOpenInputAudio={isOpenInputAudio}
-        // isOpenInputVide={isOpenInputVideo}
-        // isOpenInputImage={isOpenInputImage}
-        // isOpenInputRecord={isOpenInputRecord}
-        // setIsOpenInputText={setIsOpenInputText}
-        // setIsOpenInputURL={setIsOpenInputURL}
-        // setIsOpenInputAudio={setIsOpenInputAudio}
-        // setIsOpenInputVideo={setIsOpenInputVideo}
-        // setIsOpenInputImage={setIsOpenInputImage}
-        // setIsOpenInputRecor={setIsOpenInputRecor}
-        />
-      </div>
+      {transform.scale === 1 && (
+        <Draggable disabled={!toolbox}>
+          <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
+            <Navbar
+              data={data}
+              addElement={addElement}
+              setDefaultPosition={setDefaultPosition}
+              transform={transform}
+            />
+          </div>
+        </Draggable>
+      )}
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 // import { useSelector } from "react-redux";
 function Box(props) {
   // const dispatch = useDispatch()
@@ -62,7 +61,7 @@ function Box(props) {
     let startMouseX, startMouseY;
     let startX, startY;
     const handleMouseMove = (e) => {
-      // e.stopPropagation();
+      e.stopPropagation();
       let dx, dy;
       // New position of element
       dx = e.clientX - startMouseX + startX;
@@ -70,11 +69,24 @@ function Box(props) {
       // Update element position
       ref.current.style.setProperty("--left", `${dx}px`);
       ref.current.style.setProperty("--top", `${dy}px`);
+      // console.log("mouse");
+    };
+
+    const handleTouchMove = (e) => {
+      e.stopPropagation();
+      let dx, dy;
+      // New position of element
+      dx = e.touches[0].pageX - startMouseX + startX;
+      dy = e.touches[0].pageY - startMouseY + startY;
+      // Update element position
+      ref.current.style.setProperty("--left", `${dx}px`);
+      ref.current.style.setProperty("--top", `${dy}px`);
+      console.log("touch");
     };
     // When user loosen the pointer
     const handleMouseUp = (e) => {
       // Clean up event listeners
-      // e.stopPropagation();
+      e.stopPropagation();
       ref.current.classList.remove("box-selected");
       document.removeEventListener("mousemove", handleMouseMove);
       // Update state
@@ -95,26 +107,75 @@ function Box(props) {
       );
       props.openCustomize(props.type, props.coor.children);
       document.removeEventListener("mouseup", handleMouseUp);
+      // console.log(props.coor.isSelected);
+    };
+
+    const handleTouchEnd = (e) => {
+      // Clean up event listeners
+      e.stopPropagation();
+      ref.current.classList.remove("box-selected");
+      document.removeEventListener("touchmove", handleTouchMove);
+      // ref.current.firstChild.classList.remove("touch-none");
+
+      // Update state
+      const newXY = coorRelative(
+        getRef("--left"),
+        getRef("--top"),
+        props.coor.h
+      );
+      props.updateCoors(
+        props.coor.type,
+        props.coor.id,
+        {
+          x: newXY.x,
+          y: newXY.y,
+          isSelected: true,
+        },
+        { isSelected: false }
+      );
+      props.openCustomize(props.type, props.coor.children);
+      document.removeEventListener("touchend", handleTouchEnd);
     };
 
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
-      // e.stopPropagation();
+      e.stopPropagation();
       if (!ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");
       ref.current.classList.add("box-selected");
       startMouseX = e.clientX;
       startMouseY = e.clientY;
+
       // Attach event listeners
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     };
 
+    const handleTouchStart = (e) => {
+      // if (e.target !== e.currentTarget) return;
+      e.stopPropagation();
+      if (!ref.current.contains(e.target)) return;
+      startX = getRef("--left");
+      startY = getRef("--top");
+      ref.current.classList.add("box-selected");
+      // ref.current.firstChild.classList.add("touch-none");
+
+      startMouseX = e.touches[0].pageX;
+      startMouseY = e.touches[0].pageY;
+
+      // Attach event listeners
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+    };
+
     ref.current.addEventListener("mousedown", handleMouseDown);
+    ref.current.addEventListener("touchstart", handleTouchStart);
     return () => {
-      if (ref.current)
+      if (ref.current) {
         ref.current.removeEventListener("mousedown", handleMouseDown);
+        ref.current.removeEventListener("touchstart", handleTouchStart);
+      }
     };
   }, [props.coor]);
 
@@ -158,6 +219,7 @@ function Box(props) {
       document.removeEventListener("mousemove", onMouseMoveRightResize);
       document.removeEventListener("mouseup", onMouseUpRightResize);
     };
+
     const onMouseDownRightResize = (event) => {
       event.stopPropagation();
       x = event.clientX; // set the mouse position at the time clicked
@@ -166,6 +228,31 @@ function Box(props) {
       document.addEventListener("mousemove", onMouseMoveRightResize);
       document.addEventListener("mouseup", onMouseUpRightResize);
     };
+
+    // touch right resize
+    const onTouchMoveRightResize = (event) => {
+      const dx = event.touches[0].pageX - x;
+      x = event.touches[0].pageX;
+      width += dx;
+      width = width > props.coor.mw ? width : props.coor.mw;
+      box.style.width = `${width}px`;
+    };
+    const onTouchUpRightResize = (event) => {
+      props.updateCoors(props.coor.type, props.coor.id, {
+        w: parseInt(box.style.width.slice(0, -2)),
+      });
+      document.removeEventListener("touchmove", onTouchMoveRightResize);
+      document.removeEventListener("touchend", onTouchUpRightResize);
+    };
+    const onTouchDownRightResize = (event) => {
+      event.stopPropagation();
+      x = event.touches[0].pageX; // set the mouse position at the time clicked
+      // box.style.left = props.coor.left;
+      // box.style.right = null;
+      document.addEventListener("touchmove", onTouchMoveRightResize);
+      document.addEventListener("touchend", onTouchUpRightResize);
+    };
+
     // Bottom resize
     const onMouseMoveBottomResize = (event) => {
       const dy = event.clientY - y;
@@ -192,6 +279,32 @@ function Box(props) {
       document.addEventListener("mousemove", onMouseMoveBottomResize);
       document.addEventListener("mouseup", onMouseUpBottomResize);
     };
+    //touch bottom resize
+    const onTouchMoveBottomResize = (event) => {
+      const dy = event.touches[0].pageY - y;
+      y = event.touches[0].pageY;
+      height += dy;
+      height = height > props.coor.mh ? height : props.coor.mh;
+
+      box.style.height = `${height}px`;
+    };
+    const onTouchUpBottomResize = (event) => {
+      const newY = props.coor.y - (height - props.coor.h);
+      props.updateCoors(props.coor.type, props.coor.id, {
+        h: parseInt(box.style.height.slice(0, -2)),
+        y: newY,
+      });
+      document.removeEventListener("touchmove", onTouchMoveBottomResize);
+      document.removeEventListener("touchend", onTouchUpBottomResize);
+    };
+    const onTouchDownBottomResize = (event) => {
+      event.stopPropagation();
+      y = event.touches[0].pageY; // set the mouse position at the time clicked
+      // box.style.left = props.coor.left;
+      // box.style.right = null;
+      document.addEventListener("touchmove", onTouchMoveBottomResize);
+      document.addEventListener("touchend", onTouchUpBottomResize);
+    };
     // Left resize
     const onMouseMoveLeftResize = (event) => {
       const dx = event.clientX - x;
@@ -216,6 +329,30 @@ function Box(props) {
       document.addEventListener("mousemove", onMouseMoveLeftResize);
       document.addEventListener("mouseup", onMouseUpLeftResize);
     };
+    //touch left resize
+    const onTouchMoveLeftResize = (event) => {
+      const dx = event.touches[0].pageX - x;
+      x = event.touches[0].pageX;
+      width -= dx;
+      width = width > props.coor.mw ? width : props.coor.mw;
+      box.style.width = `${width}px`;
+      box.style.setProperty("--left", `${getRef("--left") + dx}px`);
+    };
+    const onTouchUpLeftResize = (event) => {
+      let newXAbsolute = getRef("--left");
+      props.updateCoors(props.coor.type, props.coor.id, {
+        w: parseInt(box.style.width.slice(0, -2)),
+        x: coorRelative(newXAbsolute, props.coor.y).x,
+      });
+      document.removeEventListener("touchmove", onTouchMoveLeftResize);
+      document.removeEventListener("touchend", onTouchUpLeftResize);
+    };
+    const onTouchDownLeftResize = (event) => {
+      event.stopPropagation();
+      x = event.touches[0].pageX;
+      document.addEventListener("touchmove", onTouchMoveLeftResize);
+      document.addEventListener("touchend", onTouchUpLeftResize);
+    };
     // Top resize
     const onMouseMoveTopResize = (event) => {
       const dy = event.clientY - y;
@@ -238,11 +375,40 @@ function Box(props) {
       document.addEventListener("mousemove", onMouseMoveTopResize);
       document.addEventListener("mouseup", onMouseUpTopResize);
     };
+    //touch top resize
+    const onTouchMoveTopResize = (event) => {
+      const dy = event.touches[0].pageY - y;
+      y = event.touches[0].pageY;
+      height -= dy;
+      height = height > props.coor.mh ? height : props.coor.mh;
+      box.style.height = `${height}px`;
+      box.style.setProperty("--top", `${getRef("--top") + dy}px`);
+    };
+    const onTouchUpTopResize = (event) => {
+      props.updateCoors(props.coor.type, props.coor.id, {
+        h: parseInt(box.style.height.slice(0, -2)),
+      });
+      document.removeEventListener("touchmove", onTouchMoveTopResize);
+      document.removeEventListener("touchend", onTouchUpTopResize);
+    };
+    const onTouchDownTopResize = (event) => {
+      event.stopPropagation();
+      y = event.touches[0].pageY;
+      document.addEventListener("touchmove", onTouchMoveTopResize);
+      document.addEventListener("touchend", onTouchUpTopResize);
+    };
 
     right.addEventListener("mousedown", onMouseDownRightResize);
     bottom.addEventListener("mousedown", onMouseDownBottomResize);
     left.addEventListener("mousedown", onMouseDownLeftResize);
     top.addEventListener("mousedown", onMouseDownTopResize);
+
+    //touch
+    right.addEventListener("touchstart", onTouchDownRightResize);
+    bottom.addEventListener("touchstart", onTouchDownBottomResize);
+    left.addEventListener("touchstart", onTouchDownLeftResize);
+    top.addEventListener("touchstart", onTouchDownTopResize);
+
     // For rounded resizer
     topleft.addEventListener("mousedown", onMouseDownLeftResize);
     topleft.addEventListener("mousedown", onMouseDownTopResize);
@@ -252,6 +418,16 @@ function Box(props) {
     bottomleft.addEventListener("mousedown", onMouseDownBottomResize);
     bottomright.addEventListener("mousedown", onMouseDownRightResize);
     bottomright.addEventListener("mousedown", onMouseDownBottomResize);
+
+    // For rounded touch resize
+    topleft.addEventListener("touchstart", onTouchDownLeftResize);
+    topleft.addEventListener("touchstart", onTouchDownTopResize);
+    topright.addEventListener("touchstart", onTouchDownRightResize);
+    topright.addEventListener("touchstart", onTouchDownTopResize);
+    bottomleft.addEventListener("touchstart", onTouchDownLeftResize);
+    bottomleft.addEventListener("touchstart", onTouchDownBottomResize);
+    bottomright.addEventListener("touchstart", onTouchDownRightResize);
+    bottomright.addEventListener("touchstart", onTouchDownBottomResize);
 
     return () => {
       right.removeEventListener("mousedown", onMouseDownRightResize);
@@ -266,50 +442,65 @@ function Box(props) {
       bottomleft.removeEventListener("mousedown", onMouseDownBottomResize);
       bottomright.removeEventListener("mousedown", onMouseDownRightResize);
       bottomright.removeEventListener("mousedown", onMouseDownBottomResize);
+
+      //touch
+      right.removeEventListener("touchstart", onTouchDownRightResize);
+      bottom.removeEventListener("touchstart", onTouchDownBottomResize);
+      left.removeEventListener("touchstart", onTouchDownLeftResize);
+      top.removeEventListener("touchstart", onTouchDownTopResize);
+      topleft.removeEventListener("touchstart", onTouchDownLeftResize);
+      topleft.removeEventListener("touchstart", onTouchDownTopResize);
+      topright.removeEventListener("touchstart", onTouchDownRightResize);
+      topright.removeEventListener("touchstart", onTouchDownTopResize);
+      bottomleft.removeEventListener("touchstart", onTouchDownLeftResize);
+      bottomleft.removeEventListener("touchstart", onTouchDownBottomResize);
+      bottomright.removeEventListener("touchstart", onTouchDownRightResize);
+      bottomright.removeEventListener("touchstart", onTouchDownBottomResize);
     };
   }, [props.coor]);
 
   return (
-      <div
-        ref={ref}
-        className={` bg-white border-[1px] border-black box ${props.coor.isSelected && "box-selected"
-          }`}
-        style={style}
-      >
-        {/* Children here */}
-        {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
-        {props.coor.children}
-        {/* <div>
+    <div
+      ref={ref}
+      className={` bg-white border-[1px] border-black box ${
+        props.coor.isSelected && "box-selected"
+      }`}
+      style={style}
+    >
+      {/* Children here */}
+      {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
+      {props.coor.children}
+      {/* <div>
         My name is
       </div> */}
-        {/* Resizing Bars and Dragging  */}
-        {props.coor.isSelected && (
-          <>
-            {/* Bar resizer */}
-            <div ref={leftResize} className="resizer resizer-left"></div>
-            <div ref={rightResize} className="resizer resizer-right"></div>
-            <div ref={topResize} className="resizer resizer-top"></div>
-            <div ref={bottomResize} className="resizer resizer-bottom"></div>
-            {/* Round resizer */}
-            <div
-              ref={topleftResize}
-              className="resizer resizer-topleft round-resizer"
-            ></div>
-            <div
-              ref={toprightResize}
-              className="resizer resizer-topright round-resizer"
-            ></div>
-            <div
-              ref={bottomleftResize}
-              className="resizer resizer-bottomleft round-resizer"
-            ></div>
-            <div
-              ref={bottomrightResize}
-              className="resizer resizer-bottomright round-resizer"
-            ></div>
-          </>
-        )}
-      </div>
+      {/* Resizing Bars and Dragging  */}
+      {props.coor.isSelected && (
+        <>
+          {/* Bar resizer */}
+          <div ref={leftResize} className="resizer resizer-left"></div>
+          <div ref={rightResize} className="resizer resizer-right"></div>
+          <div ref={topResize} className="resizer resizer-top"></div>
+          <div ref={bottomResize} className="resizer resizer-bottom"></div>
+          {/* Round resizer */}
+          <div
+            ref={topleftResize}
+            className="resizer resizer-topleft round-resizer"
+          ></div>
+          <div
+            ref={toprightResize}
+            className="resizer resizer-topright round-resizer"
+          ></div>
+          <div
+            ref={bottomleftResize}
+            className="resizer resizer-bottomleft round-resizer"
+          ></div>
+          <div
+            ref={bottomrightResize}
+            className="resizer resizer-bottomright round-resizer"
+          ></div>
+        </>
+      )}
+    </div>
   );
 }
 

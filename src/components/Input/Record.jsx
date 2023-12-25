@@ -4,17 +4,21 @@ import {
   Pause,
   Record as R,
   Stop,
+  XCircle,
 } from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import { useDispatch } from "react-redux";
 import { onClickRecord } from "../../redux/clickRecordSlice";
+import { onClickDelete } from "../../redux/clickDeletefile";
 function Record() {
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const [recordValue, setRecordValue] = useState("");
   const reControl = useAudioRecorder();
-
+  const handleClickDelete = () => {
+    dispatch(onClickDelete());
+  };
   useEffect(() => {
     if (!reControl.recordingBlob) return;
     console.log(reControl.recordingBlob);
@@ -46,9 +50,10 @@ function Record() {
   };
 
   const [isPause, setIsPause] = useState(false);
+
   return (
     <>
-      <div className="bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
+      <div className="touch-none bg-white w-full h-full cursor-pointer border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
         <Microphone size={25} className="text-blue mr-2 flex-shrink-0" />
         <div className="outline-none border-0 border-none focus:ring-0 flex-1 text-center">
           {!click && (
@@ -123,6 +128,15 @@ function Record() {
               />
             </div>
           )}
+        </div>
+        <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col bg-[#3498DB] rounded-bl-[15px] p-1 ">
+          <div
+            className="flex items-center justify-center cursor-pointer"
+            onClick={handleClickDelete}
+            onTouchStart={handleClickDelete}
+          >
+            <XCircle size={22} color="white" />
+          </div>
         </div>
         {/* <ReactMic record={record} onData={onData} onStop={onStop} /> */}
       </div>

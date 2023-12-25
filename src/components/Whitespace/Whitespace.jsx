@@ -1,23 +1,47 @@
 // import { Repeat } from "@phosphor-icons/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDataByIdText, dontClickInputText } from "../../redux/clickTextSlice";
-import { deleteDataByIdImage, dontClickImage } from "../../redux/clickImageSlice";
+import {
+  deleteDataByIdText,
+  dontClickInputText,
+} from "../../redux/clickTextSlice";
+import {
+  deleteDataByIdImage,
+  dontClickImage,
+} from "../../redux/clickImageSlice";
 import Element from "./Element";
 import Customize from "../Customize/Customize";
 import ToSpeech from "../Customize/ToSpeech";
-import { deleteDataByIdUrl, dontClickInputUrl } from "../../redux/clickURLSlice";
-import { deleteDataByIdRecord, dontClickRecord } from "../../redux/clickRecordSlice";
-import { deleteDataByIdVideo, dontClickVideo } from "../../redux/clickVideoSlice";
-import { deleteDataByIdAudio, dontClickAudio } from "../../redux/clickAudioSlice";
+import {
+  deleteDataByIdUrl,
+  dontClickInputUrl,
+} from "../../redux/clickURLSlice";
+import {
+  deleteDataByIdRecord,
+  dontClickRecord,
+} from "../../redux/clickRecordSlice";
+import {
+  deleteDataByIdVideo,
+  dontClickVideo,
+} from "../../redux/clickVideoSlice";
+import {
+  deleteDataByIdAudio,
+  dontClickAudio,
+} from "../../redux/clickAudioSlice";
 import { onTypeModel } from "../../redux/typeModelSlice";
 import Preview from "../Customize/Preview";
 import RightClickMenu from "../PopupDragFile/PopupContextMenu";
 import { dontClickDelete } from "../../redux/clickDeletefile";
 import { onClickSelectData } from "../../redux/clickSelectData";
-
+import Tools from "../Customize/Tools";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { NotActiveTools } from "../../redux/activeToolsSlice";
+import {
+  ActiveCustomize,
+  NotActiveCustomize,
+} from "../../redux/activeCustomizeSlice";
 function Whitespace(props) {
-  const deleteInput = useSelector(state => state.clickDelete.value)
+  const deleteInput = useSelector((state) => state.clickDelete.value);
   const dispatch = useDispatch();
   const [onDelete, setOnDelete] = useState(true);
   const [update2, setUpdate2] = useState(0);
@@ -27,6 +51,8 @@ function Whitespace(props) {
     title: "",
   });
   const [focusElement, setFocusElement] = useState(null);
+  const tools = useSelector((tool) => tool.tools.value);
+  const customize = useSelector((cus) => cus.customize.value);
   // const [selected, setSelected] = useState();
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
@@ -121,21 +147,23 @@ function Whitespace(props) {
       return data;
     });
   };
+  const [scaleValue, setScaleValue] = useState();
+
   const renderedElements = props.data?.map((typeBlock) => (
     <>
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
-          <RightClickMenu
-          // setOnDelete={setOnDelete}
-          >
-            <Element
-              type={element.type}
-              key={index}
-              coor={element}
-              updateCoors={props.updateElement}
-              openCustomize={handleOpenCustomize}
-            />
-          </RightClickMenu>
+          // <RightClickMenu
+          // // setOnDelete={setOnDelete}
+          // >
+          <Element
+            type={element.type}
+            key={index}
+            coor={element}
+            updateCoors={props.updateElement}
+            openCustomize={handleOpenCustomize}
+          />
+          // </RightClickMenu>
         ))}
     </>
   ));
@@ -151,7 +179,7 @@ function Whitespace(props) {
             setIsOpenCustomize(false);
             // console.log("check:", item,idx1,idx2)
             removeElement(idx1, idx2);
-            dispatch(dontClickDelete())
+            dispatch(dontClickDelete());
           }
         });
       });
@@ -175,13 +203,13 @@ function Whitespace(props) {
       props.data?.map((typeBlock, idx1) => {
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
-            // setIsOpenCustomize(false);
-            // // console.log("check:", item,idx1,idx2)
-            // removeElement(idx1, idx2);
-            setOnDelete(true)
+            setIsOpenCustomize(false);
+            // console.log("check:", item,idx1,idx2)
+            removeElement(idx1, idx2);
+            setOnDelete(true);
             switch (item.type) {
               case "Text":
-                dispatch(deleteDataByIdText(item.id))
+                dispatch(deleteDataByIdText(item.id));
                 break;
               case "Image":
                 dispatch(deleteDataByIdImage(item.id))
@@ -217,11 +245,11 @@ function Whitespace(props) {
           props.data?.map((typeBlock, idx1) => {
             typeBlock.list?.map((item, idx2) => {
               if (item.isSelected) {
-                // removeElement(idx1, idx2);
-                // setOnDelete(true)
+                removeElement(idx1, idx2);
+                setOnDelete(true);
                 switch (item.type) {
                   case "Text":
-                    dispatch(deleteDataByIdText(item.id))
+                    dispatch(deleteDataByIdText(item.id));
                     break;
                   case "Image":
                     dispatch(deleteDataByIdImage(item.id))
@@ -252,11 +280,11 @@ function Whitespace(props) {
             });
           });
         }
-      }
+      };
     }
-  }, [onDelete])
+  }, [onDelete]);
 
-  const [i, setI] = useState({})
+  const [i, setI] = useState({});
 
   useEffect(() => {
     props.data?.map((typeBlock, idx1) => {
@@ -267,8 +295,9 @@ function Whitespace(props) {
           // // console.log("check:", item,idx1,idx2)
           // removeElement(idx1, idx2);
           // setOnDelete(true)
-          dispatch(onClickSelectData({ id, type }))
-          setI(item)
+          dispatch(onClickSelectData({ id, type }));
+          dispatch(NotActiveTools());
+          setI(item);
           // setSelect(item.isSelected)
         }
       });
@@ -282,14 +311,16 @@ function Whitespace(props) {
             // // console.log("check:", item,idx1,idx2)
             // removeElement(idx1, idx2);
             // setOnDelete(true)
-            dispatch(onClickSelectData({ id, type }))
-            setI(item)
+            dispatch(onClickSelectData({ id, type }));
+            dispatch(NotActiveTools());
+
+            setI(item);
             // setSelect(item.isSelected)
           }
         });
       });
-    }
-  }, [props.data])
+    };
+  }, [props.data]);
 
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
@@ -340,6 +371,33 @@ function Whitespace(props) {
               dispatch(dontClickRecord());
               dispatch(dontClickVideo());
               dispatch(dontClickAudio());
+              switch (item.type) {
+                case "Text":
+                  dispatch(deleteDataByIdText(item.id));
+                  break;
+                case "Image":
+                  dispatch(deleteDataByIdImage(item.id));
+
+                  break;
+                case "Video":
+                  dispatch(deleteDataByIdVideo(item.id));
+
+                  break;
+                case "Audio":
+                  dispatch(deleteDataByIdAudio(item.id));
+
+                  break;
+                case "URL":
+                  dispatch(deleteDataByIdUrl(item.id));
+
+                  break;
+                case "Record":
+                  dispatch(deleteDataByIdRecord(item.id));
+
+                  break;
+                default:
+                  break;
+              }
             }
           });
         });
@@ -393,6 +451,33 @@ function Whitespace(props) {
                 dispatch(dontClickRecord());
                 dispatch(dontClickVideo());
                 dispatch(dontClickAudio());
+                switch (item.type) {
+                  case "Text":
+                    dispatch(deleteDataByIdText(item.id));
+                    break;
+                  case "Image":
+                    dispatch(deleteDataByIdImage(item.id));
+
+                    break;
+                  case "Video":
+                    dispatch(deleteDataByIdVideo(item.id));
+
+                    break;
+                  case "Audio":
+                    dispatch(deleteDataByIdAudio(item.id));
+
+                    break;
+                  case "URL":
+                    dispatch(deleteDataByIdUrl(item.id));
+
+                    break;
+                  case "Record":
+                    dispatch(deleteDataByIdRecord(item.id));
+
+                    break;
+                  default:
+                    break;
+                }
               }
             });
           });
@@ -406,26 +491,85 @@ function Whitespace(props) {
     data[idx1]?.list?.splice(idx2, 1);
     props.setData(data);
   };
+  const wsRef = useRef();
+  const wsCon = document.getElementById("ws-container");
+  let pos = { top: 0, left: 0, x: 0, y: 0 };
+  const mouseDownHandler = function (e) {
+    if (!wsRef.current.contains(e.target)) return;
+    pos = {
+      // The current scroll
+      left: wsCon.scrollLeft,
+      top: wsCon.scrollTop,
+      // Get the current mouse position
+      x: e.clientX,
+      y: e.clientY,
+    };
+    wsCon.addEventListener("mousemove", mouseMoveHandler);
+    wsCon.addEventListener("mouseup", mouseUpHandler);
+  };
+  // if (wsCon) wsCon.addEventListener("mousedown", mouseDownHandler);
+
+  const mouseMoveHandler = function (e) {
+    // How far the mouse has been moved
+    const dx = e.clientX - pos.x;
+    const dy = e.clientY - pos.y;
+
+    // Scroll the element
+    wsCon.scrollTop = pos.top - dy;
+    wsCon.scrollLeft = pos.left - dx;
+  };
+  const mouseUpHandler = function (e) {
+    e.stopPropagation();
+    wsCon.removeEventListener("mousemove", mouseMoveHandler);
+    wsCon.style.cursor = "grab";
+    wsCon.style.removeProperty("user-select");
+    wsCon.removeEventListener("mouseup", mouseUpHandler);
+  };
+
+  const transformDefault = {
+    scale: 1,
+    positionX: 0,
+    positionY: 0,
+  };
 
   return (
-    <div className="w-full bg-repeat whitespace overflow-hidden" id="boxDrop">
-      <div
-        className="w-full"
-        style={{
-          backgroundColor: "rgba(255,255,255,.6)",
-          height: "100vh",
+    <>
+      <TransformWrapper
+        onTransformed={(ref, state) => {
+          props.setTransform(state);
+          setScaleValue(state.scale);
         }}
+        centerOnInit={true}
+        minScale={0.5}
+        maxScale={1}
+        initialScale={transformDefault.scale}
       >
-        {isOpenCustomize && (
-          <Customize
-            title={DataOpenCustomize.title}
-            tools={DataOpenCustomize.tools}
+        <TransformComponent wrapperStyle={{ width: "100vw", height: "100vh" }}>
+          <div
+            className="w-[10000px] h-[10000px] bg-repeat whitespace"
+            id="boxDrop"
+            ref={wsRef}
+          >
+            <div
+              className="w-full h-full"
+              style={{
+                backgroundColor: "rgba(255,255,255,.6)",
+              }}
+            >
+              {renderedElements}
+            </div>
+          </div>
+        </TransformComponent>
+      </TransformWrapper>
+      {tools && <Tools />}
+      {isOpenCustomize && (
+        <Customize
+          title={DataOpenCustomize.title}
+          tools={DataOpenCustomize.tools}
           // isOpen={setIsOpenCustomize}
-          />
-        )}
-        {renderedElements}
-      </div>
-    </div>
+        />
+      )}
+    </>
   );
 }
 
