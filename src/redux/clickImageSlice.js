@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-let nextId = 1; // Biến để lưu trữ ID tiếp theo, bắt đầu từ 1
+// let nextId = 1; // Biến để lưu trữ ID tiếp theo, bắt đầu từ 1
 const initialState = {
   value: false,
   data: []
@@ -12,7 +12,7 @@ export const clickImageSlice = createSlice({
   reducers: {
     onClickImage: (state, action) => {
       state.value = true;
-      const newItem = { id: nextId++, ...action.payload }; // Thêm id và payload vào newItem
+      const newItem = {...action.payload }; // Thêm id và payload vào newItem
       state.data.push(newItem);
     },
     dontClickImage: (state) => {
@@ -23,7 +23,7 @@ export const clickImageSlice = createSlice({
       state.data = state.data.filter((item) => item.id !== idToDelete);
     },
     dataUndefinedImage:(state, action) => {
-      nextId = 1 
+      // nextId = 1 
     },
   },
 });
