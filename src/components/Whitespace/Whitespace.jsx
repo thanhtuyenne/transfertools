@@ -558,7 +558,6 @@ function Whitespace(props) {
             onDrop={onDrop}
             id="droppable"
           >
-         <>
               <div
                 className="w-[10000px] h-[10000px] bg-repeat whitespace"
                 id="boxDrop"
@@ -573,7 +572,6 @@ function Whitespace(props) {
                   {renderedElements}
                 </div>
               </div>
-         </>
           </Droppable>
         </TransformComponent>
       </TransformWrapper>

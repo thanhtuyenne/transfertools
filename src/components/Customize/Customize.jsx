@@ -16,16 +16,13 @@ import { dataUndefinedImage } from "../../redux/clickImageSlice";
 import { dataUndefinedVideo } from "../../redux/clickVideoSlice";
 import { dataUndefinedRecord } from "../../redux/clickRecordSlice";
 import { dataUndefinedAudio } from "../../redux/clickAudioSlice";
-import { Draggable } from "react-drag-and-drop";
+import Draggable from "react-draggable";
 
-function Customize({ title, tools = [], isOpen }) {
+function Customize({ title, tools = [] }) {
   const dispatch = useDispatch();
 
   const [dataSample, setDataSample] = useState([])
-  // const [toolsSelected, setToolsSelected] = useState(0);
-  // const handleToolSelected = (value) => {
-  //   setToolsSelected(value);
-  // };
+  const defaultValue = useSelector((state) => state.globalDefaultValue.value);
 
   const importData = (id, type, value) => {
     const newDataSample = [...dataSample, { id: id, type: type, value: value }];
@@ -182,14 +179,14 @@ function Customize({ title, tools = [], isOpen }) {
   const [clicked, setClick] = useState(false);
 
   const parentRef = useRef();
-  const [screen, setScreen] = useState(window.innerWidth >= 768);
+  const [screen, setScreen] = useState(window.innerWidth >= defaultValue.tabletScreenSize);
 
   const handleClosePopup = () => {
     setScreen(false);
   };
   useEffect(() => {
     const handleResize = () => {
-      setScreen(window.innerWidth >= 768);
+      setScreen(window.innerWidth >= defaultValue.tabletScreenSize);
     };
 
     window.addEventListener("resize", handleResize);

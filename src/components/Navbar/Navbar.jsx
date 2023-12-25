@@ -53,11 +53,6 @@ const Navbar = (props) => {
       });
     }
   };
-  // const clickText = useSelector((state) => state.clickText.value);
-  // const clickImage = useSelector((state) => state.clickImage.value);
-
-  // const [type, setType] = useState(null);
-  // const [title, setTitle] = useState(null);
   const [screen, setScreen] = useState(window.innerWidth <= 768);
   // const [openTool, setOpenTool] = useState(false);
   const [activeSetting, setActiveSetting] = useState(false);
