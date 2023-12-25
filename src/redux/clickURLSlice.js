@@ -25,7 +25,7 @@ export const clickURLSlice = createSlice({
         },
       ];
       state.currentInputValue = ''; // Reset dữ liệu tạm thời của ô input 1
-      state.value = false;
+      // state.value = false;
     },
     dontClickInputUrl: (state) => {
       state.value = false;

@@ -10,7 +10,6 @@ import Draggable from "react-draggable";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { onClickDataIdType } from "./redux/clickDataIdType";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 function App() {
   const dispatch = useDispatch();
@@ -110,7 +109,7 @@ function App() {
       let typeFound = prev.find((type) => type.typeName === typeName);
   
       // Not found type
-      console.log(typeFound);
+      // console.log(typeFound);
       if (!typeFound) {
         const typeId = prev.length + 1;
         setZDefault(zDefault + 1);

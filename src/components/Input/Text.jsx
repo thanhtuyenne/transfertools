@@ -1,14 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import {
   TextT,
   LinkSimple,
-  Microphone,
-  DotsThreeOutlineVertical,
-  Trash,
   XCircle,
 } from "@phosphor-icons/react";
-import Notify from "../Notify/Notify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setInputValueText,
@@ -20,30 +16,19 @@ import {
   onClickInputUrl,
   setInputValueUrl,
 } from "../../redux/clickURLSlice";
-import InputOption from "../Navbar/InputOption";
-import Popup from "reactjs-popup";
 import { onClickDelete } from "../../redux/clickDeletefile";
 
 export const TextInput = () => {
-  // const reduxData = useSelector(state => state.clickText.data);
-  // console.log("check redux data:", reduxData)
-  // const [textId, setTextId] = useState(1)
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const handleClickDelete = () => {
     dispatch(onClickDelete());
   };
-  // const handleInputChange1 = (event) => {
-  //   const inputValue = event.target.value;
-  //   dispatch(setInputValueText(inputValue));
-  // };
 
   const handleInputBlur1 = () => {
     dispatch(onClickInputText());
   };
-
-  // const reduxData = useSelector(state => state.clickText.data);
   const selectDataText = useSelector((state) => state.clickSelect.data)
   const selectDataTextId =  selectDataText.id
 
@@ -56,6 +41,7 @@ export const TextInput = () => {
     }
     setInputValue(value)
   };
+  
   const validate = (text) => {
     if (text.length === 0) {
       setMessage("Your text can't be empty");
@@ -83,7 +69,6 @@ export const TextInput = () => {
           minRows={1}
           maxRows={10}
         />
-        {/* {message.length > 0 && <Notify message={message} />} */}
       </div>
       <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col bg-[#3498DB] rounded-bl-[15px] p-1 ">
         <div
@@ -166,17 +151,3 @@ export const URLInput = () => {
     </>
   );
 };
-
-// export const Record = () => {
-//     return (
-//         <div className="h-[40px] border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]">
-//             <Microphone size={20} className="text-blue" />
-//             <input
-//                 type=""
-//                 className="outline-none border-0 border-none focus:ring-0 bg-transparent "
-//             />
-//         </div>
-//     );
-// };
-
-// export default Text;

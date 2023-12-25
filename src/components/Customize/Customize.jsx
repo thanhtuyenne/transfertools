@@ -4,33 +4,30 @@ import Button from "../Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import "./Customize.css";
 import {
-  ArrowLeft,
-  ArrowRight,
-  Minus,
   Swap,
   XCircle,
 } from "@phosphor-icons/react";
-import { dataUndefinedText } from "../../redux/clickTextSlice";
-import { dataUndefinedUrl } from "../../redux/clickURLSlice";
-import { dataUndefinedImage } from "../../redux/clickImageSlice";
-import { dataUndefinedVideo } from "../../redux/clickVideoSlice";
-import { dataUndefinedRecord } from "../../redux/clickRecordSlice";
-import { dataUndefinedAudio } from "../../redux/clickAudioSlice";
+import {  dontClickInputText } from "../../redux/clickTextSlice";
+import {  dontClickInputUrl } from "../../redux/clickURLSlice";
+import { dontClickImage } from "../../redux/clickImageSlice";
+import { dontClickVideo} from "../../redux/clickVideoSlice";
+import { dontClickRecord } from "../../redux/clickRecordSlice";
+import { dontClickAudio } from "../../redux/clickAudioSlice";
 import { Draggable } from "react-drag-and-drop";
 
 function Customize({ title, tools = [], isOpen }) {
   const dispatch = useDispatch();
 
-  const [dataSample, setDataSample] = useState([])
+  // const [dataSample, setDataSample] = useState([])
   // const [toolsSelected, setToolsSelected] = useState(0);
   // const handleToolSelected = (value) => {
   //   setToolsSelected(value);
   // };
 
-  const importData = (id, type, value) => {
-    const newDataSample = [...dataSample, { id: id, type: type, value: value }];
-    setDataSample(newDataSample);
-  };
+  // const importData = (id, type, value) => {
+  //   const newDataSample = [...dataSample, { id: id, type: type, value: value }];
+  //   setDataSample(newDataSample);
+  // };
 
   const [indexTool, setIndexTool] = useState(0);
   const [currentTool, setCurrentTool] = useState(tools[indexTool].comp);
@@ -97,11 +94,10 @@ function Customize({ title, tools = [], isOpen }) {
         const dataText = dataInputText.find((item, index) => {
           return selectData.id === item.id
         })
-        // if (dataInputText.length === 0) {
-        //   dispatch(dataUndefinedText())
-        //   // console.log("checkInputTextNone:")
-
-        // }
+        if (typeof dataText === 'undefined') {
+          dispatch(dontClickInputText())
+          // console.log("checkInputTextNone:")
+        }
         console.log("checkInputText:", dataText)
         break;
 
@@ -109,9 +105,9 @@ function Customize({ title, tools = [], isOpen }) {
         const dataImage = dataInputImage.find((item, index) => {
           return selectData.id === item.id
         })
-        // if (dataInputImage.length === 0) {
-        //   dispatch(dataUndefinedImage())
-        // }
+        if (dataInputImage.length === 0) {
+          dispatch(dontClickImage())
+        }
 
         console.log("checkDataImage:", dataImage)
 
@@ -121,9 +117,9 @@ function Customize({ title, tools = [], isOpen }) {
         const dataVideo = dataInputVideo.find((item, index) => {
           return selectData.id === item.id
         })
-        // if (dataInputVideo.length === 0) {
-        //   dispatch(dataUndefinedVideo())
-        // }
+        if (dataInputVideo.length === 0) {
+          dispatch(dontClickVideo())
+        }
         console.log("checkInputVideo:", dataVideo)
 
         break;
@@ -132,9 +128,9 @@ function Customize({ title, tools = [], isOpen }) {
         const dataAudio = dataInputAudio.find((item, index) => {
           return selectData.id === item.id
         })
-        // if (dataInputAudio.length === 0) {
-        //   dispatch(dataUndefinedAudio())
-        // }
+        if (dataInputAudio.length === 0) {
+          dispatch(dontClickAudio())
+        }
         console.log("checkInputAudio:", dataAudio)
 
         break;
@@ -143,10 +139,10 @@ function Customize({ title, tools = [], isOpen }) {
         const dataUrl = dataInputUrl.find((item, index) => {
           return selectData.id === item.id
         })
-        // if (dataInputUrl.length === 0) {
-        //   dispatch(dataUndefinedUrl())
+        if (dataInputUrl.length === 0) {
+          dispatch(dontClickInputUrl())
 
-        // }
+        }
         console.log("checkInputUrl:", dataUrl)
 
         break;
@@ -155,10 +151,10 @@ function Customize({ title, tools = [], isOpen }) {
         const dataRecord = dataInputRecord.find((item, index) => {
           return selectData.id === item.id
         })
-        // if (dataInputRecord.length === 0) {
-        //   dispatch(dataUndefinedRecord())
+        if (dataInputRecord.length === 0) {
+          dispatch(dontClickRecord())
 
-        // }
+        }
         console.log("checkInputRecord:", dataRecord)
 
         break;
@@ -170,12 +166,12 @@ function Customize({ title, tools = [], isOpen }) {
     handleData();
   }, [
     idType,
-    dataInputText,
-    dataInputImage,
-    dataInputVideo,
-    dataInputAudio,
-    dataInputUrl,
-    dataInputRecord,
+    // dataInputText,
+    // dataInputImage,
+    // dataInputVideo,
+    // dataInputAudio,
+    // dataInputUrl,
+    // dataInputRecord,
   ]);
 
   const [preview, setPreview] = useState(tools[indexTool].preview);
