@@ -14,20 +14,21 @@ import { Draggable } from "react-drag-and-drop";
 import Tools from "../Customize/Tools";
 import Popup from "reactjs-popup";
 import {
-  DotsThreeOutline,
-  DotsThreeOutlineVertical,
-  DotsThreeVertical,
-  WindowsLogo,
+  DotsThreeOutline
 } from "@phosphor-icons/react";
 import MobileOption from "./MobileOption";
 import { IsActiveTools, NotActiveTools } from "../../redux/activeToolsSlice";
 import {
-  IsActiveCustomize,
   NotActiveCustomize,
 } from "../../redux/activeCustomizeSlice";
 
 const Navbar = (props) => {
   const { setDefaultPosition, addElement, transform } = props;
+  const defaultValue = useSelector((state) => state.globalDefaultValue.value);
+  const boxSize = {
+    width: defaultValue.defaultBoxSize.width,
+    height: defaultValue.defaultBoxSize.height,
+  };
   // const wsContainer = document.getElementById("ws-container");
   const showInfo = (e) => {
     e.stopPropagation();
@@ -41,10 +42,10 @@ const Navbar = (props) => {
       }
 
       const dirX =
-        (e.clientX - transform.positionX) / transform.scale - 250 / 2;
+        (e.clientX - transform.positionX) / transform.scale - boxSize.width / 2;
       const dirY =
         (rect.height - e.clientY + transform.positionY) / transform.scale -
-        150 / 2;
+        boxSize.height / 2;
       // ( + e.clientY - transform.positionY) * transform.scale;
       setDefaultPosition({
         x: dirX,
@@ -79,10 +80,10 @@ const Navbar = (props) => {
     }
     setDefaultPosition({
       x:
-        window.innerWidth / 2 - 250 / 2 - transform.positionX / transform.scale,
+        window.innerWidth / 2 - boxSize.width / 2 - transform.positionX / transform.scale,
       y:
         (rect.height + transform.positionY) / transform.scale -
-        150 / 2 -
+        boxSize.height / 2 -
         window.innerHeight / 2 +
         Math.floor(Math.random() * (80 - 40 + 1)) +
         40,
@@ -90,7 +91,7 @@ const Navbar = (props) => {
   };
   useEffect(() => {
     const handleResize = () => {
-      setScreen(window.innerWidth <= 768);
+      setScreen(window.innerWidth <= defaultValue.tabletScreenSize);
     };
 
     window.addEventListener("resize", handleResize);

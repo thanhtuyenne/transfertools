@@ -12,7 +12,7 @@ import clickSelectData from "./clickSelectData";
 import activeToolbox from "./activeToolboxSlice";
 import activeCustomize from "./activeCustomizeSlice";
 import activeTools from "./activeToolsSlice";
-
+import GloabalDefaultValue from "./GloabalDefaultValue";
 export const store = configureStore({
   reducer: {
     clickText: clickTextSlice,
@@ -28,5 +28,6 @@ export const store = configureStore({
     tools: activeTools,
     clickIdType: clickDataIdTypeSlice,
     clickSelect: clickSelectData,
+    globalDefaultValue: GloabalDefaultValue
   },
 });

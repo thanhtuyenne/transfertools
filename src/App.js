@@ -12,14 +12,14 @@ import { onClickDataIdType } from "./redux/clickDataIdType";
 
 function App() {
   const dispatch = useDispatch();
-
+  const defaultValue = useSelector((state) => state.globalDefaultValue.value);
+  const defaultBoxSize = {
+    width: defaultValue.defaultBoxSize.width,
+    height: defaultValue.defaultBoxSize.height,
+  };
   const [defaultPosition, setDefaultPosition] = useState({
     x: 0,
     y: 0,
-  });
-  const [defaultSize, setDefaultSize] = useState({
-    w: 250,
-    h: 150,
   });
 
   const [data, setData] = useState([
@@ -77,10 +77,10 @@ function App() {
         type: typeName,
         x: defaultPosition.x,
         y: defaultPosition.y,
-        w: defaultSize.w,
-        h: defaultSize.h,
-        mw: defaultSize.w,
-        mh: defaultSize.h,
+        w: defaultBoxSize.width,
+        h: defaultBoxSize.height,
+        mw: defaultBoxSize.width,
+        mh: defaultBoxSize.height,
         isSelected: false,
         z: 0,
         children: (
@@ -174,14 +174,6 @@ function App() {
       <div>
         <Header />
       </div>
-      {/* <TransformWrapper
-        onTransformed={(ref, state) => setTransform(state)}
-        centerOnInit={true}
-        minScale={0.5}
-        maxScale={1}
-        initialScale={transform.scale}
-        onWheel={(ref, e) => console.log(ref, e)}
-      > */}
       <div
         className={`w-full h-ful overflow-hidden cursor-grab ${
           transform.scale !== 1 && ""
@@ -196,7 +188,6 @@ function App() {
           addElement={addElement}
         />
       </div>
-      {/* {transform.scale === 1 && ( */}
       <Draggable disabled={!toolbox}>
         <div className="fixed z-20 bottom-0 left-0 right-0 flex justify-center items-center ">
           <Navbar
@@ -207,7 +198,6 @@ function App() {
           />
         </div>
       </Draggable>
-      {/* )} */}
     </div>
   );
 }

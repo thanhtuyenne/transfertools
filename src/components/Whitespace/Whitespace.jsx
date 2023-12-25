@@ -474,7 +474,7 @@ function Whitespace(props) {
           setScaleValue(state.scale);
         }}
         centerOnInit={true}
-        minScale={0.1}
+        minScale={0.5}
         maxScale={10}
         initialScale={transformDefault.scale}
         centerZoomedOutside={true}
@@ -507,7 +507,6 @@ function Whitespace(props) {
         <Customize
           title={DataOpenCustomize.title}
           tools={DataOpenCustomize.tools}
-          // isOpen={setIsOpenCustomize}
         />
       )}
     </>
