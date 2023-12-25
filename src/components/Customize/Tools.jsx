@@ -46,7 +46,7 @@ function Tools() {
   const recordTool = ["Record to text"];
 
   return (
-    <div className="z-10 shadow-md overflow-auto overflow-x-hidden lg:h-[450px] bg-white md:w-[300px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 pb-0 fixed right-0 top-[20%] scrollar-cus">
+    <div className="z-[1000] shadow-md overflow-auto overflow-x-hidden lg:h-[450px] bg-white md:w-[300px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 pb-0 fixed right-0 top-[20%] scrollar-cus">
       <div className="w-full h-[100%]">
         <div className="relative bg-[] text-xl font-bold py-2 mt-2 mb-3 w-[100%] flex justify-center items-center">
           <span className="w-[70%] text-center marker text-[#2f3542]">
