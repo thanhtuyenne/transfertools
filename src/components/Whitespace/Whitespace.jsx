@@ -558,30 +558,32 @@ function Whitespace(props) {
             onDrop={onDrop}
             id="droppable"
           >
-            <div
-              className="w-[10000px] h-[10000px] bg-repeat whitespace"
-              id="boxDrop"
-              ref={wsRef}
-            >
+         <>
               <div
-                className="w-full h-full"
-                style={{
-                  backgroundColor: "rgba(255,255,255,.6)",
-                }}
+                className="w-[10000px] h-[10000px] bg-repeat whitespace"
+                id="boxDrop"
+                ref={wsRef}
               >
-                {renderedElements}
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundColor: "rgba(255,255,255,.6)",
+                  }}
+                >
+                  {renderedElements}
+                </div>
               </div>
-            </div>
+         </>
           </Droppable>
         </TransformComponent>
       </TransformWrapper>
-      {tools && <Tools />}
       {isOpenCustomize && (
         <Customize
           title={DataOpenCustomize.title}
           tools={DataOpenCustomize.tools}
         />
       )}
+      {tools && <Tools />}
     </>
   );
 }

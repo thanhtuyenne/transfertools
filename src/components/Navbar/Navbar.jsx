@@ -80,11 +80,11 @@ const Navbar = (props) => {
     }
     setDefaultPosition({
       x:
-        window.innerWidth / 2 - boxSize.width / 2 - transform.positionX / transform.scale,
+        (window.innerWidth / 2 - transform.positionX )/ transform.scale- boxSize.width / 2 ,
       y:
-        (rect.height + transform.positionY) / transform.scale -
-        boxSize.height / 2 -
-        window.innerHeight / 2 +
+        (rect.height  -
+          window.innerHeight / 2  + transform.positionY) / transform.scale -
+          boxSize.height / 2 +
         Math.floor(Math.random() * (80 - 40 + 1)) +
         40,
     });
