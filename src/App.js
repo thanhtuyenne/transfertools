@@ -96,7 +96,7 @@ function App() {
         input = null; // or any other default value
     }
     return input;
-  }
+  };
   const [zDefault, setZDefault] = useState(0);
   const addElement = (typeName) => {
     const newEl = {
@@ -118,18 +118,18 @@ function App() {
       //     })}
       //   </>
       // ),
-      children: transferResult(typeName)
+      children: transferResult(typeName),
     };
     setData((prev) => {
       let maxId = 0;
-  
+
       prev.forEach((type) => {
         const maxInType = Math.max(...type.list.map((el) => el.id));
         maxId = Math.max(maxId, maxInType);
       });
-  
+
       let typeFound = prev.find((type) => type.typeName === typeName);
-  
+
       // Not found type
       if (!typeFound) {
         const typeId = prev.length + 1;
@@ -138,7 +138,7 @@ function App() {
           typeId,
           typeName,
           // list: [{ ...newEl, id: maxId + 1 }],
-          list: [{ ...newEl,id: maxId + 1, z: zDefault }],
+          list: [{ ...newEl, id: maxId + 1, z: zDefault }],
         };
         prev.push(typeFound);
         return prev;
@@ -160,7 +160,7 @@ function App() {
     setUpdate((prev) => prev + 1);
     return newEl;
   };
-  
+
   const updateElement = (type, id, values, syncValues) => {
     setData((prev) =>
       prev.map((typeBlock) => {
@@ -212,17 +212,14 @@ function App() {
       <div>
         <Header />
       </div>
-      <div
-        className={`w-full h-ful overflow-hidden cursor-grab ${
-          transform.scale !== 1 && ""
-        }`}
-      >
+      <div className={`w-full h-ful overflow-hidden cursor-grab`}>
         <Whitespace
           data={data}
           setData={setData}
           update={update}
           updateElement={updateElement}
           setTransform={setTransform}
+          transform={transform}
           addElement={addElement}
           setDefaultPosition={setDefaultPosition}
         />

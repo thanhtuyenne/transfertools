@@ -592,7 +592,7 @@ function Whitespace(props) {
           tools={DataOpenCustomize.tools}
           addElement={props.addElement}
           setDefaultPosition={props.setDefaultPosition}
-          transform={props.setTransform}
+          transform={props.transform}
         />
       )}
       {tools && <Tools />}

@@ -206,25 +206,27 @@ function Customize({
     height: defaultValue.defaultBoxSize.height,
   };
 
-  const setPositionResult = () => {
+  const setPositionResult = (e) => {
+    // e.stopPropagation();
     const wsContainer = document.getElementById("ws-container");
     const workspace = document.querySelector(".whitespace");
     let rect;
     if (workspace) {
       rect = workspace.getBoundingClientRect();
     }
+    const dirX =
+      (window.innerWidth / 2 - transform.positionX) / transform.scale -
+      boxSize.width / 2;
+
+    const dirY = rect.height - window.innerHeight / 2 + transform.positionY - boxSize.height;
+    // console.log(dirX, dirY);
     setDefaultPosition({
-      x:
-        (window.innerWidth / 2 - transform.positionX) / transform.scale -
-        boxSize.width / 2,
-      y:
-        (rect.height - window.innerHeight / 2 + transform.positionY) /
-          transform.scale -
-        boxSize.height / 2,
+      x: dirX,
+      y: dirY,
     });
   };
-
   const handleResult = () => {
+    setPositionResult();
     setNewElement(addElement(result));
   };
   return (
@@ -271,9 +273,10 @@ function Customize({
                   (transfer === "URL" && inputUrl === true) ? (
                     <Button
                       title="Transfer"
-                      onClick={() => {
+                      onMouseDown={() => {
                         handleResult();
                       }}
+                      // onMouseUp={() => setPositionResult()}
                     />
                   ) : (
                     <></>
