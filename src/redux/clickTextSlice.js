@@ -21,12 +21,14 @@ export const clickTextSlice = createSlice({
         state.data = [
           ...state.data,
           {
-            id: state.currentInputValue.selectDataTextId, // Sử dụng nextId và sau đó tăng giá trị cho ID tiếp theo
+            id: state.currentInputValue.selectDataTextId, 
             value: state.currentInputValue.value,
           },
         ];
         state.currentInputValue = ''; // Reset dữ liệu tạm thời của ô input 1
-      state.value = false;
+      // state.value = false;
+      state.value = true;
+
     },
     dontClickInputText: (state) => {
       state.value = false;
