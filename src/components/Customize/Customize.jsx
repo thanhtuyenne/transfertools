@@ -216,10 +216,12 @@ function Customize({
     const dirX =
       // (window.innerWidth / 2 - transform.positionX) / transform.scale -
       // boxSize.width / 2;
-      (window.innerWidth / 2 - transform.positionX )- (boxSize.width * 2);
+      (window.innerWidth / 2 - transform.positionX ) / transform.scale - (boxSize.width * 2);
 
-    // const dirY = rect.height - window.innerHeight / 2 + transform.positionY - boxSize.height;
-    const dirY = rect.height -window.innerHeight / 2 + transform.positionY;
+    const dirY = (rect.height  -
+      window.innerHeight / 2  + transform.positionY) / transform.scale +
+      Math.floor(Math.random() * (80 - 40 + 1)) +
+      40;
     console.log(dirX, dirY);
     setDefaultPosition({
       x: dirX,
