@@ -1,14 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import {
   TextT,
   LinkSimple,
-  Microphone,
-  DotsThreeOutlineVertical,
-  Trash,
   XCircle,
 } from "@phosphor-icons/react";
-import Notify from "../Notify/Notify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setInputValueText,
@@ -20,8 +16,6 @@ import {
   onClickInputUrl,
   setInputValueUrl,
 } from "../../redux/clickURLSlice";
-import InputOption from "../Navbar/InputOption";
-import Popup from "reactjs-popup";
 import { onClickDelete } from "../../redux/clickDeletefile";
 
 export const TextInput = React.forwardRef(function TextResult(_, ref) {
@@ -34,26 +28,23 @@ export const TextInput = React.forwardRef(function TextResult(_, ref) {
   const handleClickDelete = () => {
     dispatch(onClickDelete());
   };
-  // const handleInputChange1 = (event) => {
-  //   const inputValue = event.target.value;
-  //   dispatch(setInputValueText(inputValue));
-  // };
 
   const handleInputBlur1 = () => {
     dispatch(onClickInputText());
   };
-
-  // const reduxData = useSelector(state => state.clickText.data);
+  const selectDataText = useSelector((state) => state.clickSelect.data)
+  const selectDataTextId =  selectDataText.id
 
   const handleChangeInput = (value) => {
     if (value.trim() !== "") {
-      dispatch(setInputValueText(value));
+      dispatch(setInputValueText({selectDataTextId,value}));
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputText());
     }
     setInputValue(value);
   };
+  
   const validate = (text) => {
     if (text.length === 0) {
       setMessage("Your text can't be empty");
@@ -82,7 +73,6 @@ export const TextInput = React.forwardRef(function TextResult(_, ref) {
           minRows={1}
           maxRows={10}
         />
-        {/* {message.length > 0 && <Notify message={message} />} */}
       </div>
       <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col bg-[#3498DB] rounded-bl-[15px] p-1 ">
         <div
@@ -98,6 +88,8 @@ export const TextInput = React.forwardRef(function TextResult(_, ref) {
 });
 
 export const URLInput = React.forwardRef(function URLResult(_, ref) {
+  const selectDataUrl = useSelector((state) => state.clickSelect.data)
+  const selectDataUrlId =  selectDataUrl.id
   const [linkValue, setLinkValue] = useState("");
   const [mess, setMess] = useState("");
   const dispatch = useDispatch();
@@ -124,7 +116,7 @@ export const URLInput = React.forwardRef(function URLResult(_, ref) {
     if (value.trim() !== "") {
       // Đã có dữ liệu trong input
 
-      dispatch(setInputValueUrl(value));
+      dispatch(setInputValueUrl({selectDataUrlId,value}));
     } else {
       // Không có dữ liệu trong input
       dispatch(dontClickInputUrl());

@@ -78,13 +78,13 @@ function App() {
         input = <TextInput ref={refBox} />;
         break;
       case "URL":
-        input = <URLInput />;
+        input = <URLInput ref={refBox} />;
         break;
       case "Audio":
-        input = <Audio />;
+        input = <Audio ref={refBox} />;
         break;
       case "Video":
-        input = <Video />;
+        input = <Video ref={refBox} />;
         break;
       case "Image":
         input = <Image ref={refBox} />;

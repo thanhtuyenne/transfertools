@@ -74,7 +74,7 @@ function Whitespace(props) {
               title: "Text to speech",
               comp: <ToSpeech />,
               preview: <Preview type="Speech" />,
-              result: "Speech",
+              result: "Audio",
             },
             {
               title: "Text to image",
@@ -308,6 +308,7 @@ function Whitespace(props) {
     props.data?.map((typeBlock, idx1) => {
       typeBlock.list?.map((item, idx2) => {
         if (item.isSelected) {
+          // console.log("acnkanc:", item)
           const { id, type } = item;
           // setIsOpenCustomize(false);
           // // console.log("check:", item,idx1,idx2)
@@ -322,8 +323,10 @@ function Whitespace(props) {
     });
     return () => {
       props.data?.map((typeBlock, idx1) => {
+        // console.log("acnkanc:",typeBlock )
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
+
             const { id, type } = item;
             // setIsOpenCustomize(false);
             // // console.log("check:", item,idx1,idx2)

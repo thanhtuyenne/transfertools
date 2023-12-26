@@ -11,13 +11,15 @@ import { onClickVideo } from "../../redux/clickVideoSlice";
 import React from "react";
 
 export const Audio = React.forwardRef(function AudioResult(_, ref) {
+  const selectDataAudio = useSelector((state) => state.clickSelect.data)
+  const selectDataIdAudio =  selectDataAudio.id
   const dispatch = useDispatch();
   const acceptType = ["audio/mp3", "audio/raw", "audio/wav"];
 
   const handleAudioUpload = async (source, filetype) => {
     try {
       const base64data = await blobToBase64(source);
-      dispatch(onClickAudio({ source: base64data, filetype: filetype }));
+      dispatch(onClickAudio({id:selectDataIdAudio, source: base64data, filetype: filetype }));
     } catch (error) {
       console.error("Error converting Blob to base64:", error);
       // Xử lý lỗi nếu có
@@ -61,6 +63,8 @@ export const Audio = React.forwardRef(function AudioResult(_, ref) {
 });
 
 export const Image = React.forwardRef(function ImageResult(_, ref) {
+  const selectDataImage = useSelector((state) => state.clickSelect.data)
+  const selectDataIdImage =  selectDataImage.id
   const dispatch = useDispatch();
   const acceptType = ["jpg", "png", "jpeg"];
   return (
@@ -69,7 +73,7 @@ export const Image = React.forwardRef(function ImageResult(_, ref) {
       placeholder="Upload your Image"
       accept={acceptType}
       callback={({ source, filetype }) => {
-        dispatch(onClickImage({ source: source, filetype: filetype }));
+        dispatch(onClickImage({id:selectDataIdImage, source: source, filetype: filetype }));
         // dispatch(onClickImage())
         return (
           <img
@@ -85,6 +89,8 @@ export const Image = React.forwardRef(function ImageResult(_, ref) {
 });
 
 export const Video = React.forwardRef(function VideoResult(_, ref) {
+  const selectDataVideo = useSelector((state) => state.clickSelect.data)
+  const selectDataIdVideo =  selectDataVideo.id
   const acceptType = ["mp4", "wav", "mov", "webm"];
   const dispatch = useDispatch();
   return (
@@ -93,7 +99,7 @@ export const Video = React.forwardRef(function VideoResult(_, ref) {
       placeholder="Upload your video"
       accept={acceptType}
       callback={({ source, filetype }) => {
-        dispatch(onClickVideo({ source: source, filetype: filetype }));
+        dispatch(onClickVideo({id: selectDataIdVideo, source: source, filetype: filetype }));
         return (
           <video width="400" height="400" controls autoPlay>
             <source src={source} type={filetype} ref={ref} />
