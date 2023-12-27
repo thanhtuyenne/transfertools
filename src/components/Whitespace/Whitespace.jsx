@@ -192,10 +192,8 @@ function Whitespace(props) {
           .filter((element) => element.endpoint.length !== 0)
           .map((element, index) => {
             return element.endpoint
-              .filter((ep) => ep.current !== null)
-              .map((endpoint) => (
-                <Xarrow start={element.boxRef} end={endpoint} />
-              ));
+              .filter((element) => element.current !== null)
+              .map((i) => <Xarrow start={element.boxRef} end={i} />);
           })}
     </>
   ));
