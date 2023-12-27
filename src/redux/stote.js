@@ -28,6 +28,6 @@ export const store = configureStore({
     tools: activeTools,
     clickIdType: clickDataIdTypeSlice,
     clickSelect: clickSelectData,
-    globalDefaultValue: GloabalDefaultValue
+    globalDefaultValue: GloabalDefaultValue,
   },
 });

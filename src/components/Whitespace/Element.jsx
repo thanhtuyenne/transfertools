@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import Xarrow from "react-xarrows";
+
 // import { useSelector } from "react-redux";
-function Box(props) {
+function Box(props, ref) {
   // const dispatch = useDispatch()
   // STATES AND STYLES AND VARIABLES
   const style = {
@@ -8,7 +10,7 @@ function Box(props) {
     width: `${props.coor.w}px`,
     height: `${props.coor.h}px`,
   };
-  const ref = useRef(null);
+  // const ref = useRef(null);
   const leftResize = useRef(null);
   const rightResize = useRef(null);
   const topResize = useRef(null);
@@ -111,6 +113,7 @@ function Box(props) {
         },
         { isSelected: false }
       );
+      console.log(props.type, props.coor.children);
       props.openCustomize(props.type, props.coor.children);
       document.removeEventListener("mouseup", handleMouseUp);
     };
@@ -145,12 +148,15 @@ function Box(props) {
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
       e.stopPropagation();
+      console.log(ref);
       if (!ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");
       ref.current.classList.add("box-selected");
       startMouseX = e.clientX;
       startMouseY = e.clientY;
+      props.setBoxSelected(props.coor);
+      props.setBoxRef(ref);
 
       // Attach event listeners
       document.addEventListener("mousemove", handleMouseMove);
@@ -462,49 +468,62 @@ function Box(props) {
     };
   }, [props.coor]);
 
+  useEffect(() => {
+    console.log(props.coor.endpoint);
+  }, [props.coor.endpoint]);
+
   return (
-    <div
-      ref={ref}
-      className={` bg-white border-[1px] border-black box ${
-        props.coor.isSelected && "box-selected"
-      }`}
-      style={style}
-    >
-      {/* Children here */}
-      {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
-      {props.coor.children}
-      {/* <div>
-        My name is
-      </div> */}
-      {/* Resizing Bars and Dragging  */}
-      {props.coor.isSelected && (
-        <>
-          {/* Bar resizer */}
-          <div ref={leftResize} className="resizer resizer-left"></div>
-          <div ref={rightResize} className="resizer resizer-right"></div>
-          <div ref={topResize} className="resizer resizer-top"></div>
-          <div ref={bottomResize} className="resizer resizer-bottom"></div>
-          {/* Round resizer */}
-          <div
-            ref={topleftResize}
-            className="resizer resizer-topleft round-resizer"
-          ></div>
-          <div
-            ref={toprightResize}
-            className="resizer resizer-topright round-resizer"
-          ></div>
-          <div
-            ref={bottomleftResize}
-            className="resizer resizer-bottomleft round-resizer"
-          ></div>
-          <div
-            ref={bottomrightResize}
-            className="resizer resizer-bottomright round-resizer"
-          ></div>
-        </>
-      )}
-    </div>
+    <>
+      <div
+        ref={ref}
+        className={` bg-white border-[1px] border-black box ${
+          props.coor.isSelected && "box-selected"
+        }`}
+        style={style}
+      >
+        {/* Children here */}
+        {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
+        {props.coor.children}
+        {/* <div>
+          My name is
+        </div> */}
+        {/* Resizing Bars and Dragging  */}
+        {props.coor.isSelected && (
+          <>
+            {/* Bar resizer */}
+            <div ref={leftResize} className="resizer resizer-left"></div>
+            <div ref={rightResize} className="resizer resizer-right"></div>
+            <div ref={topResize} className="resizer resizer-top"></div>
+            <div ref={bottomResize} className="resizer resizer-bottom"></div>
+            {/* Round resizer */}
+            <div
+              ref={topleftResize}
+              className="resizer resizer-topleft round-resizer"
+            ></div>
+            <div
+              ref={toprightResize}
+              className="resizer resizer-topright round-resizer"
+            ></div>
+            <div
+              ref={bottomleftResize}
+              className="resizer resizer-bottomleft round-resizer"
+            ></div>
+            <div
+              ref={bottomrightResize}
+              className="resizer resizer-bottomright round-resizer"
+            ></div>
+          </>
+        )}
+      </div>
+
+      {/* {props.coor.endpoint && props.coor.endpoint.current && (
+        <Xarrow
+          start={ref}
+          end={props.coor.endpoint}
+        />
+      )} */}
+    </>
   );
 }
 
-export default Box;
+export default React.forwardRef(Box);

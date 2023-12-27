@@ -8,13 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { onClickAudio } from "../../redux/clickAudioSlice";
 import { onClickImage } from "../../redux/clickImageSlice";
 import { onClickVideo } from "../../redux/clickVideoSlice";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const Audio = React.forwardRef(function AudioResult(_, ref) {
+  useEffect(() => {
+    console.log(ref);
+  }, [ref]);
   const selectDataAudio = useSelector((state) => state.clickSelect.data)
   const selectDataIdAudio =  selectDataAudio.id
   const dispatch = useDispatch();
-  const acceptType = ["audio/mp3", "audio/raw", "audio/wav"];
+  const acceptType = ["mp3", "raw", "wav"];
 
   const handleAudioUpload = async (source, filetype) => {
     try {
@@ -43,17 +46,18 @@ export const Audio = React.forwardRef(function AudioResult(_, ref) {
       IconComp={GooglePodcastsLogo}
       placeholder="Upload your Audio"
       accept={acceptType}
+      mediaRef={ref}
       callback={({ source, filetype }) => {
         handleAudioUpload(source, filetype);
-
+        console.log(source, filetype);
         // Trả về phần tử audio để hiển thị
         return (
-          <audio controls className="w-full">
+            
+          <audio controls className="w-full" > 
             {/* Sử dụng source trực tiếp */}
             <source
               src={URL.createObjectURL(source)}
               type={filetype}
-              ref={ref}
             />
           </audio>
         );
@@ -72,6 +76,7 @@ export const Image = React.forwardRef(function ImageResult(_, ref) {
       IconComp={I}
       placeholder="Upload your Image"
       accept={acceptType}
+      mediaRef={ref}
       callback={({ source, filetype }) => {
         dispatch(onClickImage({id:selectDataIdImage, source: source, filetype: filetype }));
         // dispatch(onClickImage())
@@ -80,7 +85,6 @@ export const Image = React.forwardRef(function ImageResult(_, ref) {
             src={source}
             type={filetype}
             className="pointer-events-none"
-            ref={ref}
           />
         );
       }}

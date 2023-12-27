@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { onClickImage } from "../../redux/clickImageSlice";
 import { onClickDelete } from "../../redux/clickDeletefile";
 
-function MediaBase({ IconComp, placeholder, accept, callback }) {
+function MediaBase({ IconComp, placeholder, accept, callback, mediaRef }) {
   const [popup, setShowPopup] = useState(false);
   const [media, setMedia] = useState(<></>);
   const openPopup = () => {
@@ -29,7 +29,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
   // console.log(file)
 
   let removeRef = useRef();
-  const mediaRef = useRef();
+  // const mediaRef = useRef();
   const handleRightClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -58,7 +58,7 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
     <>
       <div
         className="touch-none cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
-        onDoubleClick={openPopup}
+        onClick={openPopup}
         ref={mediaRef}
       >
         <IconComp size={25} className="text-blue mr-2 shrink-0 flex-0" />

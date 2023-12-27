@@ -36,11 +36,8 @@ import { onClickSelectData } from "../../redux/clickSelectData";
 import Tools from "../Customize/Tools";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { NotActiveTools } from "../../redux/activeToolsSlice";
-import {
-  ActiveCustomize,
-  NotActiveCustomize,
-} from "../../redux/activeCustomizeSlice";
 import { Droppable } from "react-drag-and-drop";
+import Xarrow, { Xwrapper } from "react-xarrows";
 
 function Whitespace(props) {
   const deleteInput = useSelector((state) => state.clickDelete.value);
@@ -55,12 +52,13 @@ function Whitespace(props) {
   const [focusElement, setFocusElement] = useState(null);
   const tools = useSelector((tool) => tool.tools.value);
   const customize = useSelector((cus) => cus.customize.value);
-  // const [selected, setSelected] = useState();
+  const [boxSelected, setBoxSelected] = useState();
   const onDrop = (value, e) => {
     e.stopPropagation();
     props.addElement(value.components);
   };
   const handleOpenCustomize = (typeModel, element) => {
+    console.log(typeModel, element);
     if (focusElement === element) return;
     dispatch(onTypeModel(typeModel));
     setFocusElement(element);
@@ -161,18 +159,17 @@ function Whitespace(props) {
         default:
           break;
       }
+      console.log(data);
       return data;
     });
   };
   const [scaleValue, setScaleValue] = useState(1);
+  const [boxRef, setBoxRef] = useState();
 
   const renderedElements = props.data?.map((typeBlock) => (
     <>
       {typeBlock.list?.length > 0 &&
         typeBlock.list?.map((element, index) => (
-          // <RightClickMenu
-          // // setOnDelete={setOnDelete}
-          // >
           <Element
             type={element.type}
             key={index}
@@ -180,9 +177,24 @@ function Whitespace(props) {
             updateCoors={props.updateElement}
             openCustomize={handleOpenCustomize}
             wsScale={scaleValue}
+            setBoxSelected={setBoxSelected}
+            ref={element.boxRef}
+            setBoxRef={setBoxRef}
           />
-          // </RightClickMenu>
         ))}
+    </>
+  ));
+
+  const paths = props.data?.map((typeBlock) => (
+    <>
+      {typeBlock.list?.length > 0 &&
+        typeBlock.list
+          .filter((element) => element.endpoint.length !== 0)
+          .map((element, index) => {
+            return element.endpoint
+              .filter((element) => element.current !== null)
+              .map((i) => <Xarrow start={element.boxRef} end={i} />);
+          })}
     </>
   ));
   useEffect(() => {
@@ -326,7 +338,6 @@ function Whitespace(props) {
         // console.log("acnkanc:",typeBlock )
         typeBlock.list?.map((item, idx2) => {
           if (item.isSelected) {
-
             const { id, type } = item;
             // setIsOpenCustomize(false);
             // // console.log("check:", item,idx1,idx2)
@@ -552,43 +563,48 @@ function Whitespace(props) {
     positionX: 0,
     positionY: 0,
   };
-
   return (
     <>
-      <TransformWrapper
-        onTransformed={(ref, state) => {
-          props.setTransform(state);
-          setScaleValue(state.scale);
-        }}
-        centerOnInit={true}
-        minScale={0.5}
-        maxScale={10}
-        initialScale={transformDefault.scale}
-        centerZoomedOutside={true}
-      >
-        <TransformComponent wrapperStyle={{ width: "100vw", height: "100vh" }}>
-          <Droppable
-            types={["components"]} // <= allowed drop types
-            onDrop={onDrop}
-            id="droppable"
+      <Xwrapper>
+        <TransformWrapper
+          onTransformed={(ref, state) => {
+            props.setTransform(state);
+            setScaleValue(state.scale);
+          }}
+          centerOnInit={true}
+          minScale={0.5}
+          maxScale={10}
+          initialScale={transformDefault.scale}
+          centerZoomedOutside={true}
+        >
+          <TransformComponent
+            wrapperStyle={{ width: "100vw", height: "100vh" }}
           >
-            <div
-              className="w-[10000px] h-[10000px] bg-repeat whitespace"
-              id="boxDrop"
-              ref={wsRef}
+            <Droppable
+              types={["components"]} // <= allowed drop types
+              onDrop={onDrop}
+              id="droppable"
             >
               <div
-                className="w-full h-full"
-                style={{
-                  backgroundColor: "rgba(255,255,255,.6)",
-                }}
+                className="w-[10000px] h-[10000px] bg-repeat whitespace"
+                id="boxDrop"
+                ref={wsRef}
               >
-                {renderedElements}
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundColor: "rgba(255,255,255,.6)",
+                  }}
+                >
+                  {renderedElements}
+                </div>
               </div>
-            </div>
-          </Droppable>
-        </TransformComponent>
-      </TransformWrapper>
+            </Droppable>
+          </TransformComponent>
+        </TransformWrapper>
+        {paths}
+      </Xwrapper>
+
       {isOpenCustomize && (
         <Customize
           title={DataOpenCustomize.title}
@@ -596,9 +612,13 @@ function Whitespace(props) {
           addElement={props.addElement}
           setDefaultPosition={props.setDefaultPosition}
           transform={props.transform}
+          boxSelected={boxSelected}
+          updateElement={props.updateElement}
+          boxRef={boxRef}
         />
       )}
       {tools && <Tools />}
+      {/* {<Xarrow start={boxRef} end={endpoint} />} */}
     </>
   );
 }

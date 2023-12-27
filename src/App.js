@@ -37,6 +37,8 @@ function App() {
           isSelected: false,
           z: 0,
           children: <></>,
+          boxRef: React.createRef(),
+          endpoint: [],
         },
       ],
     },
@@ -70,7 +72,7 @@ function App() {
     },
   ];
 
-  const transferResult = (type) => {
+  const elements = (type) => {
     let input;
     const refBox = React.createRef();
     switch (type) {
@@ -118,7 +120,9 @@ function App() {
       //     })}
       //   </>
       // ),
-      children: transferResult(typeName),
+      children: elements(typeName),
+      boxRef: React.createRef(),
+      endpoint: [],
     };
     setData((prev) => {
       let maxId = 0;

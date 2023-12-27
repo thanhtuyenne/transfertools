@@ -3,17 +3,15 @@ import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import "./Customize.css";
-import {
-  Swap,
-  XCircle,
-} from "@phosphor-icons/react";
+import { Swap, XCircle } from "@phosphor-icons/react";
 import Draggable from "react-draggable";
-import {  dontClickInputText } from "../../redux/clickTextSlice";
-import {  dontClickInputUrl } from "../../redux/clickURLSlice";
+import { dontClickInputText } from "../../redux/clickTextSlice";
+import { dontClickInputUrl } from "../../redux/clickURLSlice";
 import { dontClickImage } from "../../redux/clickImageSlice";
-import { dontClickVideo} from "../../redux/clickVideoSlice";
+import { dontClickVideo } from "../../redux/clickVideoSlice";
 import { dontClickRecord } from "../../redux/clickRecordSlice";
 import { dontClickAudio } from "../../redux/clickAudioSlice";
+import Xarrow from "react-xarrows";
 
 function Customize({
   title,
@@ -21,20 +19,17 @@ function Customize({
   addElement,
   setDefaultPosition,
   transform,
+  boxSelected,
+  updateElement,
+  boxRef,
 }) {
   const dispatch = useDispatch();
 
-  const [dataSample, setDataSample] = useState([]);
   const defaultValue = useSelector((state) => state.globalDefaultValue.value);
 
-  // const importData = (id, type, value) => {
-  //   const newDataSample = [...dataSample, { id: id, type: type, value: value }];
-  //   setDataSample(newDataSample);
-  // };
-
   const [indexTool, setIndexTool] = useState(0);
-  const [currentTool, setCurrentTool] = useState(tools[indexTool].comp);
-  const [result, setResult] = useState(tools[indexTool].result);
+  const [currentTool, setCurrentTool] = useState(<></>);
+  const [result, setResult] = useState();
   const displayToolSelected = useCallback(
     (toolIndex = 0) => {
       // setClick(false);
@@ -52,7 +47,6 @@ function Customize({
 
   // Dữ liệu gồm id, type của mỗi input được kéo lên screen
   const idType = useSelector((state) => state.clickIdType.data);
-  // console.log("check idtype:",idType )
 
   // Thao tác nhấn nút transfer
   const transfer = useSelector((state) => state.typeModel.value);
@@ -60,16 +54,13 @@ function Customize({
   // Dữ liệu inputText Chưa sử lý
   const inputText = useSelector((state) => state.clickText.value);
   const dataInputText = useSelector((state) => state.clickText.data);
-  // console.log("check data:", dataInputText)
   // Dữ liệu inputUrl Chưa sử lý
   const inputUrl = useSelector((state) => state.clickUrl.value);
   const dataInputUrl = useSelector((state) => state.clickUrl.data);
-  // console.log("check data url:", dataInputUrl)
 
   // Dữ liệu Video Chưa sử lý
   const inputVideo = useSelector((state) => state.clickVideo.value);
   const dataInputVideo = useSelector((state) => state.clickVideo.data);
-  // console.log("check video: ", dataInputVideo)
 
   // Dữ liệu Audio Chưa sử lý
   const inputAudio = useSelector((state) => state.clickAudio.value);
@@ -82,23 +73,19 @@ function Customize({
   // Dữ liệu Image Chưa sử lý
   const inputImage = useSelector((state) => state.clickImage.value);
   const dataInputImage = useSelector((state) => state.clickImage.data);
-  // console.log("check data:", dataInputImage)
   // DỮ liệu select
   const selectData = useSelector((state) => state.clickSelect.data);
-  // console.log("check id select:", selectData)
 
   // Thao tác lọc dữ liệu
   const handleData = () => {
     switch (selectData.type) {
       case "Text":
         const dataText = dataInputText.find((item, index) => {
-          return selectData.id === item.id
-        })
-        if (typeof dataText === 'undefined') {
-          dispatch(dontClickInputText())
-          // console.log("checkInputTextNone:")
+          return selectData.id === item.id;
+        });
+        if (typeof dataText === "undefined") {
+          dispatch(dontClickInputText());
         }
-        console.log("checkInputText:", dataText);
         break;
 
       case "Image":
@@ -106,10 +93,8 @@ function Customize({
           return selectData.id === item.id;
         });
         if (dataInputImage.length === 0) {
-          dispatch(dontClickImage())
+          dispatch(dontClickImage());
         }
-
-        console.log("checkDataImage:", dataImage);
 
         break;
 
@@ -118,9 +103,8 @@ function Customize({
           return selectData.id === item.id;
         });
         if (dataInputVideo.length === 0) {
-          dispatch(dontClickVideo())
+          dispatch(dontClickVideo());
         }
-        console.log("checkInputVideo:", dataVideo);
 
         break;
 
@@ -129,9 +113,8 @@ function Customize({
           return selectData.id === item.id;
         });
         if (dataInputAudio.length === 0) {
-          dispatch(dontClickAudio())
+          dispatch(dontClickAudio());
         }
-        console.log("checkInputAudio:", dataAudio);
 
         break;
 
@@ -140,10 +123,8 @@ function Customize({
           return selectData.id === item.id;
         });
         if (dataInputUrl.length === 0) {
-          dispatch(dontClickInputUrl())
-
+          dispatch(dontClickInputUrl());
         }
-        console.log("checkInputUrl:", dataUrl);
 
         break;
 
@@ -152,10 +133,8 @@ function Customize({
           return selectData.id === item.id;
         });
         if (dataInputRecord.length === 0) {
-          dispatch(dontClickRecord())
-
+          dispatch(dontClickRecord());
         }
-        console.log("checkInputRecord:", dataRecord);
 
         break;
       default:
@@ -216,22 +195,29 @@ function Customize({
     const dirX =
       // (window.innerWidth / 2 - transform.positionX) / transform.scale -
       // boxSize.width / 2;
-      (window.innerWidth / 2 - transform.positionX ) / transform.scale - (boxSize.width * 2);
+      (window.innerWidth / 2 - transform.positionX) / transform.scale -
+      boxSize.width * 2;
 
-    const dirY = (rect.height  -
-      window.innerHeight / 2  + transform.positionY) / transform.scale +
+    const dirY =
+      (rect.height - window.innerHeight / 2 + transform.positionY) /
+        transform.scale +
       Math.floor(Math.random() * (80 - 40 + 1)) +
       40;
-    console.log(dirX, dirY);
     setDefaultPosition({
       x: dirX,
       y: dirY,
     });
   };
+
   const handleResult = (e) => {
-    // setPositionResult(e);
-    setNewElement(addElement(result));
+    const newE = addElement(result);
+    // boxSelected.endpoint.push(newE.boxRef);
+    console.log(newE.boxRef);
+    updateElement(boxSelected.type, boxSelected.id, {
+      endpoint: [...boxSelected.endpoint, newE.boxRef],
+    });
   };
+
   return (
     <>
       {screen ? (
@@ -289,7 +275,6 @@ function Customize({
               </div>
             </Draggable>
           </div>
-          {/* {clicked && preview} */}
         </>
       ) : (
         <Draggable>
