@@ -57,8 +57,8 @@ function Whitespace(props) {
     e.stopPropagation();
     props.addElement(value.components);
   };
+
   const handleOpenCustomize = (typeModel, element) => {
-    console.log(typeModel, element);
     if (focusElement === element) return;
     dispatch(onTypeModel(typeModel));
     setFocusElement(element);
@@ -159,7 +159,6 @@ function Whitespace(props) {
         default:
           break;
       }
-      console.log(data);
       return data;
     });
   };
@@ -189,11 +188,13 @@ function Whitespace(props) {
     <>
       {typeBlock.list?.length > 0 &&
         typeBlock.list
-          .filter((element) => element.endpoint.length !== 0)
+          .filter((e) => e.endpoint.length !== 0)
           .map((element, index) => {
             return element.endpoint
-              .filter((element) => element.current !== null)
-              .map((i) => <Xarrow start={element.boxRef} end={i} />);
+              .filter((el) => el.current !== null)
+              .map((endpoint) => (
+                <Xarrow start={element.boxRef} end={endpoint} />
+              ));
           })}
     </>
   ));
@@ -576,6 +577,7 @@ function Whitespace(props) {
           maxScale={10}
           initialScale={transformDefault.scale}
           centerZoomedOutside={true}
+          doubleClick={{ disabled: true }}
         >
           <TransformComponent
             wrapperStyle={{ width: "100vw", height: "100vh" }}

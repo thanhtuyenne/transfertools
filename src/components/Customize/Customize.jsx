@@ -21,7 +21,6 @@ function Customize({
   transform,
   boxSelected,
   updateElement,
-  boxRef,
 }) {
   const dispatch = useDispatch();
 
@@ -211,13 +210,17 @@ function Customize({
 
   const handleResult = (e) => {
     const newE = addElement(result);
-    // boxSelected.endpoint.push(newE.boxRef);
-    console.log(newE.boxRef);
-    updateElement(boxSelected.type, boxSelected.id, {
-      endpoint: [...boxSelected.endpoint, newE.boxRef],
-    });
+    console.log(newE);
+    boxSelected.endpoint.push(newE.boxRef);
+    // updateElement(boxSelected.type, boxSelected.id, {
+    //   endpoint: [...boxSelected.endpoint, newE.boxRef],
+    // });
+    console.log(boxSelected);
   };
 
+  useEffect(() => {
+    console.log(boxSelected);
+  }, [boxSelected, boxSelected.endpoint]);
   return (
     <>
       {screen ? (

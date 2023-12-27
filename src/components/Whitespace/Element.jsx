@@ -43,7 +43,7 @@ function Box(props, ref) {
   };
   // Turn the new absolute pos into saved relative pos
   const coorRelative = (x, y, h) => {
-    console.log(x, y, h);
+    // console.log(x, y, h);
     // x, y is the absolute x,y passed in
     if (wsSize().w && wsSize().h) {
       const xRelative = x;
@@ -88,7 +88,6 @@ function Box(props, ref) {
       // Update element position
       ref.current.style.setProperty("--left", `${dx}px`);
       ref.current.style.setProperty("--top", `${dy}px`);
-      console.log("touch");
     };
     // When user loosen the pointer
     const handleMouseUp = (e) => {
@@ -102,7 +101,7 @@ function Box(props, ref) {
         getRef("--top"),
         props.coor.h
       );
-      console.log(newXY);
+      // console.log(newXY);
       props.updateCoors(
         props.coor.type,
         props.coor.id,
@@ -113,7 +112,6 @@ function Box(props, ref) {
         },
         { isSelected: false }
       );
-      console.log(props.type, props.coor.children);
       props.openCustomize(props.type, props.coor.children);
       document.removeEventListener("mouseup", handleMouseUp);
     };
@@ -148,7 +146,6 @@ function Box(props, ref) {
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
       e.stopPropagation();
-      console.log(ref);
       if (!ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");

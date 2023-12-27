@@ -166,6 +166,7 @@ function App() {
   };
 
   const updateElement = (type, id, values, syncValues) => {
+    console.log(type, id, values);
     setData((prev) =>
       prev.map((typeBlock) => {
         // Update values inside this type Blockblock

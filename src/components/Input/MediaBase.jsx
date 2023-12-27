@@ -58,7 +58,7 @@ function MediaBase({ IconComp, placeholder, accept, callback, mediaRef }) {
     <>
       <div
         className="touch-none cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
-        onClick={openPopup}
+        onDoubleClick={openPopup}
         ref={mediaRef}
       >
         <IconComp size={25} className="text-blue mr-2 shrink-0 flex-0" />
