@@ -573,7 +573,7 @@ function Whitespace(props) {
             setScaleValue(state.scale);
           }}
           centerOnInit={true}
-          minScale={0.5}
+          minScale={0.3}
           maxScale={10}
           initialScale={transformDefault.scale}
           centerZoomedOutside={true}
@@ -620,7 +620,6 @@ function Whitespace(props) {
         />
       )}
       {tools && <Tools />}
-      {/* {<Xarrow start={boxRef} end={endpoint} />} */}
     </>
   );
 }

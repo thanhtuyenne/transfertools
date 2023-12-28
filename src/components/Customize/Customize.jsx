@@ -194,8 +194,8 @@ function Customize({
     const dirX =
       // (window.innerWidth / 2 - transform.positionX) / transform.scale -
       // boxSize.width / 2;
-      (window.innerWidth / 2 - transform.positionX) / transform.scale -
-      boxSize.width * 2;
+      (window.innerWidth / 2 - transform.positionX) / transform.scale +
+      boxSize.width;
 
     const dirY =
       (rect.height - window.innerHeight / 2 + transform.positionY) /
@@ -216,6 +216,10 @@ function Customize({
     //   endpoint: [...boxSelected.endpoint, newE.boxRef],
     // });
     console.log(boxSelected);
+    console.log("screen: ", screen);
+    if (window.innerWidth <= defaultValue.tabletScreenSize) {
+      handleClosePopup(); //in mobile screen, close popup when clicked transfer
+    }
   };
 
   useEffect(() => {
@@ -228,19 +232,26 @@ function Customize({
           <div
             className="fixed left-0 top-0 z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
             ref={parentRef}
+            onClick={() => handleClosePopup()}
+            onTouchStart={() => handleClosePopup()}
           >
             <Draggable
               onDrag={(e) => e.stopPropagation()}
               disabled={!customize}
             >
-              <div className="z-100 max-h-[65%] w-[350px] container_customize scrollar-cus lg:min-h-[350px] md:min-h-[350px] overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed lg:top-[20%] md:top-[20%] md:right-0 lg:right-0">
+              <div
+                className="z-100 max-h-[65%] w-[350px] container_customize scrollar-cus lg:min-h-[350px] md:min-h-[350px] overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed lg:top-[20%] md:top-[20%] md:right-0 lg:right-0"
+                onClick={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
+              >
                 <div className="bpx-2 w-full">
                   <div className="flex items-center justify-between text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
-                    {title}
+                    <span className="text-blue uppercase">{title}</span>
                     {screen && (
                       <XCircle
                         size={28}
-                        className="lg:hidden md:hidden cursor-pointer font-bold"
+                        color="white"
+                        className="lg:hidden md:hidden cursor-pointer font-bold bg-[#e74c3c] p-1 absolute top-0 right-0 rounded-bl-[15px]"
                         onClick={() => handleClosePopup()}
                         onTouchStart={() => handleClosePopup()}
                       />
@@ -269,6 +280,10 @@ function Customize({
                         setPositionResult(e);
                       }}
                       onMouseUp={(e) => handleResult(e)}
+                      onTouchStart={(e) => {
+                        setPositionResult(e);
+                      }}
+                      onTouchEnd={(e) => handleResult(e)}
                     />
                   ) : (
                     <></>

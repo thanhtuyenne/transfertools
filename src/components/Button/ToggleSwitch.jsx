@@ -4,6 +4,7 @@ import Popup from "reactjs-popup";
 import PopupSetting from "../PopupSetting/PopupSetting";
 
 function ToggleSwitch() {
+  const [state, setState] = useState(false);
   return (
     <div>
       <Popup
@@ -13,10 +14,12 @@ function ToggleSwitch() {
             <GearSix size={26} className="hidden lg:block" />
           </div>
         }
-        closeOnDocumentClick={false}
+        closeOnDocumentClick={state ? true : false}
         arrow={false}
+        onOpen={() => setState(true)}
+        onClose={() => setState(false)}
       >
-        <PopupSetting />
+        {state && <PopupSetting />}
       </Popup>
     </div>
   );

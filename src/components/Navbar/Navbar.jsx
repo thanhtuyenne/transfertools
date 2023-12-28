@@ -9,18 +9,15 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { useDispatch, useSelector } from "react-redux";
 import "./navbar.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Draggable } from "react-drag-and-drop";
 import Tools from "../Customize/Tools";
 import Popup from "reactjs-popup";
-import {
-  DotsThreeOutline
-} from "@phosphor-icons/react";
+import { DotsThreeOutline } from "@phosphor-icons/react";
 import MobileOption from "./MobileOption";
 import { IsActiveTools, NotActiveTools } from "../../redux/activeToolsSlice";
-import {
-  NotActiveCustomize,
-} from "../../redux/activeCustomizeSlice";
+import { NotActiveCustomize } from "../../redux/activeCustomizeSlice";
+import ContextMenu from "../Input/ContextMenu";
 
 const Navbar = (props) => {
   const { setDefaultPosition, addElement, transform } = props;
@@ -29,7 +26,6 @@ const Navbar = (props) => {
     width: defaultValue.defaultBoxSize.width,
     height: defaultValue.defaultBoxSize.height,
   };
-  // const wsContainer = document.getElementById("ws-container");
   const showInfo = (e) => {
     e.stopPropagation();
     const wsContainer = document.getElementById("ws-container");
@@ -60,14 +56,11 @@ const Navbar = (props) => {
   const tools = useSelector((state) => state.tools.value);
 
   const handleOpenTool = (e) => {
-    // e.stopPropagation();
-    // setOpenTool(false);
     dispatch(NotActiveTools());
     setActiveSetting(false);
   };
 
   const setCenterDefaultrPositionBox = () => {
-    const wsContainer = document.getElementById("ws-container");
     const workspace = document.querySelector(".whitespace");
     let rect;
     if (workspace) {
@@ -75,11 +68,12 @@ const Navbar = (props) => {
     }
     setDefaultPosition({
       x:
-        (window.innerWidth / 2 - transform.positionX )/ transform.scale- boxSize.width / 2 ,
+        (window.innerWidth / 2 - transform.positionX) / transform.scale -
+        boxSize.width / 2,
       y:
-        (rect.height  -
-          window.innerHeight / 2  + transform.positionY) / transform.scale -
-          boxSize.height / 2 +
+        (rect.height - window.innerHeight / 2 + transform.positionY) /
+          transform.scale -
+        boxSize.height / 2 +
         Math.floor(Math.random() * (80 - 40 + 1)) +
         40,
     });
@@ -97,6 +91,10 @@ const Navbar = (props) => {
   }, []);
 
   const [popupMobile, setPopupMobile] = useState(false);
+  const closePopupMobile = () => {
+    setPopupMobile(false);
+  };
+  const menuRef = useRef();
 
   return (
     <>
@@ -199,13 +197,13 @@ const Navbar = (props) => {
             <>
               <div
                 className="flex flex-col lg:hidden md:hidden items-center relative"
-                onTouchEnd={(e) => {
+                onTouchStart={(e) => {
                   e.preventDefault();
-                  setPopupMobile(!popupMobile);
+                  setPopupMobile(true);
                 }}
-                onClick={(e) => {
+                onMouseUp={(e) => {
                   e.preventDefault();
-                  setPopupMobile(!popupMobile);
+                  setPopupMobile(true);
                 }}
               >
                 <button className="relative mobileOption">
@@ -214,30 +212,21 @@ const Navbar = (props) => {
                 <span className="font-bold text-white">MORE</span>
               </div>
               {popupMobile && (
-                <MobileOption
-                  addElement={addElement}
-                  setCenterDefaultPosition={setCenterDefaultrPositionBox}
-                />
+                <>
+                  <MobileOption
+                    addElement={addElement}
+                    setCenterDefaultPosition={setCenterDefaultrPositionBox}
+                    ref={menuRef}
+                    setClosePopup={closePopupMobile}
+                  />
+                  <ContextMenu
+                    contextMenuRef={menuRef}
+                    callback={closePopupMobile}
+                  ></ContextMenu>
+                </>
               )}
             </>
           ) : (
-            // <Popup
-            //   trigger={
-            //     <div className="flex flex-col lg:hidden md:hidden items-center" >
-            //       <button className="relative mobileOption">
-            //         <DotsThreeOutline size={32} color="white" />
-            //       </button>
-            //       <span className="font-bold text-white">MORE</span>
-            //     </div>
-            //   }
-            //   arrow={false}
-            // >
-            //   {/* <ModalOptionTool types={setType} titles={setTitle} /> */}
-            //   <MobileOption
-            //     addElement={addElement}
-            //     setCenterDefaultPosition={setCenterDefaultrPositionBox}
-            //   />
-            // </Popup>
             <>
               <Draggable
                 className=" cursor-pointer"

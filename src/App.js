@@ -45,32 +45,6 @@ function App() {
   ]);
 
   const [update, setUpdate] = useState(0);
-  const nameType = [
-    {
-      name: "Text",
-      input: <TextInput />,
-    },
-    {
-      name: "URL",
-      input: <URLInput />,
-    },
-    {
-      name: "Audio",
-      input: <Audio />,
-    },
-    {
-      name: "Video",
-      input: <Video />,
-    },
-    {
-      name: "Image",
-      input: <Image />,
-    },
-    {
-      name: "Record",
-      input: <Record />,
-    },
-  ];
 
   const elements = (type) => {
     let input;
@@ -111,15 +85,6 @@ function App() {
       mh: defaultBoxSize.height,
       isSelected: false,
       z: 0,
-      // children: (
-      //   <>
-      //     {nameType.map((item) => {
-      //       if (item.name === typeName) {
-      //         return <>{item.input}</>;
-      //       }
-      //     })}
-      //   </>
-      // ),
       children: elements(typeName),
       boxRef: React.createRef(),
       endpoint: [],
@@ -141,7 +106,6 @@ function App() {
         typeFound = {
           typeId,
           typeName,
-          // list: [{ ...newEl, id: maxId + 1 }],
           list: [{ ...newEl, id: maxId + 1, z: zDefault }],
         };
         prev.push(typeFound);
@@ -149,8 +113,6 @@ function App() {
       }
       // Found type
       else {
-        // typeFound.list.push({ ...newEl, id: maxId + 1 });
-        // return prev;
         setZDefault(zDefault + 1);
 
         typeFound.list.push({

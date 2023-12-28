@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 function Dropdownlist({ title, options, callback, selected }) {
   return (
     <div className="flex flex-col mx-1 my-2 w-full">
-      <p>{title}</p>
+      <p className="font-bold">{title}</p>
       {
         <select
           onChange={(e) => callback(e.target.value)}

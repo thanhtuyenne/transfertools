@@ -81,7 +81,7 @@ function MediaBase({ IconComp, placeholder, accept, callback, mediaRef }) {
                   </div>
                   <ContextMenu
                     contextMenuRef={removeRef}
-                    containerRef={mediaRef}
+                    // containerRef={mediaRef}
                     callback={closeContext}
                   ></ContextMenu>
                 </>
