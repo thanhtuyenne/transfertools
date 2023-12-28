@@ -11,7 +11,6 @@ import ContextMenu from "./ContextMenu";
 import { Popup } from "reactjs-popup";
 import InputOption from "../Navbar/InputOption";
 import { useDispatch } from "react-redux";
-import { onClickImage } from "../../redux/clickImageSlice";
 import { onClickDelete } from "../../redux/clickDeletefile";
 
 function MediaBase({ IconComp, placeholder, accept, callback }) {
@@ -100,16 +99,6 @@ function MediaBase({ IconComp, placeholder, accept, callback }) {
             <XCircle size={22} color="white" />
           </div>
         </div>
-        {/* <Popup
-          trigger={
-            <DotsThreeOutlineVertical
-              size={32}
-              className="cursor-pointer text-blue"
-            />
-          }
-        >
-          <InputOption />
-        </Popup> */}
       </div>
       {popup && file == null && (
         <div className="fixed top-0 left-0 w-full h-full">

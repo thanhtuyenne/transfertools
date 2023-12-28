@@ -285,7 +285,7 @@ function Whitespace(props) {
   }, [onDelete]);
 
   const [i, setI] = useState({});
-
+  // console.log(i)
   useEffect(() => {
     props.data?.map((typeBlock, idx1) => {
       typeBlock.list?.map((item, idx2) => {

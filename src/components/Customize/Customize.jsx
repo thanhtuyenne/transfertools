@@ -7,30 +7,31 @@ import {
   Swap,
   XCircle,
 } from "@phosphor-icons/react";
-import {  dontClickInputText } from "../../redux/clickTextSlice";
-import {  dontClickInputUrl } from "../../redux/clickURLSlice";
+import { dontClickInputText } from "../../redux/clickTextSlice";
+import { dontClickInputUrl } from "../../redux/clickURLSlice";
 import { dontClickImage } from "../../redux/clickImageSlice";
-import { dontClickVideo} from "../../redux/clickVideoSlice";
+import { dontClickVideo } from "../../redux/clickVideoSlice";
 import { dontClickRecord } from "../../redux/clickRecordSlice";
 import { dontClickAudio } from "../../redux/clickAudioSlice";
 import { Draggable } from "react-drag-and-drop";
 
 function Customize({ title, tools = [], isOpen }) {
-  const dispatch = useDispatch();
-
-  // const [dataSample, setDataSample] = useState([])
-  // const [toolsSelected, setToolsSelected] = useState(0);
-  // const handleToolSelected = (value) => {
-  //   setToolsSelected(value);
-  // };
-
-  // const importData = (id, type, value) => {
-  //   const newDataSample = [...dataSample, { id: id, type: type, value: value }];
-  //   setDataSample(newDataSample);
-  // };
-
   const [indexTool, setIndexTool] = useState(0);
   const [currentTool, setCurrentTool] = useState(tools[indexTool].comp);
+  const [preview, setPreview] = useState(tools[indexTool].preview);
+  const [clicked, setClick] = useState(false);
+  const parentRef = useRef();
+  const [screen, setScreen] = useState(window.innerWidth >= 768);
+  const dispatch = useDispatch();
+
+
+  const [text, setText] = useState('')
+  const [url, setUrl] = useState('')
+  const [img, setImg] = useState('')
+  const [video, setVideo] = useState('')
+  const [audio, setAudio] = useState('')
+  const [record, setRecord] = useState('')
+
   const displayToolSelected = useCallback(
     (toolIndex = 0) => {
       setClick(false);
@@ -85,77 +86,73 @@ function Customize({ title, tools = [], isOpen }) {
 
 
 
-
-
   // Thao tác lọc dữ liệu
   const handleData = () => {
+    let dataText, dataImage, dataVideo, dataAudio, dataUrl, dataRecord;
     switch (selectData.type) {
       case "Text":
-        const dataText = dataInputText.find((item, index) => {
-          return selectData.id === item.id
-        })
+        dataText = dataInputText.find((item, index) =>
+          selectData.id === item.id,
+        )
+        setText(dataText)
+
         if (typeof dataText === 'undefined') {
           dispatch(dontClickInputText())
-          // console.log("checkInputTextNone:")
+
         }
-        console.log("checkInputText:", dataText)
         break;
 
       case "Image":
-        const dataImage = dataInputImage.find((item, index) => {
-          return selectData.id === item.id
-        })
+        dataImage = dataInputImage.find((item, index) => selectData.id === item.id
+        )
+        setImg(dataImage)
+
         if (dataInputImage.length === 0) {
           dispatch(dontClickImage())
         }
 
-        console.log("checkDataImage:", dataImage)
 
         break;
 
       case "Video":
-        const dataVideo = dataInputVideo.find((item, index) => {
-          return selectData.id === item.id
-        })
+        dataVideo = dataInputVideo.find((item, index) => selectData.id === item.id
+        )
         if (dataInputVideo.length === 0) {
           dispatch(dontClickVideo())
         }
-        console.log("checkInputVideo:", dataVideo)
+        setVideo(dataVideo)
 
         break;
 
       case "Audio":
-        const dataAudio = dataInputAudio.find((item, index) => {
-          return selectData.id === item.id
-        })
+        dataAudio = dataInputAudio.find((item, index) => selectData.id === item.id
+        )
         if (dataInputAudio.length === 0) {
           dispatch(dontClickAudio())
         }
-        console.log("checkInputAudio:", dataAudio)
+        setAudio(dataAudio)
 
         break;
 
       case "URL":
-        const dataUrl = dataInputUrl.find((item, index) => {
-          return selectData.id === item.id
-        })
+        dataUrl = dataInputUrl.find((item, index) => selectData.id === item.id
+        )
+        setUrl(dataUrl)
         if (dataInputUrl.length === 0) {
           dispatch(dontClickInputUrl())
 
         }
-        console.log("checkInputUrl:", dataUrl)
 
         break;
-        
+
       case "Record":
-        const dataRecord = dataInputRecord.find((item, index) => {
-          return selectData.id === item.id
-        })
+        dataRecord = dataInputRecord.find((item, index) => selectData.id === item.id
+        )
+        setRecord(dataRecord)
         if (dataInputRecord.length === 0) {
           dispatch(dontClickRecord())
 
         }
-        console.log("checkInputRecord:", dataRecord)
 
         break;
       default:
@@ -166,19 +163,55 @@ function Customize({ title, tools = [], isOpen }) {
     handleData();
   }, [
     idType,
-    // dataInputText,
-    // dataInputImage,
-    // dataInputVideo,
-    // dataInputAudio,
-    // dataInputUrl,
-    // dataInputRecord,
+    dataInputText,
+    dataInputImage,
+    dataInputVideo,
+    dataInputAudio,
+    dataInputUrl,
+    dataInputRecord,
   ]);
 
-  const [preview, setPreview] = useState(tools[indexTool].preview);
-  const [clicked, setClick] = useState(false);
 
-  const parentRef = useRef();
-  const [screen, setScreen] = useState(window.innerWidth >= 768);
+  // Phần call API
+  const handleTransfer = () => {
+    if (clicked === true) {
+      switch (selectData.type) {
+        case "Text":
+          console.log("Data Text:", text);
+
+          break;
+
+        case "Image":
+          console.log("Data Image:", img);
+
+          break;
+        case "Video":
+          console.log("Data Video:", video);
+
+          break;
+
+        case "Audio":
+          console.log("Data Audio:", audio);
+
+          break;
+
+        case "URL":
+          console.log("Data URL:", url);
+          break;
+
+        case "Record":
+          console.log("Data Record:", record);
+
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  useEffect(() => {
+    handleTransfer()
+  }, [clicked])
+
 
   const handleClosePopup = () => {
     setScreen(false);
@@ -230,11 +263,11 @@ function Customize({ title, tools = [], isOpen }) {
               </div>
               <div className="flex justify-end my-2">
                 {(transfer === "Text" && inputText === true) ||
-                (transfer === "Image" && inputImage === true) ||
-                (transfer === "Video" && inputVideo === true) ||
-                (transfer === "Audio" && inputAudio === true) ||
-                (transfer === "Record" && inputRecord === true) ||
-                (transfer === "URL" && inputUrl === true) ? (
+                  (transfer === "Image" && inputImage === true) ||
+                  (transfer === "Video" && inputVideo === true) ||
+                  (transfer === "Audio" && inputAudio === true) ||
+                  (transfer === "Record" && inputRecord === true) ||
+                  (transfer === "URL" && inputUrl === true) ? (
                   <Button
                     title="Transfer"
                     onClick={() => {
