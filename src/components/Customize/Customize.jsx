@@ -240,13 +240,16 @@ function Customize({
               disabled={!customize}
             >
               <div
-                className="z-100 h-fit w-[350px] container_customize scrollar-cus overflow-auto bg-white md:w-[350px] lg:w-[350px] border-2 border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed lg:top-[20%] md:top-[20%] md:right-0 lg:right-0"
+                className="z-100 h-fit w-[350px] container_customize scrollar-cus overflow-auto bg-white md:w-[350px] lg:w-[350px] lg:border-2 lg:border-grey md:border-2 md:border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed lg:top-[20%] md:top-[20%] md:right-0 lg:right-0"
                 onClick={(e) => e.stopPropagation()}
                 onTouchStart={(e) => e.stopPropagation()}
               >
                 <div className="bpx-2 w-full">
-                  <div className="flex items-center justify-between text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
-                    <span className="text-blue uppercase">{title}</span>
+                  <div className="flex items-center justify-center text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
+                    <span className="text-blue uppercase">
+                      {" "}
+                      transfer {title}
+                    </span>
                     {screen && (
                       <XCircle
                         size={28}
