@@ -37,7 +37,7 @@ import Tools from "../Customize/Tools";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { NotActiveTools } from "../../redux/activeToolsSlice";
 import { Droppable } from "react-drag-and-drop";
-import Xarrow, { Xwrapper } from "react-xarrows";
+import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
 
 function Whitespace(props) {
   const deleteInput = useSelector((state) => state.clickDelete.value);

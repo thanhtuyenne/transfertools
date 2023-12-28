@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Xarrow from "react-xarrows";
+import Xarrow, { useXarrow } from "react-xarrows";
 
 // import { useSelector } from "react-redux";
 function Box(props, ref) {
@@ -61,6 +61,7 @@ function Box(props, ref) {
     return 0;
   };
 
+  const updateArrow = useXarrow();
   // EVENT FUNCTIONS-------
 
   // USE EFFECTS
@@ -74,6 +75,7 @@ function Box(props, ref) {
       // New position of element
       dx = (e.clientX - startMouseX) / props.wsScale + startX;
       dy = (e.clientY - startMouseY) / props.wsScale + startY;
+      updateArrow();
       // Update element position
       ref.current.style.setProperty("--left", `${dx}px`);
       ref.current.style.setProperty("--top", `${dy}px`);
@@ -85,6 +87,8 @@ function Box(props, ref) {
       // New position of element
       dx = (e.touches[0].pageX - startMouseX) / props.wsScale + startX;
       dy = (e.touches[0].pageY - startMouseY) / props.wsScale + startY;
+      updateArrow();
+
       // Update element position
       ref.current.style.setProperty("--left", `${dx}px`);
       ref.current.style.setProperty("--top", `${dy}px`);
@@ -512,13 +516,6 @@ function Box(props, ref) {
           </>
         )}
       </div>
-
-      {/* {props.coor.endpoint && props.coor.endpoint.current && (
-        <Xarrow
-          start={ref}
-          end={props.coor.endpoint}
-        />
-      )} */}
     </>
   );
 }
