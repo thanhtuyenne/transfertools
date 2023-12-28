@@ -221,6 +221,7 @@ function Box(props, ref) {
       width += dx;
       width = width > props.coor.mw ? width : props.coor.mw;
       box.style.width = `${width}px`;
+      updateArrow();
     };
     const onMouseUpRightResize = (event) => {
       props.updateCoors(props.coor.type, props.coor.id, {
@@ -271,6 +272,7 @@ function Box(props, ref) {
       height = height > props.coor.mh ? height : props.coor.mh;
 
       box.style.height = `${height}px`;
+      updateArrow();
     };
     const onMouseUpBottomResize = (event) => {
       const newY = props.coor.y - (height - props.coor.h);
@@ -323,6 +325,7 @@ function Box(props, ref) {
       width = width > props.coor.mw ? width : props.coor.mw;
       box.style.width = `${width}px`;
       box.style.setProperty("--left", `${getRef("--left") + dx}px`);
+      updateArrow();
     };
     const onMouseUpLeftResize = (event) => {
       let newXAbsolute = getRef("--left");
@@ -371,6 +374,7 @@ function Box(props, ref) {
       height = height > props.coor.mh ? height : props.coor.mh;
       box.style.height = `${height}px`;
       box.style.setProperty("--top", `${getRef("--top") + dy}px`);
+      updateArrow();
     };
     const onMouseUpTopResize = (event) => {
       props.updateCoors(props.coor.type, props.coor.id, {
