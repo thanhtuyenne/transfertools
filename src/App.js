@@ -27,19 +27,21 @@ function App() {
       typeId: 1,
       typeName: "none",
       list: [
-        {
-          id: 0,
-          type: "none",
-          x: 0,
-          y: 0,
-          w: 0,
-          h: 0,
-          isSelected: false,
-          z: 0,
-          children: <></>,
-          boxRef: React.createRef(),
-          endpoint: [],
-        },
+        // {
+        //   id: 0,
+        //   type: "none",
+        //   x: 0,
+        //   y: 0,
+        //   w: 0,
+        //   h: 0,
+        //   isSelected: false,
+        //   isValid: false,
+        //   value: null,
+        //   z: 0,
+        //   children: <></>,
+        //   boxRef: React.createRef(),
+        //   endpoint: [],
+        // },
       ],
     },
   ]);
@@ -72,7 +74,7 @@ function App() {
     },
   ];
 
-  const elements = (type) => {
+  const elements = (type, self) => {
     let input;
     const refBox = React.createRef();
     switch (type) {
@@ -92,7 +94,7 @@ function App() {
         input = <Image ref={refBox} />;
         break;
       case "Record":
-        input = <Record />;
+        input = <Record ref={refBox} />;
         break;
       default:
         input = null; // or any other default value
@@ -101,6 +103,7 @@ function App() {
   };
   const [zDefault, setZDefault] = useState(0);
   const addElement = (typeName) => {
+    let addedEl = null;
     const newEl = {
       type: typeName,
       x: defaultPosition.x,
@@ -110,6 +113,8 @@ function App() {
       mw: defaultBoxSize.width,
       mh: defaultBoxSize.height,
       isSelected: false,
+      value: null,
+      isValid: false,
       z: 0,
       // children: (
       //   <>
@@ -121,6 +126,7 @@ function App() {
       //   </>
       // ),
       children: elements(typeName),
+      parent:null,
       boxRef: React.createRef(),
       endpoint: [],
     };
@@ -128,8 +134,10 @@ function App() {
       let maxId = 0;
 
       prev.forEach((type) => {
-        const maxInType = Math.max(...type.list.map((el) => el.id));
-        maxId = Math.max(maxId, maxInType);
+        if (type.typeName === typeName) {
+          const maxInType = Math.max(...type.list.map((el) => el.id));
+          maxId = Math.max(maxId, maxInType);
+        }
       });
 
       let typeFound = prev.find((type) => type.typeName === typeName);
@@ -138,11 +146,12 @@ function App() {
       if (!typeFound) {
         const typeId = prev.length + 1;
         setZDefault(zDefault + 1);
+        addedEl = { ...newEl, id: maxId + 1, z: zDefault };
         typeFound = {
           typeId,
           typeName,
           // list: [{ ...newEl, id: maxId + 1 }],
-          list: [{ ...newEl, id: maxId + 1, z: zDefault }],
+          list: [addedEl],
         };
         prev.push(typeFound);
         return prev;
@@ -152,21 +161,21 @@ function App() {
         // typeFound.list.push({ ...newEl, id: maxId + 1 });
         // return prev;
         setZDefault(zDefault + 1);
-
-        typeFound.list.push({
+        addedEl = {
           ...newEl,
           id: maxId + 1,
           z: zDefault,
-        });
+        };
+        typeFound.list.push(addedEl);
         return prev;
       }
     });
     setUpdate((prev) => prev + 1);
-    return newEl;
+    return addedEl;
   };
 
   const updateElement = (type, id, values, syncValues) => {
-    console.log(type, id, values);
+    //console.log(type, id, values);
     setData((prev) =>
       prev.map((typeBlock) => {
         // Update values inside this type Blockblock
@@ -199,7 +208,7 @@ function App() {
     );
     const allTypesFromSecond = allTypes.slice(1);
     const allIdFromSecond = allId.slice(1);
-    dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }));
+    // dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }));
   }, [data]);
 
   const toolbox = useSelector((state) => state.toolbox.value);
@@ -212,8 +221,7 @@ function App() {
     <div
       className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto
       "
-      id="ws-container"
-    >
+      id="ws-container">
       <div>
         <Header />
       </div>

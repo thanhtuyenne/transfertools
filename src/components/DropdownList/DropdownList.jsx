@@ -8,10 +8,9 @@ function Dropdownlist({ title, options, callback, selected }) {
         <select
           onChange={(e) => callback(e.target.value)}
           className="w-full border-gray-300 rounded-md h-full"
-          value={selected}
-        >
+          value={selected}>
           {options.map((o, i) => (
-            <option value={i} className="text-black p-2 text-lg">
+            <option value={i} key={i} className="text-black p-2 text-lg">
               {o}
             </option>
           ))}

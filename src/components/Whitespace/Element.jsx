@@ -1,7 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import Xarrow from "react-xarrows";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 // import { useSelector } from "react-redux";
+export const BoxContext = React.createContext(null);
+export const useBoxContext = () => {
+  return useContext(BoxContext);
+};
 function Box(props, ref) {
   // const dispatch = useDispatch()
   // STATES AND STYLES AND VARIABLES
@@ -10,6 +20,7 @@ function Box(props, ref) {
     width: `${props.coor.w}px`,
     height: `${props.coor.h}px`,
   };
+
   // const ref = useRef(null);
   const leftResize = useRef(null);
   const rightResize = useRef(null);
@@ -19,6 +30,22 @@ function Box(props, ref) {
   const toprightResize = useRef(null);
   const bottomleftResize = useRef(null);
   const bottomrightResize = useRef(null);
+
+  const handleBoxChange = (newValue, isValid) => {
+    const status = {
+      value: newValue,
+      isValid: isValid,
+    };
+    props.updateCoors(props.coor.type, props.coor.id, status);
+  };
+  useEffect(() => {
+    props.setBoxSelected((pre) => {
+      if (pre?.type === props.coor.type && pre.id === props.coor.id) {
+        return props.coor;
+      }
+      return pre;
+    });
+  }, [props.coor]);
 
   // FUNCTIONS
   const wsSize = () => {
@@ -43,7 +70,7 @@ function Box(props, ref) {
   };
   // Turn the new absolute pos into saved relative pos
   const coorRelative = (x, y, h) => {
-    // console.log(x, y, h);
+    // //console.log(x, y, h);
     // x, y is the absolute x,y passed in
     if (wsSize().w && wsSize().h) {
       const xRelative = x;
@@ -70,6 +97,7 @@ function Box(props, ref) {
     let startX, startY;
     const handleMouseMove = (e) => {
       e.stopPropagation();
+      if (!ref.current) return;
       let dx, dy;
       // New position of element
       dx = (e.clientX - startMouseX) / props.wsScale + startX;
@@ -93,6 +121,11 @@ function Box(props, ref) {
     const handleMouseUp = (e) => {
       // Clean up event listeners
       e.stopPropagation();
+      if (!ref.current) {
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+        return;
+      }
       ref.current.classList.remove("box-selected");
       document.removeEventListener("mousemove", handleMouseMove);
       // Update state
@@ -101,7 +134,7 @@ function Box(props, ref) {
         getRef("--top"),
         props.coor.h
       );
-      // console.log(newXY);
+      // //console.log(newXY);
       props.updateCoors(
         props.coor.type,
         props.coor.id,
@@ -112,6 +145,8 @@ function Box(props, ref) {
         },
         { isSelected: false }
       );
+      props.setBoxSelected(props.coor);
+      // props.setBoxRef(ref);
       props.openCustomize(props.type, props.coor.children);
       document.removeEventListener("mouseup", handleMouseUp);
     };
@@ -139,6 +174,8 @@ function Box(props, ref) {
         },
         { isSelected: false }
       );
+      props.setBoxSelected(props.coor);
+      // props.setBoxRef(ref);
       props.openCustomize(props.type, props.coor.children);
       document.removeEventListener("touchend", handleTouchEnd);
     };
@@ -146,14 +183,12 @@ function Box(props, ref) {
     const handleMouseDown = (e) => {
       // if (e.target !== e.currentTarget) return;
       e.stopPropagation();
-      if (!ref.current.contains(e.target)) return;
+      if (ref.current && !ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");
       ref.current.classList.add("box-selected");
       startMouseX = e.clientX;
       startMouseY = e.clientY;
-      props.setBoxSelected(props.coor);
-      props.setBoxRef(ref);
 
       // Attach event listeners
       document.addEventListener("mousemove", handleMouseMove);
@@ -163,7 +198,7 @@ function Box(props, ref) {
     const handleTouchStart = (e) => {
       // if (e.target !== e.currentTarget) return;
       e.stopPropagation();
-      if (!ref.current.contains(e.target)) return;
+      if (ref.current && !ref.current.contains(e.target)) return;
       startX = getRef("--left");
       startY = getRef("--top");
       ref.current.classList.add("box-selected");
@@ -177,6 +212,7 @@ function Box(props, ref) {
 
     ref.current.addEventListener("mousedown", handleMouseDown);
     ref.current.addEventListener("touchstart", handleTouchStart);
+
     return () => {
       if (ref.current) {
         ref.current.removeEventListener("mousedown", handleMouseDown);
@@ -465,10 +501,6 @@ function Box(props, ref) {
     };
   }, [props.coor]);
 
-  useEffect(() => {
-    console.log(props.coor.endpoint);
-  }, [props.coor.endpoint]);
-
   return (
     <>
       <div
@@ -476,11 +508,12 @@ function Box(props, ref) {
         className={` bg-white border-[1px] border-black box ${
           props.coor.isSelected && "box-selected"
         }`}
-        style={style}
-      >
+        style={style}>
         {/* Children here */}
         {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
-        {props.coor.children}
+        <BoxContext.Provider value={{ handleBoxChange }}>
+          {props.coor.children}
+        </BoxContext.Provider>
         {/* <div>
           My name is
         </div> */}
@@ -495,20 +528,16 @@ function Box(props, ref) {
             {/* Round resizer */}
             <div
               ref={topleftResize}
-              className="resizer resizer-topleft round-resizer"
-            ></div>
+              className="resizer resizer-topleft round-resizer"></div>
             <div
               ref={toprightResize}
-              className="resizer resizer-topright round-resizer"
-            ></div>
+              className="resizer resizer-topright round-resizer"></div>
             <div
               ref={bottomleftResize}
-              className="resizer resizer-bottomleft round-resizer"
-            ></div>
+              className="resizer resizer-bottomleft round-resizer"></div>
             <div
               ref={bottomrightResize}
-              className="resizer resizer-bottomright round-resizer"
-            ></div>
+              className="resizer resizer-bottomright round-resizer"></div>
           </>
         )}
       </div>
