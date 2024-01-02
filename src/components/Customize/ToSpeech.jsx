@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 
 function ToSpeech() {
+    const ref = useRef();
   const [pitch, setPitch] = useState(0);
   const [speech, setSpeech] = useState(0);
   const [voice, setVoice] = useState(0);
   const PitchList = [1, 0.5, 2];
-  const SpeechList = ["1x", "2x", "0.5x"];
-  const VoiceList = ["William", "Alice", "John", "Sarah", "Google"];
+  const SpeechList = ["0.8x", "1x", "1.2x"];
+    const VoiceList = ["South women", "Northern women", "South men", "Northern men"];
   return (
     <div className="px-0 p-3">
       <p className="text-lg font-bold border-b-2 mb-2 pb-3 text-blue uppercase ">

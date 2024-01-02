@@ -253,6 +253,106 @@ function Customize({
             })
             .catch((error) => console.log("error", error));
     };
+    const tts_zalo = async (text, props = { speaker_id: 1, speed:1 }) => {
+        if (!text) throw new Error("text is null");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const output_name = randomUUID();
+
+        var raw = JSON.stringify({
+            "input_text": text,
+            "output_name_zalo": output_name,
+            "speaker_id": props.speaker_id,
+            "speed": props.speed
+        });
+
+        var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+        };
+
+        return await fetch(
+            "https://www.netdancetalent.asia/tts/zalo",
+            requestOptions
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((result) => {
+                return getFileFromUrl(`https://www.netdancetalent.asia/download?filename=${output_name}`);
+                //preview.ref.current.src = `https://www.netdancetalent.asia/download?filename=${output_name}`;
+                //preview.ref.current.pause();
+                //preview.ref.current.load();
+            })
+            .catch((error) => console.log("error", error));
+    };
+    const tts_hugging = async (text) => {
+        if (!text) throw new Error("text is null");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const output_name = randomUUID();
+
+        var raw = JSON.stringify({
+            "text": text,
+            "gender": 0
+        });
+
+        var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+        };
+
+        return await fetch(
+            "https://www.netdancetalent.asia/tts/hugging",
+            requestOptions
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((result) => {
+                return getFileFromUrl(`https://www.netdancetalent.asia/download?filename=${output_name}`);
+                //preview.ref.current.src = `https://www.netdancetalent.asia/download?filename=${output_name}`;
+                //preview.ref.current.pause();
+                //preview.ref.current.load();
+            })
+            .catch((error) => console.log("error", error));
+    };
+    const sq2sq_summary = async (text) => {
+        if (!text) throw new Error("text is null");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const output_name = randomUUID();
+
+        var raw = JSON.stringify({
+            "user_input": text
+        });
+
+        var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+        };
+
+        return await fetch(
+            "https://www.netdancetalent.asia/api/openai",
+            requestOptions
+        )
+            .then((response) => {
+                return response.text()
+            })
+            .then((result) => {
+                return result;
+                //preview.ref.current.src = `https://www.netdancetalent.asia/download?filename=${output_name}`;
+                //preview.ref.current.pause();
+                //preview.ref.current.load();
+            })
+            .catch((error) => console.log("error", error));
+    };
     const text2Image = async (text) => {
         if (!text) throw new Error("text is null");
 
@@ -387,20 +487,27 @@ function Customize({
                     if (indexTool == 0) {
                         newEl.children.ref.current.setInput(await tts_google(boxSelected.value)); // fetch result type:data, file
                     } else if (indexTool == 1) {
+                        newEl.children.ref.current.setInput(await tts_zalo(boxSelected.value, { speaker_id: 1, speed: 1 })); // fetch result type:data, file
+                    } else if (indexTool == 2) {
+                        newEl.children.ref.current.setInput(await tts_hugging(boxSelected.value)); // fetch result type:data, file
+                    } else if (indexTool == 3) {
                         newEl.children.ref.current.setInput(await text2Image(boxSelected.value)); // fetch result type:data, file
-                    } else {
+                    } else if (indexTool == 4) {
+                        newEl.children.ref.current.setInput(await sq2sq_summary(boxSelected.value)); // fetch result type:data, file
+                    }
+                    else {
                         alert("not found type");
                         console.error("not found type");
                     }
                     break;
                 default:
-                await getSampleValue(result).then((result) => {
-                    newEl.children.ref.current.setInput(result); // fetch result type:data, file
-                    console.log(newEl);
-                    //updateElement(newEl.type, newEl.id, {
-                    //    parent: boxSelected.boxRef,
-                    //});
-                });
+                    await getSampleValue(result).then((result) => {
+                        newEl.children.ref.current.setInput(result); // fetch result type:data, file
+                        console.log(newEl);
+                        //updateElement(newEl.type, newEl.id, {
+                        //    parent: boxSelected.boxRef,
+                        //});
+                    });
             }
             //newEl.children.ref.current.setInput(result); // fetch result type:data, file
             updateElement(newEl.type, newEl.id, {
