@@ -5,11 +5,11 @@ import {
   TextT,
   VideoCamera,
 } from "@phosphor-icons/react";
-import React from "react";
+import React, { forwardRef } from "react";
 import Draggable from "react-draggable";
 import TextareaAutosize from "react-textarea-autosize";
 
-function Preview({ type}) {
+const Preview = forwardRef(function Preview({ type }, ref) {
   return (
     <>
       {/* PREVIEW */}
@@ -84,6 +84,6 @@ function Preview({ type}) {
           </> */}
     </>
   );
-}
+});
 
 export default Preview;

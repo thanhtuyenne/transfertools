@@ -71,13 +71,13 @@ function Whitespace(props) {
             {
               title: "Text to speech",
               comp: <ToSpeech />,
-              preview: <Preview type="Speech" />,
+              //preview: <Preview type="Speech" />,
               result: "Audio",
             },
             {
               title: "Text to image",
               comp: <></>,
-              preview: <Preview type="Image" />,
+              //preview: <Preview type="Image" />,
               result: "Image",
             },
           ];
@@ -87,19 +87,19 @@ function Whitespace(props) {
             {
               title: "Image to text",
               comp: <></>,
-              preview: <Preview type="Text" />,
+              //preview: <Preview type="Text" />,
               result: "Text",
             },
             {
               title: "Image to video",
               comp: <></>,
-              preview: <Preview type="Video" />,
+              //preview: <Preview type="Video" />,
               result: "Video",
             },
             {
               title: "Image to audio",
               comp: <></>,
-              preview: <Preview type="Speech" />,
+              //preview: <Preview type="Speech" />,
               result: "Audio",
             },
           ];
@@ -109,7 +109,7 @@ function Whitespace(props) {
             {
               title: "Video to text",
               comp: <></>,
-              preview: <Preview type="Text" />,
+              //preview: <Preview type="Text" />,
               result: "Text",
             },
           ];
@@ -119,13 +119,13 @@ function Whitespace(props) {
             {
               title: "Speech to text",
               comp: <></>,
-              preview: <Preview type="Text" />,
+              //preview: <Preview type="Text" />,
               result: "Text",
             },
             {
               title: "Speech to image",
               comp: <></>,
-              preview: <Preview type="Image" />,
+              //preview: <Preview type="Image" />,
               result: "Image",
             },
           ];
@@ -145,13 +145,13 @@ function Whitespace(props) {
             {
               title: "Record to text",
               comp: <></>,
-              preview: <Preview type="Text" />,
+              //preview: <Preview type="Text" />,
               result: "Text",
             },
             {
               title: "Record to video",
               comp: <></>,
-              preview: <Preview type="Video" />,
+              //preview: <Preview type="Video" />,
               result: "Video",
             },
           ];
