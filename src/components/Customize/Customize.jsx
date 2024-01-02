@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useTransition,
+} from "react";
 import Dropdownlist from "../DropdownList/DropdownList";
 import Button from "../Button/Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +18,8 @@ import { dontClickVideo } from "../../redux/clickVideoSlice";
 import { dontClickRecord } from "../../redux/clickRecordSlice";
 import { dontClickAudio } from "../../redux/clickAudioSlice";
 import Xarrow from "react-xarrows";
+import { useBoxContext } from "../Whitespace/Element";
+import { FileFromUrl, getFileFromUrl } from "../../Utils/helpers";
 
 function Customize({
   title,
@@ -21,6 +29,7 @@ function Customize({
   transform,
   boxSelected,
   updateElement,
+  removeElement,
 }) {
   const dispatch = useDispatch();
 
@@ -177,7 +186,6 @@ function Customize({
 
   const customize = useSelector((state) => state.customize.value);
 
-  const [newElement, setNewElement] = useState();
   const boxSize = {
     width: defaultValue.defaultBoxSize.width,
     height: defaultValue.defaultBoxSize.height,
@@ -207,13 +215,49 @@ function Customize({
       y: dirY,
     });
   };
-
+  const getSampleValue = (type) => {
+    switch (type) {
+      case "Text":
+        return Promise.resolve("lorem");
+      case "Audio":
+        return getFileFromUrl(
+          "https://us-tuna-sounds-files.voicemod.net/586170f0-fd6a-4faf-bc24-072eb2810f4b-1703754367944.mp3"
+        );
+      case "Image":
+        return getFileFromUrl(
+          "https://1.bp.blogspot.com/_GrGWs0PdE_Y/THU-Iswf-7I/AAAAAAAAAEI/rlPFbzCNArc/s1600/sky-04.jpg"
+        );
+      case "Video":
+        return getFileFromUrl(
+          "https://v6.cdnpk.net/videvo_files/video/partners1012/large_watermarked/h792f814a_Brutatema01411794_1_preview.mp4"
+        );
+      default:
+        return Promise.resolve(null);
+    }
+  };
+  const [isPending, startTransition] = useTransition();
+  const [newElement, setNewElement] = useState(null);
   const handleResult = (e) => {
-    const newE = addElement(result);
-    console.log(newE);
-    boxSelected.endpoint.push(newE.boxRef);
+    // if (boxSelected) {
+    //   switch (boxSelected.type) {
+    //     case "Text":
+    //       const inputText = boxSelected.value;
+    //       console.log("input", inputText);
+    //       break;
+
+    //     default: //file value
+    //       const inputFile = boxSelected.value;
+    //       console.log("input", inputFile);
+    //   }
+    // }
+
+    // const newE = addElement(result); //result type Image, Text, Audio, Video
+    startTransition(() => {
+      setNewElement(addElement(result));
+    });
+    // boxSelected.endpoint.push(newE.boxRef);
     // updateElement(boxSelected.type, boxSelected.id, {
-    //   endpoint: [...boxSelected.endpoint, newE.boxRef],
+    //   endpoint: [ newE.boxRef, ...boxSelected.endpoint],
     // });
     console.log(boxSelected);
     console.log("screen: ", screen);
@@ -221,10 +265,57 @@ function Customize({
       handleClosePopup(); //in mobile screen, close popup when clicked transfer
     }
   };
+  const [showTransfer, setShowTransfer] = useState(false);
+  const handleInitNewElement = async (newEl) => {
+    if (boxSelected) {
+      switch (boxSelected.type) {
+        case "Text":
+          const inputText = boxSelected.value;
+          console.log("input", inputText);
+          break;
+
+        default: //file value
+          const inputFile = boxSelected.value;
+          console.log("input", inputFile);
+      }
+    }
+
+    console.assert(newEl.boxRef, "box ref null");
+    updateElement(boxSelected.type, boxSelected.id, {
+      endpoint: [...boxSelected.endpoint, newEl.boxRef],
+    });
+
+    /*fetching here */
+    try {
+      await getSampleValue(result).then((result) => {
+        newEl.children.ref.current.setInput(result); // fetch result type:data, file
+        console.log(newEl);
+        updateElement(newEl.type, newEl.id, {
+          parent: boxSelected.boxRef,
+        });
+      });
+    } catch (error) {
+      removeElement(newEl);
+      console.error("execute fail", error);
+    }
+  };
 
   useEffect(() => {
-    console.log(boxSelected);
-  }, [boxSelected, boxSelected.endpoint]);
+    if (!newElement) return;
+    handleInitNewElement({ ...newElement });
+  }, [newElement]);
+
+  useEffect(() => {
+    if (boxSelected) {
+      switch (boxSelected.type) {
+        case "Text":
+          break;
+        default: //file
+      }
+      setShowTransfer(boxSelected.isValid);
+    }
+  }, [boxSelected]);
+
   return (
     <>
       {screen ? (
@@ -271,26 +362,30 @@ function Customize({
                   {currentTool}
                 </div>
                 <div className="flex justify-end my-2">
-                  {(transfer === "Text" && inputText === true) ||
-                  (transfer === "Image" && inputImage === true) ||
-                  (transfer === "Video" && inputVideo === true) ||
-                  (transfer === "Audio" && inputAudio === true) ||
-                  (transfer === "Record" && inputRecord === true) ||
-                  (transfer === "URL" && inputUrl === true) ? (
-                    <Button
-                      title="Transfer"
-                      onMouseDown={(e) => {
-                        setPositionResult(e);
-                      }}
-                      onMouseUp={(e) => handleResult(e)}
-                      onTouchStart={(e) => {
-                        setPositionResult(e);
-                      }}
-                      onTouchEnd={(e) => handleResult(e)}
-                    />
-                  ) : (
-                    <></>
-                  )}
+                  {
+                    // (transfer === "Text" && inputText === true) ||
+                    // (transfer === "Image" && inputImage === true) ||
+                    // (transfer === "Video" && inputVideo === true) ||
+                    // (transfer === "Audio" && inputAudio === true) ||
+                    // (transfer === "Record" && inputRecord === true) ||
+                    // (transfer === "URL" && inputUrl === true) ||
+                    showTransfer && !isPending ? (
+                      <Button
+                        title="Transfer"
+                        onMouseDown={(e) => {
+                          setPositionResult(e);
+                        }}
+                        onMouseUp={(e) => handleResult(e)}
+                        onTouchStart={(e) => {
+                          setPositionResult(e);
+                        }}
+                        onTouchEnd={(e) => handleResult(e)}
+                        disabled={isPending}
+                      />
+                    ) : (
+                      <></>
+                    )
+                  }
                 </div>
                 {/* PREVIEW */}
               </div>

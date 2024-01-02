@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { dontClickImage, onClickImage } from "../../redux/clickImageSlice";
 import { FileUploader } from "react-drag-drop-files";
 
-function PopupDragFile({ toggle, accepts, callback }) {
+function PopupDragFile({ toggle, accepts,  fileOutput }) {
   // const dispatch = useDispatch();
   // const [dataFile,setDataFile] = useState("")
   // const inputFile = useRef(null);
@@ -15,8 +15,10 @@ function PopupDragFile({ toggle, accepts, callback }) {
 
   const handleChangeFile = (file) => {
     if (file) {
-      callback({ source: URL.createObjectURL(file), filetype: file.type });
-      // console.log("geted file", file);
+      // fileOutput({ source: URL.createObjectURL(file), filetype: file.type });
+      fileOutput(file);
+      
+      // //console.log("geted file", file);
       // dispatch(onClickImage());
       toggle(false);
     } else {
@@ -51,6 +53,7 @@ function PopupDragFile({ toggle, accepts, callback }) {
         name="file"
         types={accepts}
         classes="flex items-center justify-center w-[80%] h-[70%]"
+        
         children={
           <div className=" cursor-pointer bg-gray w-full h-full rounded-md  flex items-center justify-center opacity-100 text-center">
             <div className="border-dashed rounded-md border-blue w-[100%] h-[100%] border-2 flex flex-col justify-center items-center p-2">

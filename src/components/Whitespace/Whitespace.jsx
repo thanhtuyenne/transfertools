@@ -1,5 +1,5 @@
 // import { Repeat } from "@phosphor-icons/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteDataByIdText,
@@ -9,7 +9,7 @@ import {
   deleteDataByIdImage,
   dontClickImage,
 } from "../../redux/clickImageSlice";
-import Element from "./Element";
+import Element, { useBoxContext } from "./Element";
 import Customize from "../Customize/Customize";
 import ToSpeech from "../Customize/ToSpeech";
 import {
@@ -37,7 +37,8 @@ import Tools from "../Customize/Tools";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { NotActiveTools } from "../../redux/activeToolsSlice";
 import { Droppable } from "react-drag-and-drop";
-import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
+import Xarrow, { Xwrapper } from "react-xarrows";
+import { onClickDelete } from "../../redux/clickDeletefile";
 
 function Whitespace(props) {
   const deleteInput = useSelector((state) => state.clickDelete.value);
@@ -52,7 +53,6 @@ function Whitespace(props) {
   const [focusElement, setFocusElement] = useState(null);
   const tools = useSelector((tool) => tool.tools.value);
   const customize = useSelector((cus) => cus.customize.value);
-  const [boxSelected, setBoxSelected] = useState();
   const onDrop = (value, e) => {
     e.stopPropagation();
     props.addElement(value.components);
@@ -60,7 +60,7 @@ function Whitespace(props) {
 
   const handleOpenCustomize = (typeModel, element) => {
     if (focusElement === element) return;
-    dispatch(onTypeModel(typeModel));
+    // dispatch(onTypeModel(typeModel));
     setFocusElement(element);
     setIsOpenCustomize(true);
     setDataOpenCustomize((data) => {
@@ -163,402 +163,244 @@ function Whitespace(props) {
     });
   };
   const [scaleValue, setScaleValue] = useState(1);
-  const [boxRef, setBoxRef] = useState();
+  // const [boxRef, setBoxRef] = useState();
+  const [boxSelected, setBoxSelected] = useState(null);
 
   const renderedElements = props.data?.map((typeBlock) => (
     <>
       {typeBlock.list?.length > 0 &&
-        typeBlock.list?.map((element, index) => (
-          <Element
-            type={element.type}
-            key={index}
-            coor={element}
-            updateCoors={props.updateElement}
-            openCustomize={handleOpenCustomize}
-            wsScale={scaleValue}
-            setBoxSelected={setBoxSelected}
-            ref={element.boxRef}
-            setBoxRef={setBoxRef}
-          />
-        ))}
+        typeBlock.list?.map((element, index) => {
+          return (
+            <Element
+              type={element.type}
+              key={element.type + "_" + element.id}
+              coor={element}
+              updateCoors={props.updateElement}
+              openCustomize={handleOpenCustomize}
+              wsScale={scaleValue}
+              setBoxSelected={setBoxSelected}
+              ref={element.boxRef}
+              // setBoxRef={setBoxRef}
+            />
+          );
+        })}
     </>
   ));
 
-  const paths = props.data?.map((typeBlock) => (
+  let paths = props.data?.map((typeBlock) => (
     <>
-      {typeBlock.list?.length > 0 &&
-        typeBlock.list
-          .filter((e) => e.endpoint.length !== 0)
-          .map((element, index) => {
-            return element.endpoint
-              .filter((el) => el.current !== null)
-              .map((endpoint) => (
-                <Xarrow start={element.boxRef} end={endpoint} />
-              ));
-          })}
+      {typeBlock.list?.flatMap((element) =>
+        element.endpoint
+          .filter((el) => el.current !== null)
+          .map((endpoint) => <Xarrow start={element.boxRef} end={endpoint} />)
+      )}
     </>
   ));
+
   useEffect(() => {
     setUpdate2((prev) => prev + 1);
-  }, [props.update]);
+  }, [props, props.update, props.data, props.setData]);
 
   useEffect(() => {
     if (deleteInput === true) {
-      props.data?.map((typeBlock, idx1) => {
-        typeBlock.list?.map((item, idx2) => {
-          if (item.isSelected) {
-            setIsOpenCustomize(false);
-            // console.log("check:", item,idx1,idx2)
-            removeElement(idx1, idx2);
-            dispatch(dontClickDelete());
-          }
-        });
-      });
+      // props.data?.map((typeBlock, idx1) => {
+      //   typeBlock.list?.map((item, idx2) => {
+      //     if (item.isSelected) {
+      //       setIsOpenCustomize(false);
+      //       // //console.log("check:", item,idx1,idx2)
+      //       removeElement(idx1, idx2);
+      //       dispatch(dontClickDelete());
+      //     }
+      //   });
+      // });
+      handleDeleteSelected();
     }
-
-    return () => {
-      if (deleteInput === true) {
-        props.data?.map((typeBlock, idx1) => {
-          typeBlock.list?.map((item, idx2) => {
-            if (item.isSelected) {
-              removeElement(idx1, idx2);
-            }
-          });
-        });
-      }
-    };
   }, [deleteInput]);
 
-  useEffect(() => {
-    if (onDelete === false) {
-      props.data?.map((typeBlock, idx1) => {
-        typeBlock.list?.map((item, idx2) => {
-          if (item.isSelected) {
-            setIsOpenCustomize(false);
-            // console.log("check:", item,idx1,idx2)
-            removeElement(idx1, idx2);
-            setOnDelete(true);
-            switch (item.type) {
-              case "Text":
-                dispatch(deleteDataByIdText(item.id));
-                break;
-              case "Image":
-                dispatch(deleteDataByIdImage(item.id));
+  // useEffect(() => {
+  //   if (onDelete === false) {
+  //     props.data?.map((typeBlock, idx1) => {
+  //       typeBlock.list?.map((item, idx2) => {
+  //         if (item.isSelected) {
+  //           setIsOpenCustomize(false);
+  //           // //console.log("check:", item,idx1,idx2)
+  //           removeElement(idx1, idx2);
+  //           setOnDelete(true);
+  //           switch (item.type) {
+  //             case "Text":
+  //               dispatch(deleteDataByIdText(item.id));
+  //               break;
+  //             case "Image":
+  //               dispatch(deleteDataByIdImage(item.id));
 
-                break;
-              case "Video":
-                dispatch(deleteDataByIdVideo(item.id));
+  //               break;
+  //             case "Video":
+  //               dispatch(deleteDataByIdVideo(item.id));
 
-                break;
-              case "Audio":
-                dispatch(deleteDataByIdAudio(item.id));
+  //               break;
+  //             case "Audio":
+  //               dispatch(deleteDataByIdAudio(item.id));
 
-                break;
-              case "URL":
-                dispatch(deleteDataByIdUrl(item.id));
+  //               break;
+  //             case "URL":
+  //               dispatch(deleteDataByIdUrl(item.id));
 
-                break;
-              case "Record":
-                dispatch(deleteDataByIdRecord(item.id));
+  //               break;
+  //             case "Record":
+  //               dispatch(deleteDataByIdRecord(item.id));
 
-                break;
-              default:
-                break;
-            }
-            setIsOpenCustomize(false);
-            // console.log("check:", item,idx1,idx2)
-            removeElement(idx1, idx2);
-          }
-        });
-      });
-      return () => {
-        if (onDelete === false) {
-          props.data?.map((typeBlock, idx1) => {
-            typeBlock.list?.map((item, idx2) => {
-              if (item.isSelected) {
-                removeElement(idx1, idx2);
-                setOnDelete(true);
-                switch (item.type) {
-                  case "Text":
-                    dispatch(deleteDataByIdText(item.id));
-                    break;
-                  case "Image":
-                    dispatch(deleteDataByIdImage(item.id));
+  //               break;
+  //             default:
+  //               break;
+  //           }
+  //           setIsOpenCustomize(false);
+  //           // //console.log("check:", item,idx1,idx2)
+  //           removeElement(idx1, idx2);
+  //         }
+  //       });
+  //     });
+  //     return () => {
+  //       if (onDelete === false) {
+  //         props.data?.map((typeBlock, idx1) => {
+  //           typeBlock.list?.map((item, idx2) => {
+  //             if (item.isSelected) {
+  //               removeElement(idx1, idx2);
+  //               setOnDelete(true);
+  //               switch (item.type) {
+  //                 case "Text":
+  //                   dispatch(deleteDataByIdText(item.id));
+  //                   break;
+  //                 case "Image":
+  //                   dispatch(deleteDataByIdImage(item.id));
 
-                    break;
-                  case "Video":
-                    dispatch(deleteDataByIdVideo(item.id));
+  //                   break;
+  //                 case "Video":
+  //                   dispatch(deleteDataByIdVideo(item.id));
 
-                    break;
-                  case "Audio":
-                    dispatch(deleteDataByIdAudio(item.id));
+  //                   break;
+  //                 case "Audio":
+  //                   dispatch(deleteDataByIdAudio(item.id));
 
-                    break;
-                  case "URL":
-                    dispatch(deleteDataByIdUrl(item.id));
+  //                   break;
+  //                 case "URL":
+  //                   dispatch(deleteDataByIdUrl(item.id));
 
-                    break;
-                  case "Record":
-                    dispatch(deleteDataByIdRecord(item.id));
+  //                   break;
+  //                 case "Record":
+  //                   dispatch(deleteDataByIdRecord(item.id));
 
-                    break;
-                  default:
-                    break;
-                }
-                removeElement(idx1, idx2);
-                setOnDelete(true);
-              }
-            });
-          });
-        }
-      };
-    }
-  }, [onDelete]);
+  //                   break;
+  //                 default:
+  //                   break;
+  //               }
+  //               removeElement(idx1, idx2);
+  //               setOnDelete(true);
+  //             }
+  //           });
+  //         });
+  //       }
+  //     };
+  //   }
+  // }, [onDelete]);
 
   const [i, setI] = useState({});
 
-  useEffect(() => {
-    props.data?.map((typeBlock, idx1) => {
-      typeBlock.list?.map((item, idx2) => {
-        if (item.isSelected) {
-          // console.log("acnkanc:", item)
-          const { id, type } = item;
-          // setIsOpenCustomize(false);
-          // // console.log("check:", item,idx1,idx2)
-          // removeElement(idx1, idx2);
-          // setOnDelete(true)
-          dispatch(onClickSelectData({ id, type }));
-          dispatch(NotActiveTools());
-          setI(item);
-          // setSelect(item.isSelected)
-        }
-      });
-    });
-    return () => {
-      props.data?.map((typeBlock, idx1) => {
-        // console.log("acnkanc:",typeBlock )
-        typeBlock.list?.map((item, idx2) => {
-          if (item.isSelected) {
-            const { id, type } = item;
-            // setIsOpenCustomize(false);
-            // // console.log("check:", item,idx1,idx2)
-            // removeElement(idx1, idx2);
-            // setOnDelete(true)
-            dispatch(onClickSelectData({ id, type }));
-            dispatch(NotActiveTools());
+  // useEffect(() => {
+  //   props.data?.map((typeBlock, idx1) => {
+  //     typeBlock.list?.map((item, idx2) => {
+  //         // //console.log("acnkanc:", item)
+  //         const { id, type } = item;
+  //         // setIsOpenCustomize(false);
+  //         // // //console.log("check:", item,idx1,idx2)
+  //         // removeElement(idx1, idx2);
+  //         // setOnDelete(true)
+  //         // dispatch(onClickSelectData({ id, type }));
+  //         // dispatch(NotActiveTools());
+  //         setI(item);
+  //         // setSelect(item.isSelected)
+  //       }
+  //     });
+  //   });
+  //   return () => {
 
-            setI(item);
-            // setSelect(item.isSelected)
-          }
-        });
-      });
+  //     props.data?.map((typeBlock, idx1) => {
+  //       // //console.log("acnkanc:",typeBlock )
+  //       typeBlock.list?.map((item, idx2) => {
+  //         if (item.isSelected) {
+  //           const { id, type } = item;
+  //           // setIsOpenCustomize(false);
+  //           // // //console.log("check:", item,idx1,idx2)
+  //           // removeElement(idx1, idx2);
+  //           // setOnDelete(true)
+  //           // dispatch(onClickSelectData({ id, type }));
+  //           // dispatch(NotActiveTools());
+
+  //           setI(item);
+  //           // setSelect(item.isSelected)
+  //         }
+  //       });
+  //     });
+  //   };
+  // }, [props.data]);
+
+  useEffect(() => {
+    const handleDeleteSelected_BackSpace = (e) => {
+      const isInputFocused =
+        document.activeElement.tagName === "INPUT" ||
+        document.activeElement.tagName === "TEXTAREA";
+      if (e.key === "Backspace" && !isInputFocused) {
+        // handleDeleteSelected();
+        dispatch(onClickDelete());
+      }
     };
-  }, [props.data]);
 
-  useEffect(() => {
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Backspace") {
-        props.data?.map((typeBlock, idx1) => {
+    document.addEventListener("keyup", handleDeleteSelected_BackSpace);
+
+    return () => {
+      document.removeEventListener("keyup", handleDeleteSelected_BackSpace);
+    };
+  });
+
+  const handleDeleteSelected = () => {
+    if (boxSelected && boxSelected.boxRef.current != null) {
+      props.data?.map((typeBlock, idx1) => {
+        if (typeBlock.typeName === boxSelected.type)
           typeBlock.list?.map((item, idx2) => {
-            if (item.isSelected) {
+            if (item.id === boxSelected.id) {
               setIsOpenCustomize(false);
-              // console.log("check:", item,idx1,idx2)
-              // removeElement(idx1, idx2);
-              // dispatch(dontClickInputText());
-              // dispatch(dontClickImage());
-              // dispatch(dontClickInputUrl());
-              // dispatch(dontClickRecord());
-              // dispatch(dontClickVideo());
-              // dispatch(dontClickAudio());
-              switch (item.type) {
-                case "Text":
-                  dispatch(deleteDataByIdText(item.id));
-                  break;
-                case "Image":
-                  dispatch(deleteDataByIdImage(item.id));
-
-                  break;
-                case "Video":
-                  dispatch(deleteDataByIdVideo(item.id));
-
-                  break;
-                case "Audio":
-                  dispatch(deleteDataByIdAudio(item.id));
-
-                  break;
-                case "URL":
-                  dispatch(deleteDataByIdUrl(item.id));
-
-                  break;
-                case "Record":
-                  dispatch(deleteDataByIdRecord(item.id));
-
-                  break;
-                default:
-                  break;
-              }
               removeElement(idx1, idx2);
-              dispatch(dontClickInputText());
-              dispatch(dontClickImage());
-              dispatch(dontClickInputUrl());
-              dispatch(dontClickRecord());
-              dispatch(dontClickVideo());
-              dispatch(dontClickAudio());
-              switch (item.type) {
-                case "Text":
-                  dispatch(deleteDataByIdText(item.id));
-                  break;
-                case "Image":
-                  dispatch(deleteDataByIdImage(item.id));
-
-                  break;
-                case "Video":
-                  dispatch(deleteDataByIdVideo(item.id));
-
-                  break;
-                case "Audio":
-                  dispatch(deleteDataByIdAudio(item.id));
-
-                  break;
-                case "URL":
-                  dispatch(deleteDataByIdUrl(item.id));
-
-                  break;
-                case "Record":
-                  dispatch(deleteDataByIdRecord(item.id));
-
-                  break;
-                default:
-                  break;
-              }
             }
           });
-        });
-      }
-    });
-
-    return () => {
-      document.removeEventListener("keydown", (e) => {
-        if (e.key === "Backspace") {
-          props.data?.map((typeBlock, idx1) => {
-            typeBlock.list?.map((item, idx2) => {
-              if (item.isSelected) {
-                // removeElement(idx1, idx2);
-                // dispatch(dontClickInputText());
-                // dispatch(dontClickImage());
-                // dispatch(dontClickInputUrl());
-                // dispatch(dontClickRecord());
-                // dispatch(dontClickVideo());
-                // dispatch(dontClickAudio());
-                switch (item.type) {
-                  case "Text":
-                    dispatch(deleteDataByIdText(item.id));
-                    break;
-                  case "Image":
-                    dispatch(deleteDataByIdImage(item.id));
-
-                    break;
-                  case "Video":
-                    dispatch(deleteDataByIdVideo(item.id));
-
-                    break;
-                  case "Audio":
-                    dispatch(deleteDataByIdAudio(item.id));
-
-                    break;
-                  case "URL":
-                    dispatch(deleteDataByIdUrl(item.id));
-
-                    break;
-                  case "Record":
-                    dispatch(deleteDataByIdRecord(item.id));
-
-                    break;
-                  default:
-                    break;
-                }
-                removeElement(idx1, idx2);
-                dispatch(dontClickInputText());
-                dispatch(dontClickImage());
-                dispatch(dontClickInputUrl());
-                dispatch(dontClickRecord());
-                dispatch(dontClickVideo());
-                dispatch(dontClickAudio());
-                switch (item.type) {
-                  case "Text":
-                    dispatch(deleteDataByIdText(item.id));
-                    break;
-                  case "Image":
-                    dispatch(deleteDataByIdImage(item.id));
-
-                    break;
-                  case "Video":
-                    dispatch(deleteDataByIdVideo(item.id));
-
-                    break;
-                  case "Audio":
-                    dispatch(deleteDataByIdAudio(item.id));
-
-                    break;
-                  case "URL":
-                    dispatch(deleteDataByIdUrl(item.id));
-
-                    break;
-                  case "Record":
-                    dispatch(deleteDataByIdRecord(item.id));
-
-                    break;
-                  default:
-                    break;
-                }
-              }
-            });
-          });
-        }
       });
-    };
-  }, [props.data]);
+    } else {
+      dispatch(dontClickDelete());
+    }
+  };
+
+  const removeElementC = (el) => {
+    if (el && el.boxRef.current != null) {
+      props.data?.map((typeBlock, idx1) => {
+        if (typeBlock.typeName === el.type)
+          typeBlock.list?.map((item, idx2) => {
+            if (item.id === el.id) {
+              setIsOpenCustomize(false);
+              removeElement(idx1, idx2);
+            }
+          });
+      });
+    } else {
+      dispatch(dontClickDelete());
+    }
+  };
 
   const removeElement = (idx1, idx2) => {
     var data = props.data;
     data[idx1]?.list?.splice(idx2, 1);
     props.setData(data);
+    dispatch(dontClickDelete());
   };
+
   const wsRef = useRef();
-  const wsCon = document.getElementById("ws-container");
-  let pos = { top: 0, left: 0, x: 0, y: 0 };
-  const mouseDownHandler = function (e) {
-    if (!wsRef.current.contains(e.target)) return;
-    pos = {
-      // The current scroll
-      left: wsCon.scrollLeft,
-      top: wsCon.scrollTop,
-      // Get the current mouse position
-      x: e.clientX,
-      y: e.clientY,
-    };
-    wsCon.addEventListener("mousemove", mouseMoveHandler);
-    wsCon.addEventListener("mouseup", mouseUpHandler);
-  };
-  // if (wsCon) wsCon.addEventListener("mousedown", mouseDownHandler);
-
-  const mouseMoveHandler = function (e) {
-    // How far the mouse has been moved
-    const dx = e.clientX - pos.x;
-    const dy = e.clientY - pos.y;
-
-    // Scroll the element
-    wsCon.scrollTop = pos.top - dy;
-    wsCon.scrollLeft = pos.left - dx;
-  };
-  const mouseUpHandler = function (e) {
-    e.stopPropagation();
-    wsCon.removeEventListener("mousemove", mouseMoveHandler);
-    wsCon.style.cursor = "grab";
-    wsCon.style.removeProperty("user-select");
-    wsCon.removeEventListener("mouseup", mouseUpHandler);
-  };
-
   const transformDefault = {
     scale: 1,
     positionX: 0,
@@ -590,6 +432,7 @@ function Whitespace(props) {
               <div
                 className="w-[10000px] h-[10000px] bg-repeat whitespace"
                 id="boxDrop"
+                key={"boxDrop"}
                 ref={wsRef}
               >
                 <div
@@ -604,7 +447,7 @@ function Whitespace(props) {
             </Droppable>
           </TransformComponent>
         </TransformWrapper>
-        {paths}
+        <div update={update2}>{paths}</div>
       </Xwrapper>
 
       {isOpenCustomize && (
@@ -616,7 +459,9 @@ function Whitespace(props) {
           transform={props.transform}
           boxSelected={boxSelected}
           updateElement={props.updateElement}
-          boxRef={boxRef}
+          // boxRef={boxRef}
+          update={props.update}
+          removeElement={removeElementC}
         />
       )}
       {tools && <Tools />}

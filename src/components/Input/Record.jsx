@@ -6,12 +6,15 @@ import {
   Stop,
   XCircle,
 } from "@phosphor-icons/react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 import { useDispatch, useSelector } from "react-redux";
 import { onClickRecord } from "../../redux/clickRecordSlice";
 import { onClickDelete } from "../../redux/clickDeletefile";
-function Record() {
+import { useBoxContext } from "../Whitespace/Element";
+import { blobToFile } from "../../Utils/helpers";
+function Record(_, ref) {
+  const {handleBoxChange} = useBoxContext();
   const selectDataRecord = useSelector((state) => state.clickSelect.data)
   const selectDataIdRecord =  selectDataRecord.id
   const dispatch = useDispatch();
@@ -23,13 +26,15 @@ function Record() {
   };
   useEffect(() => {
     if (!reControl.recordingBlob) return;
-    console.log(reControl.recordingBlob);
+    //console.log(reControl.recordingBlob);
     addAudioElement(reControl.recordingBlob);
   }, [reControl.recordingBlob]);
 
   const addAudioElement = (blob) => {
+    var file = blobToFile(blob)
+    handleBoxChange(file, true);
     const url = URL.createObjectURL(blob);
-    dispatch(onClickRecord({id:selectDataIdRecord,source:blob}));
+    // dispatch(onClickRecord({id:selectDataIdRecord,source:blob}));
     setRecordValue(url);
   };
   function format(time) {
@@ -115,7 +120,7 @@ function Record() {
           )}
           {recordValue && !reControl.isRecording && (
             <div className="flex items-center">
-              <audio
+              <audio ref={ref}
                 id="audio"
                 controls
                 src={recordValue}
@@ -151,4 +156,4 @@ function Record() {
     </>
   );
 }
-export default Record;
+export default React.forwardRef(Record);
