@@ -253,7 +253,7 @@ function Customize({
             })
             .catch((error) => console.log("error", error));
     };
-    const tts_zalo = async (text, props = { speaker_id: 1, speed:1 }) => {
+    const tts_zalo = async (text, props = { speaker_id: 1, speed: 1 }) => {
         if (!text) throw new Error("text is null");
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -380,6 +380,32 @@ function Customize({
             })
             .catch((error) => console.log("error", error));
     };
+    const sq2sq_QA = async (text) => {
+        if (!text) throw new Error("text is null");
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "question": text,
+        });
+
+        var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+        };
+
+        return await fetch("https://www.netdancetalent.asia/answer", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+                return result;
+                //console.log(preview.ref.current.src, "\n", res, res["result"]);
+                //preview.ref.current.src = res["result"];
+            })
+            .catch((error) => console.log("error", error));
+    };
 
     const boxSize = {
         width: defaultValue.defaultBoxSize.width,
@@ -487,13 +513,15 @@ function Customize({
                     if (indexTool == 0) {
                         newEl.children.ref.current.setInput(await tts_google(boxSelected.value)); // fetch result type:data, file
                     } else if (indexTool == 1) {
-                        newEl.children.ref.current.setInput(await tts_zalo(boxSelected.value, { speaker_id: 1, speed: 1 })); // fetch result type:data, file
+                        newEl.children.ref.current.setInput(await tts_zalo(boxSelected.value, { speaker_id: 1, speed: 1 }));
                     } else if (indexTool == 2) {
-                        newEl.children.ref.current.setInput(await tts_hugging(boxSelected.value)); // fetch result type:data, file
+                        newEl.children.ref.current.setInput(await tts_hugging(boxSelected.value));
                     } else if (indexTool == 3) {
-                        newEl.children.ref.current.setInput(await text2Image(boxSelected.value)); // fetch result type:data, file
+                        newEl.children.ref.current.setInput(await text2Image(boxSelected.value));
                     } else if (indexTool == 4) {
-                        newEl.children.ref.current.setInput(await sq2sq_summary(boxSelected.value)); // fetch result type:data, file
+                        newEl.children.ref.current.setInput(await sq2sq_summary(boxSelected.value));
+                    } else if (indexTool == 5) {
+                        newEl.children.ref.current.setInput(await sq2sq_QA(boxSelected.value));
                     }
                     else {
                         alert("not found type");
