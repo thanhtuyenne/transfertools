@@ -31,6 +31,7 @@ function Customize({
     updateElement,
     removeElement,
 }) {
+    const apiUrl = process.env.REACT_APP_API_URL;
     const dispatch = useDispatch();
     const [dataSample, setDataSample] = useState([]);
     useEffect(() => {
@@ -239,14 +240,14 @@ function Customize({
         };
 
         return await fetch(
-            "https://www.netdancetalent.asia/tts/google",
+            `${apiUrl}/api/tts/google`,
             requestOptions
         )
             .then((response) => {
                 return response.json();
             })
             .then((result) => {
-                return getFileFromUrl(`https://www.netdancetalent.asia/download?filename=${output_name}`);
+                return getFileFromUrl(`${apiUrl}/api/download?filename=${output_name}`);
                 //preview.ref.current.src = `https://www.netdancetalent.asia/download?filename=${output_name}`;
                 //preview.ref.current.pause();
                 //preview.ref.current.load();
@@ -274,14 +275,14 @@ function Customize({
         };
 
         return await fetch(
-            "https://www.netdancetalent.asia/tts/zalo",
+            `${apiUrl}/api/tts/zalo`,
             requestOptions
         )
             .then((response) => {
                 return response.json();
             })
             .then((result) => {
-                return getFileFromUrl(`https://www.netdancetalent.asia/download?filename=${output_name}`);
+                return getFileFromUrl(`${apiUrl}/api/download?filename=${output_name}`);
                 //preview.ref.current.src = `https://www.netdancetalent.asia/download?filename=${output_name}`;
                 //preview.ref.current.pause();
                 //preview.ref.current.load();
@@ -307,14 +308,14 @@ function Customize({
         };
 
         return await fetch(
-            "https://www.netdancetalent.asia/tts/hugging",
+            `${ apiUrl }/api/tts/hugging`,
             requestOptions
         )
             .then((response) => {
                 return response.json();
             })
             .then((result) => {
-                return getFileFromUrl(`https://www.netdancetalent.asia/download?filename=${output_name}`);
+                return getFileFromUrl(`${apiUrl}/api/download?filename=${output_name}`);
                 //preview.ref.current.src = `https://www.netdancetalent.asia/download?filename=${output_name}`;
                 //preview.ref.current.pause();
                 //preview.ref.current.load();
@@ -339,7 +340,7 @@ function Customize({
         };
 
         return await fetch(
-            "https://www.netdancetalent.asia/api/openai",
+            `${apiUrl}/api/openai`,
             requestOptions
         )
             .then((response) => {
@@ -370,7 +371,7 @@ function Customize({
             redirect: "follow",
         };
 
-        return await fetch("https://www.netdancetalent.asia/api/text2image", requestOptions)
+        return await fetch(`${apiUrl}/api/text2image`, requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 const res = JSON.parse(result);
@@ -397,7 +398,7 @@ function Customize({
             redirect: "follow",
         };
 
-        return await fetch("https://www.netdancetalent.asia/answer", requestOptions)
+        return await fetch(`${apiUrl}/api/answer`, requestOptions)
             .then((response) => response.text())
             .then((result) => {
                 return result;
