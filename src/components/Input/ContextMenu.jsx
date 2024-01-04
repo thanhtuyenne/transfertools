@@ -4,7 +4,10 @@ export default function ContextMenu({ contextMenuRef, callback = () => {} }) {
   function handleClickOutside(event) {
     console.log("context menu: ", contextMenuRef.current);
     console.log("event target: ", event.target);
-    if (!contextMenuRef.current.contains(event.target)) {
+    if (
+      contextMenuRef.current &&
+      !contextMenuRef.current.contains(event.target)
+    ) {
       // console.log("click outside");
       callback();
     }

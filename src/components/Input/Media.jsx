@@ -53,7 +53,8 @@ export const Audio = React.forwardRef(function AudioResult(_, ref) {
       placeholder="Upload your Audio"
       accept={acceptType}
       childRef={audioRef}
-      handleRef={ref}>
+      handleRef={ref}
+    >
       <audio controls className="w-full" ref={audioRef} src={audioSrc}></audio>
     </MediaBase>
   );
@@ -69,7 +70,8 @@ export const Image = React.forwardRef(function ImageResult(_, ref) {
       placeholder="Upload your Image"
       accept={acceptType}
       childRef={imageRef}
-      handleRef={ref}>
+      handleRef={ref}
+    >
       <img
         alt=""
         srcset=""
@@ -93,7 +95,8 @@ export const Video = React.forwardRef(function VideoResult(_, ref) {
       placeholder="Upload your video"
       accept={acceptType}
       childRef={videoRef}
-      handleRef={ref}>
+      handleRef={ref}
+    >
       <video width="400" height="400" ref={videoRef} controls autoPlay></video>
     </MediaBase>
   );

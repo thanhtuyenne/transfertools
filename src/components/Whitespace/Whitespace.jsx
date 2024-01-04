@@ -395,22 +395,21 @@ function Whitespace(props) {
         }
     };
 
-
-    const removeElementC = (el) => {
-        if (el && el.boxRef.current != null) {
-            props.data?.map((typeBlock, idx1) => {
-                if (typeBlock.typeName === el.type)
-                    typeBlock.list?.map((item, idx2) => {
-                        if (item.id === el.id) {
-                            setIsOpenCustomize(false);
-                            removeElement(idx1, idx2);
-                        }
-                    });
-            });
-        } else {
-            dispatch(dontClickDelete());
-        }
+  const removeElementC = (el) => {
+    if (el && el.boxRef.current != null) {
+      props.data?.map((typeBlock, idx1) => {
+        if (typeBlock.typeName === el.type)
+          typeBlock.list?.map((item, idx2) => {
+            if (item.id === el.id) {
+              setIsOpenCustomize(false);
+              removeElement(idx1, idx2);
+            }
+          });
+      });
+    } else {
+      dispatch(dontClickDelete());
     }
+  };
 
     const removeElement = (idx1, idx2) => {
         var data = props.data;
@@ -419,69 +418,73 @@ function Whitespace(props) {
         dispatch(dontClickDelete());
     };
 
-    const wsRef = useRef();
-    const transformDefault = {
-        scale: 1,
-        positionX: 0,
-        positionY: 0,
-    };
-    return (
-        <>
-            <Xwrapper>
-                <TransformWrapper
-                    onTransformed={(ref, state) => {
-                        props.setTransform(state);
-                        setScaleValue(state.scale);
-                    }}
-                    centerOnInit={true}
-                    minScale={0.5}
-                    maxScale={10}
-                    initialScale={transformDefault.scale}
-                    centerZoomedOutside={true}
-                    doubleClick={{ disabled: true }}>
-                    <TransformComponent
-                        wrapperStyle={{ width: "100vw", height: "100vh" }}>
-                        <Droppable
-                            types={["components"]} // <= allowed drop types
-                            onDrop={onDrop}
-                            id="droppable">
-                            <div
-                                className="w-[10000px] h-[10000px] bg-repeat whitespace"
-                                id="boxDrop"
-                                key={"boxDrop"}
-                                ref={wsRef}>
-                                <div
-                                    className="w-full h-full"
-                                    style={{
-                                        backgroundColor: "rgba(255,255,255,.6)",
-                                    }}>
-                                    {renderedElements}
-                                </div>
-                            </div>
-                        </Droppable>
-                    </TransformComponent>
-                </TransformWrapper>
-                <div update={update2}>{paths}</div>
-            </Xwrapper>
+  const wsRef = useRef();
+  const transformDefault = {
+    scale: 1,
+    positionX: 0,
+    positionY: 0,
+  };
+  return (
+    <>
+      <Xwrapper>
+        <TransformWrapper
+          onTransformed={(ref, state) => {
+            props.setTransform(state);
+            setScaleValue(state.scale);
+          }}
+          centerOnInit={true}
+          minScale={0.3}
+          maxScale={10}
+          initialScale={transformDefault.scale}
+          centerZoomedOutside={true}
+          doubleClick={{ disabled: true }}
+        >
+          <TransformComponent
+            wrapperStyle={{ width: "100vw", height: "100vh" }}
+          >
+            <Droppable
+              types={["components"]} // <= allowed drop types
+              onDrop={onDrop}
+              id="droppable"
+            >
+              <div
+                className="w-[10000px] h-[10000px] bg-repeat whitespace"
+                id="boxDrop"
+                key={"boxDrop"}
+                ref={wsRef}
+              >
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundColor: "rgba(255,255,255,.6)",
+                  }}
+                >
+                  {renderedElements}
+                </div>
+              </div>
+            </Droppable>
+          </TransformComponent>
+        </TransformWrapper>
+        <div update={update2}>{paths}</div>
+      </Xwrapper>
 
-            {isOpenCustomize && (
-                <Customize
-                    title={DataOpenCustomize.title}
-                    tools={DataOpenCustomize.tools}
-                    addElement={props.addElement}
-                    setDefaultPosition={props.setDefaultPosition}
-                    transform={props.transform}
-                    boxSelected={boxSelected}
-                    updateElement={props.updateElement}
-                    // boxRef={boxRef}
-                    update={props.update}
-                    removeElement={removeElementC}
-                />
-            )}
-            {tools && <Tools />}
-            {/* {<Xarrow start={boxRef} end={endpoint} />} */}
-        </>
-    );
+      {isOpenCustomize && (
+        <Customize
+          title={DataOpenCustomize.title}
+          tools={DataOpenCustomize.tools}
+          addElement={props.addElement}
+          setDefaultPosition={props.setDefaultPosition}
+          transform={props.transform}
+          boxSelected={boxSelected}
+          updateElement={props.updateElement}
+          // boxRef={boxRef}
+          update={props.update}
+          removeElement={removeElementC}
+        />
+      )}
+      {tools && <Tools />}
+    </>
+  );
 }
 
 export default Whitespace;

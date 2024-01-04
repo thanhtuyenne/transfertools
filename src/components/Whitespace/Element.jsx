@@ -1,3 +1,4 @@
+import Xarrow, { useXarrow } from "react-xarrows";
 import React, {
   useCallback,
   useContext,
@@ -6,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useXarrow } from "react-xarrows";
+import ContextMenu from "../Input/ContextMenu";
 
 // import { useSelector } from "react-redux";
 export const BoxContext = React.createContext(null);
@@ -82,7 +83,8 @@ function Box(props, ref) {
     }
     return { x: 0, y: 0 };
   };
-  const getRef = (s) => {
+    const getRef = (s) => {
+        console.trace()
     if (["--left", "--top"].includes(s)) {
       return parseFloat(ref.current.style.getPropertyValue(s).slice(0, -2));
     }
@@ -211,18 +213,18 @@ function Box(props, ref) {
       startMouseY = e.touches[0].pageY;
 
       props.setBoxSelected(props.coor);
-      props.setBoxRef(ref);
+      //props.setBoxRef(ref);
       // Attach event listeners
       document.addEventListener("touchmove", handleTouchMove);
       document.addEventListener("touchend", handleTouchEnd);
     };
 
-    ref.current.addEventListener("mousedown", handleMouseDown);
+    //ref.current.addEventListener("mousedown", handleMouseDown);
     ref.current.addEventListener("touchstart", handleTouchStart);
 
     return () => {
       if (ref.current) {
-        ref.current.removeEventListener("mousedown", handleMouseDown);
+        //ref.current.removeEventListener("mousedown", handleMouseDown);
         ref.current.removeEventListener("touchstart", handleTouchStart);
       }
     };
@@ -511,15 +513,37 @@ function Box(props, ref) {
       bottomright.removeEventListener("touchstart", onTouchDownBottomResize);
     };
   }, [props.coor]);
+  const [rightClick, setRightClick] = useState(false);
 
+  const closeContext = () => {
+    setRightClick(false);
+  };
+  const context = useRef();
   return (
     <>
       <div
         ref={ref}
-        className={` bg-white border-[1px] border-black box ${
+        className={` bg-white border-[1px] border-black box relative ${
           props.coor.isSelected && "box-selected"
         }`}
-        style={style}>
+        style={style}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setRightClick(true);
+        }}
+      >
+        {rightClick && (
+          <div
+            ref={context}
+            className={`bg-blue text-white border absolute z-20 top-[10%] right-[-50%] rounded-md p-2`}
+          >
+            <span>CREATE PROC</span>
+          </div>
+        )}
+        <ContextMenu
+          contextMenuRef={context}
+          callback={closeContext}
+        ></ContextMenu>
         {/* Children here */}
         {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
         <BoxContext.Provider value={{ handleBoxChange }}>
@@ -539,16 +563,20 @@ function Box(props, ref) {
             {/* Round resizer */}
             <div
               ref={topleftResize}
-              className="resizer resizer-topleft round-resizer"></div>
+              className="resizer resizer-topleft round-resizer"
+            ></div>
             <div
               ref={toprightResize}
-              className="resizer resizer-topright round-resizer"></div>
+              className="resizer resizer-topright round-resizer"
+            ></div>
             <div
               ref={bottomleftResize}
-              className="resizer resizer-bottomleft round-resizer"></div>
+              className="resizer resizer-bottomleft round-resizer"
+            ></div>
             <div
               ref={bottomrightResize}
-              className="resizer resizer-bottomright round-resizer"></div>
+              className="resizer resizer-bottomright round-resizer"
+            ></div>
           </>
         )}
       </div>

@@ -114,11 +114,13 @@ function MediaBase({
     <>
       <div
         className="touch-none cursor-pointer w-full h-full bg-white border-blue border-2 rounded-md inline-flex items-center overflow-hidden p-[11px]"
-        onDoubleClick={() => setShowPopup(true)}>
+        onDoubleClick={() => setShowPopup(true)}
+      >
         <IconComp size={25} className="text-blue mr-2 shrink-0 flex-0" />
         <div
           className="relative outline-none border-0 border-none focus:ring-0 h-full flex items-center justify-center flex-1"
-          onContextMenu={(e) => handleRightClick(e)}>
+          onContextMenu={(e) => handleRightClick(e)}
+        >
           {children}
           {showPlaceholder ? (
             <span className="text-black w-full text-center">
@@ -130,13 +132,15 @@ function MediaBase({
               <div
                 ref={removeRef}
                 onClick={(e) => removeInput(e)}
-                className="rounded-md items-center justify-around w-[150px] border-black bg-red-600 h-[40px] absolute bottom-0 right-0 flex transition-[0.25s] animate-blur-option">
+                className="rounded-md items-center justify-around w-[150px] border-black bg-red-600 h-[40px] absolute bottom-0 right-0 flex transition-[0.25s] animate-blur-option"
+              >
                 <Eraser size={18} color="white" className="" />
                 <span>Remove file</span>
               </div>
               <ContextMenu
                 contextMenuRef={removeRef}
-                callback={closeContext}></ContextMenu>
+                callback={closeContext}
+              ></ContextMenu>
             </>
           )}
         </div>
@@ -144,7 +148,8 @@ function MediaBase({
           <div
             className="flex items-center justify-center cursor-pointer"
             onClick={handleClickDelete}
-            onTouchStart={handleClickDelete}>
+            onTouchStart={handleClickDelete}
+          >
             <XCircle size={22} color="white" />
           </div>
         </div>

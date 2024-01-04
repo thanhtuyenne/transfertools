@@ -45,6 +45,22 @@ function App() {
       ],
     },
   ]);
+  const [procedure, setProcedure] = useState([]);
+  const setCenterDefaultrPositionBox = (arr) => {
+    const workspace = document.querySelector(".whitespace");
+    let rect;
+    if (workspace) {
+      rect = workspace.getBoundingClientRect();
+    }
+    setDefaultPosition({
+      x:
+        (window.innerWidth / 2 - transform.positionX) / transform.scale -
+        250 * arr.length,
+      y:
+        (rect.height - window.innerHeight / 2 + transform.positionY) /
+        transform.scale,
+    });
+  };
 
   const [update, setUpdate] = useState(0);
 
@@ -76,8 +92,8 @@ function App() {
     return input;
   };
   const [zDefault, setZDefault] = useState(0);
-  const addElement = (typeName) => {
-    let addedEl = null;
+    const addElement = (typeName) => {
+        console.trace()
     const newEl = {
       type: typeName,
       x: defaultPosition.x,
@@ -91,14 +107,15 @@ function App() {
       isValid: false,
       z: 0,
       children: elements(typeName),
-      parent:null,
+      parent: null,
       boxRef: React.createRef(),
       endpoint: [],
     };
+    let addedEl = newEl;
     setData((prev) => {
       let maxId = 0;
-
       prev.forEach((type) => {
+        // Object.keys(prev).forEach((type) => {
         if (type.typeName === typeName) {
           const maxInType = Math.max(...type.list.map((el) => el.id));
           maxId = Math.max(maxId, maxInType);
@@ -138,9 +155,8 @@ function App() {
   };
 
   const updateElement = (type, id, values, syncValues) => {
-    //console.log(type, id, values);
-    setData((prev) =>
-      prev.map((typeBlock) => {
+    setData((prev) => {
+      return prev.map((typeBlock) => {
         // Update values inside this type Blockblock
         if (typeBlock.typeName === type) {
           typeBlock.list = typeBlock.list.map((el) => {
@@ -152,13 +168,15 @@ function App() {
         }
         if (syncValues) {
           typeBlock.list = typeBlock.list?.map((el) => {
+            console.log("4");
+
             return { ...el, ...syncValues };
           });
           return typeBlock;
         }
         return typeBlock;
-      })
-    );
+      });
+    });
     setUpdate((prev) => prev + 1);
   };
   useEffect(() => {
@@ -173,7 +191,44 @@ function App() {
     const allIdFromSecond = allId.slice(1);
     // dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }));
   }, [data]);
+  useEffect(() => {
+    // console.log(procedure.length); //3
+    // console.table(
+    //   procedure.map((e) => {
+    //     return { boxref: e.boxRef, endpoint: e.endpoint };
+    //   })
+    // );
 
+    procedure.map((elm, i) => {
+      if (i < procedure.length - 1) {
+        const child = procedure[i + 1];
+        console.log("endpoint");
+        console.log(elm.boxRef, child.boxRef);
+        elm.endpoint.push(child.boxRef);
+      } else {
+        console.log("not endpoint", elm);
+      }
+    });
+  }, [procedure]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const createProcedures = (types) => {
+    console.log(defaultPosition.x, defaultPosition.y);
+    setProcedure(""); // clear data
+    types.forEach((type, i) => {
+      setProcedure((pre) => {
+        const El = addElement(type);
+        El.x =
+          defaultPosition.x + (70 + defaultBoxSize.width) * (pre.length + 1);
+        El.y = defaultPosition.y;
+        El.parent = pre[pre.length - 1];
+        return [...pre, El];
+      });
+    });
+  };
   const toolbox = useSelector((state) => state.toolbox.value);
   const [transform, setTransform] = useState({
     scale: 1,
@@ -184,9 +239,13 @@ function App() {
     <div
       className="w-full h-screen bg-body relative flex flex-col items-stretch overflow-auto
       "
-      id="ws-container">
+      id="ws-container"
+    >
       <div>
-        <Header />
+        <Header
+          createProcedures={createProcedures}
+          setDefaultPosition={setCenterDefaultrPositionBox}
+        />
       </div>
       <div className={`w-full h-ful overflow-hidden cursor-grab`}>
         <Whitespace

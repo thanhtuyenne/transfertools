@@ -4,8 +4,10 @@ import { useState } from "react";
 import BotChat from "../BotChat/BotChat";
 import ToggleSwitch from "../Button/ToggleSwitch";
 
-const Header = () => {
+const Header = (props) => {
   const [botChat, setBotChat] = useState(false);
+  const proc = ["Video", "Image", "Audio", "Text"];
+
   return (
     <>
       <div className="headerTrans">
@@ -18,6 +20,17 @@ const Header = () => {
               <Chats size={30} />
             </button>
           </abbr>
+          <button
+            className="btn-save p-1"
+            onMouseDown={() => {
+              props.setDefaultPosition(proc);
+            }}
+            onMouseUp={() => {
+              props.createProcedures(proc);
+            }}
+          >
+            PROC
+          </button>
           <div className="btn-save">
             <span>SAVE</span>
           </div>
