@@ -108,7 +108,7 @@ const Navbar = (props) => {
           >
             <abbr title="Text">
               <div
-                className="box_1 lg:hover:bg-[#686de0] md:hover:bg-[#686de0] flex flex-col font-bold text-white md:text-black"
+                className="box_1 hover:bg-[#686de0] flex flex-col font-bold text-black"
                 onMouseDown={(e) => {
                   e.stopPropagation();
                   setCenterDefaultrPositionBox();
@@ -127,7 +127,7 @@ const Navbar = (props) => {
                 }}
               >
                 <TextT size={32} />
-                <span className="lg:hidden md:hidden">TEXT</span>
+                {/* <span className="lg:hidden md:hidden">TEXT</span> */}
               </div>
             </abbr>
           </Draggable>
@@ -139,7 +139,7 @@ const Navbar = (props) => {
           >
             <abbr title="Image">
               <div
-                className="box_1 lg:hover:bg-[#f0932b] md:hover:bg-[#f0932b] flex flex-col font-bold text-white md:text-black"
+                className="box_1 hover:bg-[#f0932b] flex flex-col font-bold text-black"
                 onMouseDown={(e) => {
                   e.stopPropagation();
                   setCenterDefaultrPositionBox();
@@ -158,7 +158,7 @@ const Navbar = (props) => {
                 }}
               >
                 <Image size={32} />
-                <span className="lg:hidden md:hidden">IMAGE</span>
+                {/* <span className="lg:hidden md:hidden">IMAGE</span> */}
               </div>
             </abbr>
           </Draggable>
@@ -170,7 +170,7 @@ const Navbar = (props) => {
           >
             <abbr title="Video">
               <div
-                className="box_1 lg:hover:bg-[#6ab04c] md:hover:bg-[#6ab04c] flex flex-col font-bold text-white md:text-black"
+                className="box_1 hover:bg-[#6ab04c] flex flex-col font-bold text-black"
                 onMouseDown={(e) => {
                   e.stopPropagation();
                   setCenterDefaultrPositionBox();
@@ -189,114 +189,140 @@ const Navbar = (props) => {
                 }}
               >
                 <VideoCamera size={32} />
-                <span className="lg:hidden md:hidden">VIDEO</span>
+                {/* <span className="lg:hidden md:hidden">VIDEO</span> */}
               </div>
             </abbr>
           </Draggable>
-          {screen ? (
+          {/* {screen ? (
+            <> */}
+          {/* <div
+            className="flex flex-col lg:hidden md:hidden items-center relative"
+            onTouchStart={(e) => {
+              e.preventDefault();
+              setPopupMobile(true);
+            }}
+            onMouseUp={(e) => {
+              e.preventDefault();
+              setPopupMobile(true);
+            }}
+          >
+            <button className="relative mobileOption">
+              <DotsThreeOutline size={32} color="white" />
+            </button> */}
+          {/* <span className="font-bold text-white">MORE</span> */}
+          {/* </div> */}
+          {/* {popupMobile && (
             <>
+              <MobileOption
+                addElement={addElement}
+                setCenterDefaultPosition={setCenterDefaultrPositionBox}
+                ref={menuRef}
+                setClosePopup={closePopupMobile}
+              />
+              <ContextMenu
+                contextMenuRef={menuRef}
+                callback={closePopupMobile}
+              ></ContextMenu>
+            </>
+          )} */}
+          {/* </>
+          ) : ( */}
+          {/* <> */}
+          <Draggable
+            className=" cursor-pointer"
+            type="components"
+            data="Audio"
+            onDrag={() => handleOpenTool()}
+          >
+            <abbr title="Audio">
               <div
-                className="flex flex-col lg:hidden md:hidden items-center relative"
-                onTouchStart={(e) => {
-                  e.preventDefault();
-                  setPopupMobile(true);
+                className=" box_1 hover:bg-[#f9ca24] flex"
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
                 }}
                 onMouseUp={(e) => {
-                  e.preventDefault();
-                  setPopupMobile(true);
+                  e.stopPropagation();
+                  addElement("Audio");
+                }}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
+                  addElement("Audio");
+                }}
+                onTouchStart={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
                 }}
               >
-                <button className="relative mobileOption">
-                  <DotsThreeOutline size={32} color="white" />
-                </button>
-                <span className="font-bold text-white">MORE</span>
+                <GooglePodcastsLogo size={32} />
               </div>
-              {popupMobile && (
-                <>
-                  <MobileOption
-                    addElement={addElement}
-                    setCenterDefaultPosition={setCenterDefaultrPositionBox}
-                    ref={menuRef}
-                    setClosePopup={closePopupMobile}
-                  />
-                  <ContextMenu
-                    contextMenuRef={menuRef}
-                    callback={closePopupMobile}
-                  ></ContextMenu>
-                </>
-              )}
-            </>
-          ) : (
+            </abbr>
+          </Draggable>
+          <Draggable
+            className=" cursor-pointer"
+            type="components"
+            data="Record"
+            onDrag={() => handleOpenTool()}
+          >
+            <abbr title="Record">
+              <div
+                className=" box_1 hover:bg-[#95afc0] flex"
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
+                }}
+                onMouseUp={(e) => {
+                  e.stopPropagation();
+                  addElement("Record");
+                }}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
+                  addElement("Record");
+                }}
+                onTouchStart={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
+                }}
+              >
+                <Microphone size={32} />
+              </div>
+            </abbr>
+          </Draggable>
+          <Draggable
+            className=" cursor-pointer"
+            type="components"
+            data="URL"
+            onDrag={() => handleOpenTool()}
+          >
+            <abbr title="URL">
+              <div
+                className=" box_1 hover:bg-[#e66767] flex"
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
+                }}
+                onMouseUp={(e) => {
+                  e.stopPropagation();
+                  addElement("URL");
+                }}
+                onTouchEnd={(e) => {
+                  e.stopPropagation();
+                  addElement("URL");
+                }}
+                onTouchStart={(e) => {
+                  e.stopPropagation();
+                  setCenterDefaultrPositionBox();
+                }}
+              >
+                <LinkSimple size={32} />
+              </div>
+            </abbr>
+          </Draggable>
+          {!screen && (
             <>
-              <Draggable
-                className=" cursor-pointer"
-                type="components"
-                data="Audio"
-                onDrag={() => handleOpenTool()}
-              >
-                <abbr title="Audio">
-                  <div
-                    className="md:flex lg:flex box_1 hover:bg-[#f9ca24]"
-                    onMouseDown={(e) => {
-                      e.stopPropagation();
-                      setCenterDefaultrPositionBox();
-                    }}
-                    onMouseUp={(e) => {
-                      e.stopPropagation();
-                      addElement("Audio");
-                    }}
-                  >
-                    <GooglePodcastsLogo size={32} />
-                  </div>
-                </abbr>
-              </Draggable>
-              <Draggable
-                className=" cursor-pointer"
-                type="components"
-                data="Record"
-                onDrag={() => handleOpenTool()}
-              >
-                <abbr title="Record">
-                  <div
-                    className="md:flex lg:flex box_1 hover:bg-[#95afc0]"
-                    onMouseDown={(e) => {
-                      e.stopPropagation();
-                      setCenterDefaultrPositionBox();
-                    }}
-                    onMouseUp={(e) => {
-                      e.stopPropagation();
-                      addElement("Record");
-                    }}
-                  >
-                    <Microphone size={32} />
-                  </div>
-                </abbr>
-              </Draggable>
-              <Draggable
-                className=" cursor-pointer"
-                type="components"
-                data="URL"
-                onDrag={() => handleOpenTool()}
-              >
-                <abbr title="URL">
-                  <div
-                    className="md:flex lg:flex box_1 hover:bg-[#e66767]"
-                    onMouseDown={(e) => {
-                      e.stopPropagation();
-                      setCenterDefaultrPositionBox();
-                    }}
-                    onMouseUp={(e) => {
-                      e.stopPropagation();
-                      addElement("URL");
-                    }}
-                  >
-                    <LinkSimple size={32} />
-                  </div>
-                </abbr>
-              </Draggable>
               <abbr title="Tools">
                 <div
-                  className={`md:flex lg:flex box_1 hover:bg-[#7ed6df] z-[10] ${
+                  className={` box_1 hover:bg-[#7ed6df] z-[10] flex ${
                     tools ? "active-setting" : ""
                   }`}
                   id="setting"
@@ -313,6 +339,8 @@ const Navbar = (props) => {
               </abbr>
             </>
           )}
+          {/* </> */}
+          {/* )} */}
         </div>
       </div>
     </>

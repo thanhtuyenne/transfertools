@@ -1,6 +1,6 @@
 /* RESPONSIVE */
 /* FOR MOBILE */
-@media (max-width: 320px) {
+/* @media (max-width: 320px) {
     .overlay_customize {
         position: relative;
         width: 100%;
@@ -30,4 +30,4 @@
         transform: translate(-50%, -50%) !important;
         border-radius: 8px;
     }
-}
+} */

@@ -212,7 +212,7 @@ function Box(props, ref) {
       startMouseY = e.touches[0].pageY;
 
       props.setBoxSelected(props.coor);
-      props.setBoxRef(ref);
+      // props.setBoxRef(ref);
       // Attach event listeners
       document.addEventListener("touchmove", handleTouchMove);
       document.addEventListener("touchend", handleTouchEnd);
