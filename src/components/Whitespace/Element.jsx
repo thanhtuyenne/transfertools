@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import ContextMenu from "../Input/ContextMenu";
 
 // import { useSelector } from "react-redux";
 export const BoxContext = React.createContext(null);
@@ -511,16 +512,37 @@ function Box(props, ref) {
       bottomright.removeEventListener("touchstart", onTouchDownBottomResize);
     };
   }, [props.coor]);
+  const [rightClick, setRightClick] = useState(false);
 
+  const closeContext = () => {
+    setRightClick(false);
+  };
+  const context = useRef();
   return (
     <>
       <div
         ref={ref}
-        className={` bg-white border-[1px] border-black box ${
+        className={` bg-white border-[1px] border-black box relative ${
           props.coor.isSelected && "box-selected"
         }`}
         style={style}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setRightClick(true);
+        }}
       >
+        {rightClick && (
+          <div
+            ref={context}
+            className={`bg-blue text-white border absolute z-20 top-[10%] right-[-50%] rounded-md p-2`}
+          >
+            <span>CREATE PROC</span>
+          </div>
+        )}
+        <ContextMenu
+          contextMenuRef={context}
+          callback={closeContext}
+        ></ContextMenu>
         {/* Children here */}
         {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
         <BoxContext.Provider value={{ handleBoxChange }}>
