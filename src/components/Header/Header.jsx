@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import BotChat from "../BotChat/BotChat";
 import ToggleSwitch from "../Button/ToggleSwitch";
 import ContextMenu from "../Input/ContextMenu";
+import { ArrowDown, ArrowRight } from "@phosphor-icons/react";
 
 const Header = (props) => {
   const [botChat, setBotChat] = useState(false);
@@ -27,6 +28,9 @@ const Header = (props) => {
   ];
 
   const context = useRef();
+
+  const [horizontal, setHorizontal] = useState(true);
+  const [vertical, setVertical] = useState(false);
 
   return (
     <>
@@ -59,15 +63,54 @@ const Header = (props) => {
               ref={context}
               className="absolute top-[5rem] right-[5rem] z-10 w-[270px] border-grey shadow-md text-[#2f3542] bg-white border-2 rounded-md"
             >
+              <div className="flex items-center justify-between px-2">
+                <span>Procedure Direction</span>
+                <div className="flex justify-end items-center">
+                  <span
+                    onClick={() => {
+                      setHorizontal(true);
+                      setVertical(false);
+                    }}
+                    onLoad={() => {
+                      setHorizontal(true);
+                    }}
+                    className={`w-[30px] ml-2 rounded-lg cursor-pointer p-1 m-2 transition-[0.25s] ${
+                      horizontal ? "bg-blue" : "bg-gray-300"
+                    }`}
+                  >
+                    <ArrowRight
+                      size={20}
+                      color={`${horizontal ? "white" : "black"}`}
+                    />
+                  </span>
+                  <span
+                    className={`w-[30px] ml-2 rounded-lg cursor-pointer p-1 m-2 transition-[0.25s] ${
+                      vertical ? "bg-blue" : "bg-gray-300"
+                    }`}
+                    onClick={() => {
+                      setHorizontal(false);
+                      setVertical(true);
+                    }}
+                  >
+                    <ArrowDown
+                      size={20}
+                      color={`${vertical ? "white" : "black"}`}
+                    />
+                  </span>
+                </div>
+              </div>
               {procedures.map((procedure) => {
                 return (
                   <li
                     className="w-full h-fit break-words border-b-2 border-gray px-4 pt-2 pb-2 cursor-pointer hover:bg-gray-200 transition-[0.25s]"
                     onMouseDown={() => {
-                      props.setDefaultPosition(procedure);
+                      props.setDefaultPosition(procedure.list);
                     }}
                     onMouseUp={() => {
-                      props.createProcedures(procedure);
+                      props.createProcedures(
+                        procedure.list,
+                        horizontal ? "horizontal" : "vertical"
+                      );
                       closeList();
                     }}
                   >
@@ -76,32 +119,6 @@ const Header = (props) => {
                   </li>
                 );
               })}
-              {/* <li
-                className="w-full h-full break-words border-b-2 border-gray px-4 pt-2 pb-2 cursor-pointer hover:bg-gray-200 transition-[0.25s]"
-                onMouseDown={() => {
-                  props.setDefaultPosition(proc);
-                }}
-                onMouseUp={() => {
-                  props.createProcedures(proc);
-                  closeList();
-                }}
-              >
-                <p className="text-[18px] font-bold">Basic Procedure</p>
-                <span>{proc.join(" - ")}</span>
-              </li>
-              <li
-                className="w-full h-full break-words border-b-2 border-gray px-4 pt-2 pb-2 cursor-pointer hover:bg-gray-200 transition-[0.25s]"
-                onMouseDown={() => {
-                  props.setDefaultPosition(proc2);
-                }}
-                onMouseUp={() => {
-                  props.createProcedures(proc2);
-                  closeList();
-                }}
-              >
-                <p className="text-[18px] font-bold">Name 2</p>
-                <span>{proc2.join(" - ")}</span>
-              </li> */}
             </ul>
           )}
           <ContextMenu

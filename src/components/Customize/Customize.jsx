@@ -328,7 +328,7 @@ function Customize({
           > */}
       <Draggable onDrag={(e) => e.stopPropagation()} disabled={!customize}>
         <div
-          className="z-100 md:h-fit lg:h-fit max-h-[190px] h-fit shadow-md w-[180px] container_customize scrollar-cus overflow-auto bg-white md:w-[350px] lg:w-[350px] lg:border-2 lg:border-grey md:border-2 md:border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed top-[20%] md:top-[20%] md:right-0 right-0"
+          className="z-100 max-h-[190px] lg:max-h-fit md:max-h-fit h-fit shadow-md w-[180px] container_customize scrollar-cus overflow-auto bg-white md:w-[350px] lg:w-[350px] lg:border-2 lg:border-grey md:border-2 md:border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed top-[20%] md:top-[20%] md:right-0 right-0"
           onClick={(e) => e.stopPropagation()}
           onTouchStart={(e) => e.stopPropagation()}
         >
