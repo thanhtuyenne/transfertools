@@ -46,14 +46,16 @@ function App() {
     },
   ]);
   const [procedure, setProcedure] = useState([]);
-  const setCenterDefaultrPositionBox = () => {
+  const setCenterDefaultrPositionBox = (arr) => {
     const workspace = document.querySelector(".whitespace");
     let rect;
     if (workspace) {
       rect = workspace.getBoundingClientRect();
     }
     setDefaultPosition({
-      x: (window.innerWidth / 2 - transform.positionX) / transform.scale,
+      x:
+        (window.innerWidth / 2 - transform.positionX) / transform.scale -
+        250 * arr.length,
       y:
         (rect.height - window.innerHeight / 2 + transform.positionY) /
         transform.scale,
@@ -189,26 +191,12 @@ function App() {
     // dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }));
   }, [data]);
   useEffect(() => {
-    // procedure.map((elm, i) => {
-    //   const preIndex = i - 1;
-    //   console.log(preIndex);
-    //   if (!preIndex < 0) {
-    //     console.log("pre");
-    //     const parent = procedure[preIndex];
-    //     console.log(parent, elm);
-    //     updateElement(parent.type, parent.id, {
-    //       endpoint: [...parent.endpoint, elm.boxRef],
-    //     });
-    //   } else {
-    //     console.log("not pre");
-    //   }
-    // });
-    console.log(procedure.length); //3
-    console.table(
-      procedure.map((e) => {
-        return { boxref: e.boxRef, endpoint: e.endpoint };
-      })
-    );
+    // console.log(procedure.length); //3
+    // console.table(
+    //   procedure.map((e) => {
+    //     return { boxref: e.boxRef, endpoint: e.endpoint };
+    //   })
+    // );
 
     procedure.map((elm, i) => {
       if (i < procedure.length - 1) {
@@ -227,10 +215,10 @@ function App() {
   }, [data]);
 
   const createProcedures = (types) => {
-    // setCenterDefaultrPositionBox();
+    console.log(defaultPosition.x, defaultPosition.y);
+    setProcedure(""); // clear data
     types.forEach((type, i) => {
       setProcedure((pre) => {
-        console.log(pre.length);
         const El = addElement(type);
         El.x =
           defaultPosition.x + (70 + defaultBoxSize.width) * (pre.length + 1);
@@ -253,7 +241,10 @@ function App() {
       id="ws-container"
     >
       <div>
-        <Header createProcedures={createProcedures} />
+        <Header
+          createProcedures={createProcedures}
+          setDefaultPosition={setCenterDefaultrPositionBox}
+        />
       </div>
       <div className={`w-full h-ful overflow-hidden cursor-grab`}>
         <Whitespace
