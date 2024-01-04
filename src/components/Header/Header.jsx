@@ -1,12 +1,32 @@
 import { Chats } from "@phosphor-icons/react/dist/ssr";
 import "./header.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import BotChat from "../BotChat/BotChat";
 import ToggleSwitch from "../Button/ToggleSwitch";
+import ContextMenu from "../Input/ContextMenu";
 
 const Header = (props) => {
   const [botChat, setBotChat] = useState(false);
   const proc = ["Video", "Image", "Audio", "Text"];
+  const proc2 = ["Text", "Audio", "Video"];
+  const [procList, setProList] = useState(false);
+
+  const closeList = () => {
+    setProList(false);
+  };
+
+  const procedures = [
+    {
+      name: "Basic Procedure",
+      list: ["Video", "Image", "Audio", "Text"],
+    },
+    {
+      name: "Initial",
+      list: ["Text", "Audio", "Video"],
+    },
+  ];
+
+  const context = useRef();
 
   return (
     <>
@@ -21,16 +41,73 @@ const Header = (props) => {
             </button>
           </abbr>
           <button
-            className="btn-save p-1"
-            onMouseDown={() => {
-              props.setDefaultPosition(proc);
-            }}
-            onMouseUp={() => {
-              props.createProcedures(proc);
+            className="btn-save p-1 relative"
+            // onMouseDown={() => {
+            //   props.setDefaultPosition(proc);
+            // }}
+            // onMouseUp={() => {
+            //   props.createProcedures(proc);
+            // }}
+            onClick={() => {
+              setProList(true);
             }}
           >
             PROC
           </button>
+          {procList && (
+            <ul
+              ref={context}
+              className="absolute top-[5rem] right-[5rem] z-10 w-[270px] border-grey shadow-md text-[#2f3542] bg-white border-2 rounded-md"
+            >
+              {procedures.map((procedure) => {
+                return (
+                  <li
+                    className="w-full h-fit break-words border-b-2 border-gray px-4 pt-2 pb-2 cursor-pointer hover:bg-gray-200 transition-[0.25s]"
+                    onMouseDown={() => {
+                      props.setDefaultPosition(procedure);
+                    }}
+                    onMouseUp={() => {
+                      props.createProcedures(procedure);
+                      closeList();
+                    }}
+                  >
+                    <p className="text-[18px] font-bold">{procedure.name}</p>
+                    <span>{procedure.list.join(" - ")}</span>
+                  </li>
+                );
+              })}
+              {/* <li
+                className="w-full h-full break-words border-b-2 border-gray px-4 pt-2 pb-2 cursor-pointer hover:bg-gray-200 transition-[0.25s]"
+                onMouseDown={() => {
+                  props.setDefaultPosition(proc);
+                }}
+                onMouseUp={() => {
+                  props.createProcedures(proc);
+                  closeList();
+                }}
+              >
+                <p className="text-[18px] font-bold">Basic Procedure</p>
+                <span>{proc.join(" - ")}</span>
+              </li>
+              <li
+                className="w-full h-full break-words border-b-2 border-gray px-4 pt-2 pb-2 cursor-pointer hover:bg-gray-200 transition-[0.25s]"
+                onMouseDown={() => {
+                  props.setDefaultPosition(proc2);
+                }}
+                onMouseUp={() => {
+                  props.createProcedures(proc2);
+                  closeList();
+                }}
+              >
+                <p className="text-[18px] font-bold">Name 2</p>
+                <span>{proc2.join(" - ")}</span>
+              </li> */}
+            </ul>
+          )}
+          <ContextMenu
+            contextMenuRef={context}
+            callback={closeList}
+          ></ContextMenu>
           <div className="btn-save">
             <span>SAVE</span>
           </div>
