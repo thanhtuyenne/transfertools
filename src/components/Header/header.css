@@ -70,7 +70,8 @@
     .btn-save {
         padding: 4px 8px;
         border-radius: 6px;
-        margin: 15px;
+        /* margin: 15px; */
+        width: 80px;
     }
 
     .btn-botAI svg {
