@@ -318,81 +318,78 @@ function Customize({
 
   return (
     <>
-      {screen ? (
-        <>
-          <div
+      {/* {screen ? ( */}
+      {/* <> */}
+      {/* <div
             className="fixed left-0 top-0 z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
             ref={parentRef}
             onClick={() => handleClosePopup()}
             onTouchStart={() => handleClosePopup()}
-          >
-            <Draggable
-              onDrag={(e) => e.stopPropagation()}
-              disabled={!customize}
-            >
-              <div
-                className="z-100 h-fit w-[350px] container_customize scrollar-cus overflow-auto bg-white md:w-[350px] lg:w-[350px] lg:border-2 lg:border-grey md:border-2 md:border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed lg:top-[20%] md:top-[20%] md:right-0 lg:right-0"
-                onClick={(e) => e.stopPropagation()}
-                onTouchStart={(e) => e.stopPropagation()}
-              >
-                <div className="bpx-2 w-full">
-                  <div className="flex items-center justify-center text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
-                    <span className="text-blue uppercase">
-                      {" "}
-                      transfer {title}
-                    </span>
-                    {screen && (
-                      <XCircle
-                        size={28}
-                        color="white"
-                        className="lg:hidden md:hidden cursor-pointer font-bold bg-[#e74c3c] p-1 absolute top-0 right-0 rounded-bl-[15px]"
-                        onClick={() => handleClosePopup()}
-                        onTouchStart={() => handleClosePopup()}
-                      />
-                    )}
-                  </div>
-                  <Dropdownlist
-                    title="Tools"
-                    options={tools.map((v) => {
-                      return v.title;
-                    })}
-                    callback={displayToolSelected}
-                    selected={indexTool}
-                  />
-                  {currentTool}
-                </div>
-                <div className="flex justify-end my-2">
-                  {
-                    // (transfer === "Text" && inputText === true) ||
-                    // (transfer === "Image" && inputImage === true) ||
-                    // (transfer === "Video" && inputVideo === true) ||
-                    // (transfer === "Audio" && inputAudio === true) ||
-                    // (transfer === "Record" && inputRecord === true) ||
-                    // (transfer === "URL" && inputUrl === true) ||
-                    showTransfer && !isPending ? (
-                      <Button
-                        title="Transfer"
-                        onMouseDown={(e) => {
-                          setPositionResult(e);
-                        }}
-                        onMouseUp={(e) => handleResult(e)}
-                        onTouchStart={(e) => {
-                          setPositionResult(e);
-                        }}
-                        onTouchEnd={(e) => handleResult(e)}
-                        disabled={isPending}
-                      />
-                    ) : (
-                      <></>
-                    )
-                  }
-                </div>
-                {/* PREVIEW */}
-              </div>
-            </Draggable>
+          > */}
+      <Draggable onDrag={(e) => e.stopPropagation()} disabled={!customize}>
+        <div
+          className="z-100 max-h-[190px] lg:max-h-fit md:max-h-fit h-fit shadow-md w-[180px] container_customize scrollar-cus overflow-auto bg-white md:w-[350px] lg:w-[350px] lg:border-2 lg:border-grey md:border-2 md:border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed top-[20%] md:top-[20%] md:right-0 right-0"
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+        >
+          <div className="bpx-2 w-full">
+            <div className="flex items-center justify-center text-lg font-bold md:pt-2 lg:pt-2 w-full border-b-2 mb-2 md:pb-3 lg:pb-3">
+              <span className="text-blue uppercase lg:text-lg text-[14px]">
+                {" "}
+                transfer {title}
+              </span>
+              {screen && (
+                <XCircle
+                  size={28}
+                  color="white"
+                  className="lg:hidden md:hidden cursor-pointer font-bold bg-[#e74c3c] p-1 absolute top-0 right-0 rounded-bl-[15px]"
+                  onClick={() => handleClosePopup()}
+                  onTouchStart={() => handleClosePopup()}
+                />
+              )}
+            </div>
+            <Dropdownlist
+              title="Tools"
+              options={tools.map((v) => {
+                return v.title;
+              })}
+              callback={displayToolSelected}
+              selected={indexTool}
+            />
+            {currentTool}
           </div>
-        </>
-      ) : (
+          <div className="flex justify-end my-2">
+            {
+              // (transfer === "Text" && inputText === true) ||
+              // (transfer === "Image" && inputImage === true) ||
+              // (transfer === "Video" && inputVideo === true) ||
+              // (transfer === "Audio" && inputAudio === true) ||
+              // (transfer === "Record" && inputRecord === true) ||
+              // (transfer === "URL" && inputUrl === true) ||
+              showTransfer && !isPending ? (
+                <Button
+                  title="Transfer"
+                  onMouseDown={(e) => {
+                    setPositionResult(e);
+                  }}
+                  onMouseUp={(e) => handleResult(e)}
+                  onTouchStart={(e) => {
+                    setPositionResult(e);
+                  }}
+                  onTouchEnd={(e) => handleResult(e)}
+                  disabled={isPending}
+                />
+              ) : (
+                <></>
+              )
+            }
+          </div>
+          {/* PREVIEW */}
+        </div>
+      </Draggable>
+      {/* </div> */}
+      {/* </> */}
+      {/* ) : (
         <Draggable>
           <div
             className="z-[100] md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
@@ -402,7 +399,7 @@ function Customize({
             <Swap size={32} className="" color="#3498DB" />
           </div>
         </Draggable>
-      )}
+      )} */}
     </>
   );
 }

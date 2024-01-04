@@ -402,7 +402,7 @@ function Whitespace(props) {
 
   const wsRef = useRef();
   const transformDefault = {
-    scale: 1,
+    scale: 0.6,
     positionX: 0,
     positionY: 0,
   };

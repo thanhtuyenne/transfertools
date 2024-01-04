@@ -10,7 +10,7 @@ function ToSpeech() {
   const VoiceList = ["William", "Alice", "John", "Sarah", "Google"];
   return (
     <div className="px-0 p-3">
-      <p className="text-lg font-bold border-b-2 mb-2 pb-3 text-blue uppercase ">
+      <p className="font-bold border-b-2 mb-2 pb-3 text-blue uppercase lg:text-lg text-[14px] ">
         Customize
       </p>
       <div className="flex flex-row justify-between ">

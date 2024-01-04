@@ -529,6 +529,7 @@ function Box(props, ref) {
         onContextMenu={(e) => {
           e.preventDefault();
           setRightClick(true);
+          console.log(ref);
         }}
       >
         {rightClick && (
