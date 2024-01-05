@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import BotChat from "../BotChat/BotChat";
 import ToggleSwitch from "../Button/ToggleSwitch";
 import ContextMenu from "../Input/ContextMenu";
-import { ArrowDown, ArrowRight } from "@phosphor-icons/react";
+import { ArrowDown, ArrowRight, PlusCircle } from "@phosphor-icons/react";
+import PopupCreateProc from "../PopupCreateProc/PopupCreateProc";
 
 const Header = (props) => {
   const [botChat, setBotChat] = useState(false);
@@ -32,6 +33,8 @@ const Header = (props) => {
   const [horizontal, setHorizontal] = useState(true);
   const [vertical, setVertical] = useState(false);
 
+  const [create, setCreate] = useState(false);
+
   return (
     <>
       <div className="headerTrans">
@@ -46,12 +49,6 @@ const Header = (props) => {
           </abbr>
           <button
             className="btn-save p-1 relative"
-            // onMouseDown={() => {
-            //   props.setDefaultPosition(proc);
-            // }}
-            // onMouseUp={() => {
-            //   props.createProcedures(proc);
-            // }}
             onClick={() => {
               setProList(true);
             }}
@@ -60,6 +57,7 @@ const Header = (props) => {
           </button>
           {procList && (
             <ul
+              id="procList"
               ref={context}
               className="absolute top-[5rem] right-[5rem] z-10 w-[270px] border-grey shadow-md text-[#2f3542] bg-white border-2 rounded-md"
             >
@@ -119,7 +117,19 @@ const Header = (props) => {
                   </li>
                 );
               })}
+              <li
+                onClick={() => {
+                  setCreate(true);
+                  closeList();
+                }}
+                className="w-full h-fit border-b-2 border-gray px-4 pt-2 pb-2 cursor-pointer hover:bg-gray-200 transition-[0.25s] flex justify-center"
+              >
+                <PlusCircle size={32} />
+              </li>
             </ul>
+          )}
+          {create && (
+            <PopupCreateProc procedureList={procedures} setCreate={setCreate} />
           )}
           <ContextMenu
             contextMenuRef={context}
