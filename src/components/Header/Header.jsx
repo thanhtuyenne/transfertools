@@ -17,7 +17,18 @@ const Header = (props) => {
     setProList(false);
   };
 
-  const procedures = [
+  // const procedures = [
+  //   {
+  //     name: "Basic Procedure",
+  //     list: ["Video", "Image", "Audio", "Text"],
+  //   },
+  //   {
+  //     name: "Initial",
+  //     list: ["Text", "Audio", "Video"],
+  //   },
+  // ];
+
+  const [procedures, setProcedures] = useState([
     {
       name: "Basic Procedure",
       list: ["Video", "Image", "Audio", "Text"],
@@ -26,7 +37,7 @@ const Header = (props) => {
       name: "Initial",
       list: ["Text", "Audio", "Video"],
     },
-  ];
+  ]);
 
   const context = useRef();
 
@@ -129,7 +140,10 @@ const Header = (props) => {
             </ul>
           )}
           {create && (
-            <PopupCreateProc procedureList={procedures} setCreate={setCreate} />
+            <PopupCreateProc
+              procedureList={setProcedures}
+              setCreate={setCreate}
+            />
           )}
           <ContextMenu
             contextMenuRef={context}
