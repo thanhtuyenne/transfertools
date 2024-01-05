@@ -93,7 +93,19 @@ function Whitespace(props) {
                             result: "Image",
                         },
                         {
-                            title: "Text summary",
+                            title: "Text summary VN",
+                            comp: <></>,
+                            preview: <Preview type="Text" />,
+                            result: "Text",
+                        },
+                        {
+                            title: "Text summary ENG",
+                            comp: <></>,
+                            preview: <Preview type="Text" />,
+                            result: "Text",
+                        },
+                        {
+                            title: "Q&A",
                             comp: <></>,
                             preview: <Preview type="Text" />,
                             result: "Text",
@@ -420,7 +432,7 @@ function Whitespace(props) {
 
   const wsRef = useRef();
   const transformDefault = {
-    scale: 1,
+    scale: 0.6,
     positionX: 0,
     positionY: 0,
   };

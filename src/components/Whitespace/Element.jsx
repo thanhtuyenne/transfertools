@@ -219,12 +219,12 @@ function Box(props, ref) {
       document.addEventListener("touchend", handleTouchEnd);
     };
 
-    //ref.current.addEventListener("mousedown", handleMouseDown);
+    ref.current.addEventListener("mousedown", handleMouseDown);
     ref.current.addEventListener("touchstart", handleTouchStart);
 
     return () => {
       if (ref.current) {
-        //ref.current.removeEventListener("mousedown", handleMouseDown);
+        ref.current.removeEventListener("mousedown", handleMouseDown);
         ref.current.removeEventListener("touchstart", handleTouchStart);
       }
     };
@@ -530,6 +530,7 @@ function Box(props, ref) {
         onContextMenu={(e) => {
           e.preventDefault();
           setRightClick(true);
+          console.log(ref);
         }}
       >
         {rightClick && (

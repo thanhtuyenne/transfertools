@@ -55,7 +55,7 @@ function App() {
     setDefaultPosition({
       x:
         (window.innerWidth / 2 - transform.positionX) / transform.scale -
-        250 * arr.length,
+        defaultBoxSize.width * arr.length,
       y:
         (rect.height - window.innerHeight / 2 + transform.positionY) /
         transform.scale,
@@ -168,8 +168,6 @@ function App() {
         }
         if (syncValues) {
           typeBlock.list = typeBlock.list?.map((el) => {
-            console.log("4");
-
             return { ...el, ...syncValues };
           });
           return typeBlock;
@@ -192,21 +190,11 @@ function App() {
     // dispatch(onClickDataIdType({ allTypesFromSecond, allIdFromSecond }));
   }, [data]);
   useEffect(() => {
-    // console.log(procedure.length); //3
-    // console.table(
-    //   procedure.map((e) => {
-    //     return { boxref: e.boxRef, endpoint: e.endpoint };
-    //   })
-    // );
-
     procedure.map((elm, i) => {
       if (i < procedure.length - 1) {
         const child = procedure[i + 1];
-        console.log("endpoint");
-        console.log(elm.boxRef, child.boxRef);
+        // console.log(elm.boxRef, child.boxRef);
         elm.endpoint.push(child.boxRef);
-      } else {
-        console.log("not endpoint", elm);
       }
     });
   }, [procedure]);
@@ -215,15 +203,23 @@ function App() {
     console.log(data);
   }, [data]);
 
-  const createProcedures = (types) => {
-    console.log(defaultPosition.x, defaultPosition.y);
+  const createProcedures = (types, dir) => {
     setProcedure(""); // clear data
     types.forEach((type, i) => {
       setProcedure((pre) => {
         const El = addElement(type);
-        El.x =
-          defaultPosition.x + (70 + defaultBoxSize.width) * (pre.length + 1);
-        El.y = defaultPosition.y;
+        console.log(dir);
+        if (dir === "horizontal") {
+          El.x =
+            defaultPosition.x + (70 + defaultBoxSize.width) * (pre.length + 1);
+          El.y = defaultPosition.y;
+        } else {
+          El.x = defaultPosition.x + defaultBoxSize.width * types.length;
+          El.y =
+            defaultPosition.y -
+            (70 + defaultBoxSize.height) * (pre.length + 1) +
+            types.length * defaultBoxSize.height;
+        }
         El.parent = pre[pre.length - 1];
         return [...pre, El];
       });

@@ -323,7 +323,8 @@ function Customize({
             })
             .catch((error) => console.log("error", error));
     };
-    const sq2sq_summary = async (text) => {
+
+    const sq2sq_summary_vn = async (text) => {
         if (!text) throw new Error("text is null");
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -341,20 +342,53 @@ function Customize({
         };
 
         return await fetch(
-            `${apiUrl}/api/openai`,
+            `${apiUrl}/api/openai/vn`,
             requestOptions
         )
             .then((response) => {
-                return response.text()
+                return response.json()
             })
             .then((result) => {
-                return result;
+                return result.response;
                 //preview.ref.current.src = `https://www.netdancetalent.asia/download?filename=${output_name}`;
                 //preview.ref.current.pause();
                 //preview.ref.current.load();
             })
             .catch((error) => console.log("error", error));
     };
+    const sq2sq_summary_eng = async (text) => {
+        if (!text) throw new Error("text is null");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const output_name = randomUUID();
+
+        var raw = JSON.stringify({
+            "user_input": text
+        });
+
+        var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+        };
+
+        return await fetch(
+            `${apiUrl}/api/openai/eng`,
+            requestOptions
+        )
+            .then((response) => {
+                return response.json()
+            })
+            .then((result) => {
+                return result.response;
+                //preview.ref.current.src = `https://www.netdancetalent.asia/download?filename=${output_name}`;
+                //preview.ref.current.pause();
+                //preview.ref.current.load();
+            })
+            .catch((error) => console.log("error", error));
+    };
+
     const text2Image = async (text) => {
         if (!text) throw new Error("text is null");
 
@@ -438,6 +472,7 @@ function Customize({
             y: dirY,
         });
     };
+
     const getSampleValue = (type) => {
         switch (type) {
             case "Text":
@@ -521,8 +556,11 @@ function Customize({
                     } else if (indexTool == 3) {
                         newEl.children.ref.current.setInput(await text2Image(boxSelected.value));
                     } else if (indexTool == 4) {
-                        newEl.children.ref.current.setInput(await sq2sq_summary(boxSelected.value));
+                        newEl.children.ref.current.setInput(await sq2sq_summary_vn(boxSelected.value));
                     } else if (indexTool == 5) {
+                        newEl.children.ref.current.setInput(await sq2sq_summary_eng(boxSelected.value));
+                    }
+                    else if (indexTool == 6) {
                         newEl.children.ref.current.setInput(await sq2sq_QA(boxSelected.value));
                     }
                     else {
@@ -572,118 +610,92 @@ function Customize({
         }
     }, [boxSelected]);
 
-    const handleTransfer = async () => {
-        //setClick(true);
-        console.log(boxSelected);
-        console.log(indexTool);
-
-        switch (boxSelected.type) {
-            case "Text":
-                console.log("case 1");
-                if (indexTool == 0) {
-                    let res = await tts_google();
-                    console.log(res);
-                } else if (indexTool == 1) {
-                    let res = await text2Image();
-                } else {
-                    alert("not found type");
-                    console.error("not found type");
-                }
-                break;
-            default:
-                break;
-        }
-    };
-
-    return (
-        <>
-            {screen ? (
-                <>
-                    <div
-                        className="fixed left-0 top-0 z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
-                        ref={parentRef}
-                        onClick={() => handleClosePopup()}
-                        onTouchStart={() => handleClosePopup()}
-                    >
-                        <Draggable
-                            onDrag={(e) => e.stopPropagation()}
-                            disabled={!customize}
-                        >
-                            <div
-                                className="z-100 h-fit w-[350px] container_customize scrollar-cus overflow-auto bg-white md:w-[350px] lg:w-[350px] lg:border-2 lg:border-grey md:border-2 md:border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed lg:top-[20%] md:top-[20%] md:right-0 lg:right-0"
-                                onClick={(e) => e.stopPropagation()}
-                                onTouchStart={(e) => e.stopPropagation()}
-                            >
-                                <div className="bpx-2 w-full">
-                                    <div className="flex items-center justify-center text-lg font-bold pt-2 w-full border-b-2 mb-2 pb-3">
-                                        <span className="text-blue uppercase">
-                                            {" "}
-                                            transfer {title}
-                                        </span>
-                                        {screen && (
-                                            <XCircle
-                                                size={28}
-                                                color="white"
-                                                className="lg:hidden md:hidden cursor-pointer font-bold bg-[#e74c3c] p-1 absolute top-0 right-0 rounded-bl-[15px]"
-                                                onClick={() => handleClosePopup()}
-                                                onTouchStart={() => handleClosePopup()}
-                                            />
-                                        )}
-                                    </div>
-                                    <Dropdownlist
-                                        title="Tools"
-                                        options={tools.map((v) => {
-                                            return v.title;
-                                        })}
-                                        callback={displayToolSelected}
-                                        selected={indexTool}
-                                    />
-                                    {currentTool}
-                                </div>
-                                <div className="flex justify-end my-2">
-                                    {
-                                        // (transfer === "Text" && inputText === true) ||
-                                        // (transfer === "Image" && inputImage === true) ||
-                                        // (transfer === "Video" && inputVideo === true) ||
-                                        // (transfer === "Audio" && inputAudio === true) ||
-                                        // (transfer === "Record" && inputRecord === true) ||
-                                        // (transfer === "URL" && inputUrl === true) ||
-                                        showTransfer && !isPending ? (
-                                            <Button
-                                                title="Transfer"
-                                                onMouseDown={(e) => {
-                                                    setPositionResult(e);
-                                                }}
-                                                onMouseUp={(e) => handleResult(e)}
-                                                onTouchStart={(e) => {
-                                                    setPositionResult(e);
-                                                }}
-                                                onTouchEnd={(e) => handleResult(e)}
-                                                disabled={isPending}
-                                            />
-                                        ) : (
-                                            <></>
-                                        )
-                                    }
-                                </div>
-                                {/* PREVIEW */}
-                            </div>
-                        </Draggable>
-                    </div>
-                </>
-            ) : (
-                <Draggable>
-                    <div
-                        className="z-[100] md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
-                        onClick={() => setScreen(true)}
-                        onTouchStart={() => setScreen(true)}
-                    >
-                        <Swap size={32} className="" color="#3498DB" />
-                    </div>
-                </Draggable>
-            )}
-        </>
-    );
+  return (
+    <>
+      {/* {screen ? ( */}
+      {/* <> */}
+      {/* <div
+            className="fixed left-0 top-0 z-[100] md:w-0 md:h-0 lg:w-0 lg:h-0 animation-[open-popup] transition-[0.25s] overlay_customzie bg-overlay md:bg-transparent lg:bg-transparent w-full h-full"
+            ref={parentRef}
+            onClick={() => handleClosePopup()}
+            onTouchStart={() => handleClosePopup()}
+          > */}
+      <Draggable onDrag={(e) => e.stopPropagation()} disabled={!customize}>
+        <div
+          className="z-100 max-h-[190px] lg:max-h-fit md:max-h-fit h-fit shadow-md w-[180px] container_customize scrollar-cus overflow-auto bg-white md:w-[350px] lg:w-[350px] lg:border-2 lg:border-grey md:border-2 md:border-grey rounded-tr-0 rounded-br-0 rounded-tl-[16px] rounded-bl-[16px] pt-1 px-3 pb-0 fixed top-[20%] md:top-[20%] md:right-0 right-0"
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+        >
+          <div className="bpx-2 w-full">
+            <div className="flex items-center justify-center text-lg font-bold md:pt-2 lg:pt-2 w-full border-b-2 mb-2 md:pb-3 lg:pb-3">
+              <span className="text-blue uppercase lg:text-lg text-[14px]">
+                {" "}
+                transfer {title}
+              </span>
+              {screen && (
+                <XCircle
+                  size={28}
+                  color="white"
+                  className="lg:hidden md:hidden cursor-pointer font-bold bg-[#e74c3c] p-1 absolute top-0 right-0 rounded-bl-[15px]"
+                  onClick={() => handleClosePopup()}
+                  onTouchStart={() => handleClosePopup()}
+                />
+              )}
+            </div>
+            <Dropdownlist
+              title="Tools"
+              options={tools.map((v) => {
+                return v.title;
+              })}
+              callback={displayToolSelected}
+              selected={indexTool}
+            />
+            {currentTool}
+          </div>
+          <div className="flex justify-end my-2">
+            {
+              // (transfer === "Text" && inputText === true) ||
+              // (transfer === "Image" && inputImage === true) ||
+              // (transfer === "Video" && inputVideo === true) ||
+              // (transfer === "Audio" && inputAudio === true) ||
+              // (transfer === "Record" && inputRecord === true) ||
+              // (transfer === "URL" && inputUrl === true) ||
+              showTransfer && !isPending ? (
+                <Button
+                  title="Transfer"
+                  onMouseDown={(e) => {
+                    setPositionResult(e);
+                  }}
+                  onMouseUp={(e) => handleResult(e)}
+                  onTouchStart={(e) => {
+                    setPositionResult(e);
+                  }}
+                  onTouchEnd={(e) => handleResult(e)}
+                  disabled={isPending}
+                />
+              ) : (
+                <></>
+              )
+            }
+          </div>
+          {/* PREVIEW */}
+        </div>
+      </Draggable>
+      {/* </div> */}
+      {/* </> */}
+      {/* ) : (
+        <Draggable>
+          <div
+            className="z-[100] md:hidden lg:hidden fixed top-[50%] right-0 bg-white border-[#3498DB] border p-3 flex items-center justify-center rounded-full"
+            onClick={() => setScreen(true)}
+            onTouchStart={() => setScreen(true)}
+          >
+            <Swap size={32} className="" color="#3498DB" />
+          </div>
+        </Draggable>
+      )} */}
+    </>
+  );
 }
 export default Customize;
 
