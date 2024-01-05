@@ -4,37 +4,26 @@ import { useRef, useState } from "react";
 import BotChat from "../BotChat/BotChat";
 import ToggleSwitch from "../Button/ToggleSwitch";
 import ContextMenu from "../Input/ContextMenu";
-import { ArrowDown, ArrowRight, PlusCircle } from "@phosphor-icons/react";
+import {
+  ArrowDown,
+  ArrowRight,
+  PlusCircle,
+  X,
+  XCircle,
+} from "@phosphor-icons/react";
 import PopupCreateProc from "../PopupCreateProc/PopupCreateProc";
 
 const Header = (props) => {
   const [botChat, setBotChat] = useState(false);
-  const proc = ["Video", "Image", "Audio", "Text"];
-  const proc2 = ["Text", "Audio", "Video"];
   const [procList, setProList] = useState(false);
 
   const closeList = () => {
     setProList(false);
   };
 
-  // const procedures = [
-  //   {
-  //     name: "Basic Procedure",
-  //     list: ["Video", "Image", "Audio", "Text"],
-  //   },
-  //   {
-  //     name: "Initial",
-  //     list: ["Text", "Audio", "Video"],
-  //   },
-  // ];
-
   const [procedures, setProcedures] = useState([
     {
       name: "Basic Procedure",
-      list: ["Video", "Image", "Audio", "Text"],
-    },
-    {
-      name: "Initial",
       list: ["Text", "Audio", "Video"],
     },
   ]);
@@ -111,8 +100,10 @@ const Header = (props) => {
               {procedures.map((procedure) => {
                 return (
                   <li
-                    className="w-full h-fit break-words border-b-2 border-gray px-4 pt-2 pb-2 cursor-pointer hover:bg-gray-200 transition-[0.25s]"
-                    onMouseDown={() => {
+                    className="w-full h-fit break-words border-b-2 border-gray px-3 py-2 cursor-pointer hover:bg-gray-200 transition-[0.25s]"
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
                       props.setDefaultPosition(procedure.list);
                     }}
                     onMouseUp={() => {

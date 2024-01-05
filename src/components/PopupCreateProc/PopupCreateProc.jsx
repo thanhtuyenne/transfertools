@@ -35,8 +35,6 @@ function PopupCreateProc(props) {
       setIsSuccess(false);
     }
   };
-
-  const [clearBtn, setClearBtn] = useState(false);
   return (
     <div
       className="fixed bg-overlay w-full h-full top-0 left-0 z-20"
@@ -69,7 +67,10 @@ function PopupCreateProc(props) {
               Procedure Selection
             </span>
             <span
-              onClick={() => {}}
+              onClick={() => {
+                listRef.current.innerHTML = "";
+                listArr.length = 0;
+              }}
               className="text-[#7f8c8d] text-sm cursor-pointer font-bold"
             >
               Clear
