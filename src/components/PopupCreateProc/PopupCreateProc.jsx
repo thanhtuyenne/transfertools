@@ -42,7 +42,7 @@ function PopupCreateProc(props) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-[400px] h-fit bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-4 rounded-md text-blue"
+        className="md:w-[400px] lg:w-[400px] w-[320px] h-fit bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-4 rounded-md text-blue"
       >
         <div
           onClick={() => props.setCreate(false)}
@@ -98,7 +98,7 @@ function PopupCreateProc(props) {
                   listArr.push(type);
                   list.innerHTML = listArr.join(" - ");
                 }}
-                className="text-center mx-4 my-2 w-[70px] cursor-pointer bg-white border border-blue rounded-md text-blue py-2 font-bold transition-[0.25s]"
+                className="text-sm lg:text-lg text-center mx-4 my-2 md:w-[70px] lg:w-[70px] w-[60px] cursor-pointer bg-white border border-blue rounded-md text-blue py-2 font-bold transition-[0.25s]"
               >
                 {type}
               </span>
@@ -107,14 +107,17 @@ function PopupCreateProc(props) {
         </div>
         {/* BUTTON */}
         <div className={`flex items-center justify-between`}>
-          <span id="notify" className={`font-bold`}>
+          <span
+            id="notify"
+            className={`font-bold md:text-md lg:text-md text-[12px]`}
+          >
             {" "}
           </span>
           <button
             onClick={(e) => {
               handleCreate(e);
             }}
-            className="border border-blue text-white font-bold bg-blue cursor-pointer rounded-md p-1 w-[100px] hover:w-[120px] transition-[0.25s] hover:font-bold"
+            className="md:text-md lg:text-md text-sm border border-blue text-white font-bold bg-blue cursor-pointer rounded-md p-1 w-[100px] hover:w-[120px] transition-[0.25s] hover:font-bold"
           >
             CREATE
           </button>
