@@ -108,13 +108,6 @@ function MediaBase({
                         throw new Error('Please choose a file');
                     }
 
-                    var fileNameParts = file.name.split('.');
-                    var fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
-
-                    if (!accept.includes(fileExtension)) {
-                        throw new Error('Invalid file type. Allowed types: ' + accept.join(', '));
-                    }
-
                     handleSetFile(file);
                 }
             };
