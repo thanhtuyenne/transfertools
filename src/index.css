@@ -130,6 +130,8 @@ code {
 
 }
 
+/* ANIMATION */
+
 @keyframes popup {
   0% {
     left: -100%;
@@ -147,6 +149,16 @@ code {
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fromTop {
+  0% {
+    top: -2rem;
+  }
+
+  100% {
+    top: 2rem;
   }
 }
 

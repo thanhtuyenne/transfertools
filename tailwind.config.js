@@ -21,6 +21,7 @@ module.exports = {
       animation: {
         "open-popup": "popup linear .2s",
         "blur-option": "blurShow linear .2s",
+        copied: "fromTop linear .2s",
       },
     },
   },
