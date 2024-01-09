@@ -83,8 +83,8 @@ function Box(props, ref) {
     }
     return { x: 0, y: 0 };
   };
-    const getRef = (s) => {
-        console.trace()
+  const getRef = (s) => {
+    console.trace();
     if (["--left", "--top"].includes(s)) {
       return parseFloat(ref.current.style.getPropertyValue(s).slice(0, -2));
     }
@@ -513,12 +513,6 @@ function Box(props, ref) {
       bottomright.removeEventListener("touchstart", onTouchDownBottomResize);
     };
   }, [props.coor]);
-  const [rightClick, setRightClick] = useState(false);
-
-  const closeContext = () => {
-    setRightClick(false);
-  };
-  const context = useRef();
   return (
     <>
       <div
@@ -527,24 +521,7 @@ function Box(props, ref) {
           props.coor.isSelected && "box-selected"
         }`}
         style={style}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          setRightClick(true);
-          console.log(ref);
-        }}
       >
-        {rightClick && (
-          <div
-            ref={context}
-            className={`bg-blue text-white border absolute z-20 top-[10%] right-[-50%] rounded-md p-2`}
-          >
-            <span>CREATE PROC</span>
-          </div>
-        )}
-        <ContextMenu
-          contextMenuRef={context}
-          callback={closeContext}
-        ></ContextMenu>
         {/* Children here */}
         {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
         <BoxContext.Provider value={{ handleBoxChange, props }}>
