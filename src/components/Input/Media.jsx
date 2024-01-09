@@ -15,7 +15,7 @@ export const Audio = React.forwardRef(function AudioResult(_, ref) {
   // const selectDataAudio = useSelector((state) => state.clickSelect.data);
   // const selectDataIdAudio = selectDataAudio.id;
   // const dispatch = useDispatch();
-  const acceptType = ["mp3", "raw", "wav"];
+    const acceptType = ["mp3", "raw", "wav", "mpeg"];
 
   // const hanleAudioUpload = async (source, filetype) => {
   //   try {

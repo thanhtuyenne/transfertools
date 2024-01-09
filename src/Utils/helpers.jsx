@@ -37,14 +37,23 @@ export function createName_Blob(blob) {
   return name;
 }
 export function blobToFile(blob) {
+    console.log(blob)
   var file = new File([blob], createName_Blob(blob), {
     type: blob.type,
     lastModified: Date.now(),
   });
   return file;
 }
+function isValidFileUrl(url) {
+    // Regular expression for a basic URL validation
+    const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+
+    // Test if the provided URL matches the pattern
+    return urlPattern.test(url);
+}
 export function getFileFromUrl(url) {
-  return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
+        if (!isValidFileUrl(url)) reject(`URL not valid, ${url}`);
     fetch(url)
       .then((response) => response.blob())
       .then((blob) => {

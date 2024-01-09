@@ -547,7 +547,7 @@ function Box(props, ref) {
         ></ContextMenu>
         {/* Children here */}
         {/* <span className="text-black absolute -top-6 left-0 w-full truncate text-left">New {props.coor.type}</span> */}
-        <BoxContext.Provider value={{ handleBoxChange }}>
+        <BoxContext.Provider value={{ handleBoxChange, props }}>
           {props.coor.children}
         </BoxContext.Provider>
         {/* <div>
