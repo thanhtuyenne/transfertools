@@ -6,33 +6,14 @@ import React, {
   useState,
 } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import {
-  TextT,
-  LinkSimple,
-  XCircle,
-  Copy,
-  CopySimple,
-} from "@phosphor-icons/react";
+import { TextT, LinkSimple, XCircle, CopySimple } from "@phosphor-icons/react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setInputValueText,
-  dontClickInputText,
-  onClickInputText,
-} from "../../redux/clickTextSlice";
-import {
-  dontClickInputUrl,
-  onClickInputUrl,
-  setInputValueUrl,
-} from "../../redux/clickURLSlice";
+import { onClickInputUrl } from "../../redux/clickURLSlice";
 import { onClickDelete } from "../../redux/clickDeletefile";
 import { useBoxContext } from "../Whitespace/Element";
 
 export const TextInput = React.forwardRef(function TextResult(_, ref) {
-  // const reduxData = useSelector(state => state.clickText.data);
-  // //console.log("check redux data:", reduxData)
-  // const [textId, setTextId] = useState(1)
   const { handleBoxChange } = useBoxContext();
-  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const handleClickDelete = () => {
@@ -59,13 +40,6 @@ export const TextInput = React.forwardRef(function TextResult(_, ref) {
     setInputValue(value);
   };
 
-  const validate = (text) => {
-    if (text.length === 0) {
-      setMessage("Your text can't be empty");
-      return;
-    }
-    setMessage("");
-  };
   const textRef = useRef();
 
   useImperativeHandle(
@@ -101,7 +75,6 @@ export const TextInput = React.forwardRef(function TextResult(_, ref) {
           value={inputValue}
           ref={textRef}
           onChange={(e) => {
-            validate(e.target.value);
             handleChangeInput(e.target.value);
           }}
           onBlur={handleInputBlur1}
@@ -151,39 +124,27 @@ export const TextInput = React.forwardRef(function TextResult(_, ref) {
 export const URLInput = React.forwardRef(function URLResult(_, ref) {
   const { handleBoxChange } = useBoxContext();
   const selectDataUrl = useSelector((state) => state.clickSelect.data);
-  const selectDataUrlId = selectDataUrl.id;
   const [linkValue, setLinkValue] = useState("");
-  const [mess, setMess] = useState("");
   const dispatch = useDispatch();
   const handleClickDelete = () => {
     dispatch(onClickDelete());
   };
-  // xử lý lỗi
   const regexURL =
     /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-  const validateURL = (url) => {
-    if (!url.match(regexURL)) {
-      setMess("Your URL is not valid");
-      return;
-    }
-    setMess("");
-  };
 
+  function validateURL(url) {
+    const isValid = url.match(regexURL);
+
+    return isValid;
+  }
   const handleInputBlur2 = () => {
     dispatch(onClickInputUrl());
   };
-  // lưu trạng thái
-  const handleChangeLink = (value) => {
-    handleBoxChange(value, validateURL(value));
-    setLinkValue(value);
-    if (value.trim() !== "") {
-      // Đã có dữ liệu trong input
 
-      dispatch(setInputValueUrl({ selectDataUrlId, value }));
-    } else {
-      // Không có dữ liệu trong input
-      dispatch(dontClickInputUrl());
-    }
+  const handleChangeInput = (value) => {
+    handleBoxChange(value, validateURL(value));
+
+    setLinkValue(value);
   };
 
   return (
@@ -194,7 +155,7 @@ export const URLInput = React.forwardRef(function URLResult(_, ref) {
           value={linkValue}
           onChange={(e) => {
             validateURL(e.target.value);
-            handleChangeLink(e.target.value);
+            handleChangeInput(e.target.value);
           }}
           ref={ref}
           onBlur={handleInputBlur2}
