@@ -104,6 +104,7 @@ function App() {
             mw: defaultBoxSize.width,
             mh: defaultBoxSize.height,
             isSelected: false,
+            address: "",
             value: null,
             isValid: false,
             onCreating: onCreating,

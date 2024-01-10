@@ -46,6 +46,13 @@ export const TextInput = React.forwardRef(function TextResult(_, ref) {
 
   const textRef = useRef();
 
+    useEffect(() => {
+        textRef?.current?.addEventListener("mousedown", (e) => e.stopPropagation());
+        return () => {
+            textRef?.current?.removeEventListener("mousedown", (e) => e.stopPropagation());
+        }
+    }, [textRef])
+
     useImperativeHandle(
         ref,
         () => {
@@ -87,7 +94,7 @@ export const TextInput = React.forwardRef(function TextResult(_, ref) {
                     onBlur={handleInputBlur1}
                     className={className}
                     placeholder={playholder}
-                    
+
                     minRows={1}
                     maxRows={10}
                 />

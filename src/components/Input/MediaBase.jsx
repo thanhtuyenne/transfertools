@@ -56,8 +56,11 @@ function MediaBase({
     useEffect(() => {
         setShowPlaceholder(file == null);
         handleBoxChange(file, file != null);
-        if (file && children.ref.current.src === "")
+        if (file && children.ref.current.src === "") {
             children.ref.current.src = URL.createObjectURL(file);
+            console.log(props)
+            props.updateCoors(props.coor.type, props.coor.id, { address: children.ref.current.src })
+        }
     }, [file]);
 
     let removeRef = useRef();
@@ -127,13 +130,13 @@ function MediaBase({
                     {children}
                     {props.coor.onCreating ? (
                         <div
-                                class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] text-black"
+                            class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] text-black"
                             role="status">
                             <span
                                 class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
                             >Loading...</span
                             >
-                            </div>
+                        </div>
                     ) : showPlaceholder ? (
                         <span className="text-black w-full text-center">
                             {placeholderText}
@@ -157,9 +160,11 @@ function MediaBase({
                     )}
                 </div>
                 {!showPlaceholder && (
-                    <abbr title="Download">
-                        <DownloadSimple size={24} className="text-blue cursor- ml-1" />
-                    </abbr>
+                    <a href={props.coor.address} download>
+                        <abbr title="Download">
+                            <DownloadSimple size={24} className="text-blue cursor- ml-1" />
+                        </abbr>
+                    </a>
                 )}
                 <div className="absolute right-0 top-0 transition-[0.25s] font-bold flex flex-col bg-[#3498DB] rounded-bl-[15px] p-1 ">
                     <div
